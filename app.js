@@ -4,6 +4,7 @@ const homeBtn = document.querySelector('#homeBtn');
 let active = null;
 let index = 0;
 let answers = [];
+let selections = [];
 
 const conceptDefinitions = [
   [/garantia/i, 'Garantia indica que o serviço é adequado ao uso, atendendo aos níveis acordados de disponibilidade, capacidade, continuidade e segurança.'],
@@ -64,8 +65,9 @@ function start(i) {
   active = i;
   index = 0;
   answers = Array(SIMULADOS[i].questions.length).fill(null);
+  selections = Array(SIMULADOS[i].questions.length).fill(null);
   homeBtn.classList.remove('hidden');
-  renderQuestion();
+  renderQuestion(true);
 }
 
 function navigator(s) {
@@ -86,35 +88,54 @@ function feedback(q, chosen) {
   }).join('')}</div></section>`;
 }
 
-function renderQuestion() {
+function renderQuestion(scrollToTop = false) {
+  const previousScroll = window.scrollY;
   const s = SIMULADOS[active];
   const q = s.questions[index];
   const chosen = answers[index];
+  const selected = chosen || selections[index];
   const answeredCount = answers.filter(Boolean).length;
   const pct = answeredCount / s.questions.length * 100;
   app.innerHTML = `<section class="quiz-shell"><div class="quiz-head"><div class="quiz-row"><div><span class="quiz-kicker">Simulado em andamento</span><h1>${s.title}</h1></div><span class="counter">${answeredCount} de ${s.questions.length} respondidas</span></div><div class="track"><span></span></div></div><div class="quiz-layout">${navigator(s)}<div class="question-column"><article class="question-card"><span class="qtag">Questão ${String(index + 1).padStart(2, '0')}</span><h2>${q.q}</h2><div class="options">${q.o.map((option, i) => {
     const letter = 'ABCD'[i];
     let state = '';
     if (chosen) state = letter === q.a ? 'correct-option' : (letter === chosen ? 'wrong-option' : 'dimmed-option');
-    return `<button class="option ${chosen === letter ? 'selected' : ''} ${state}" data-action="choose" data-letter="${letter}" ${chosen ? 'disabled' : ''}><span class="letter">${letter}</span><span>${option}</span>${chosen && letter === q.a ? '<span class="option-result">✓</span>' : chosen === letter && letter !== q.a ? '<span class="option-result">×</span>' : ''}</button>`;
-  }).join('')}</div>${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button><button class="primary" data-action="next">${index === s.questions.length - 1 ? (answeredCount === s.questions.length ? 'Ver resultado' : 'Ir para pendente') : 'Próxima →'}</button></div></div></div></section>`;
+    return `<button class="option ${selected === letter ? 'selected' : ''} ${state}" data-action="choose" data-letter="${letter}" ${chosen ? 'disabled' : ''}><span class="letter">${letter}</span><span>${option}</span>${chosen && letter === q.a ? '<span class="option-result">✓</span>' : chosen === letter && letter !== q.a ? '<span class="option-result">×</span>' : ''}</button>`;
+  }).join('')}</div>${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button>${chosen ? '<button class="primary" data-action="next">Próxima →</button>' : `<button class="primary" data-action="answer" ${selected ? '' : 'disabled'}>Responder</button>`}</div></div></div></section>`;
   document.querySelector('.track span').style.width = `${pct}%`;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (scrollToTop) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    const previousBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, previousScroll);
+    requestAnimationFrame(() => {
+      window.scrollTo(0, previousScroll);
+      document.documentElement.style.scrollBehavior = previousBehavior;
+    });
+  }
 }
 
 function choose(letter) {
   if (answers[index]) return;
-  answers[index] = letter;
-  renderQuestion();
+  selections[index] = letter;
+  renderQuestion(false);
 }
 
-function goTo(questionIndex) { index = questionIndex; renderQuestion(); }
+function answer() {
+  if (answers[index] || !selections[index]) return;
+  answers[index] = selections[index];
+  renderQuestion(false);
+}
+
+function goTo(questionIndex, scrollToTop = false) { index = questionIndex; renderQuestion(scrollToTop); }
 function prev() { if (index > 0) goTo(index - 1); }
 function next() {
   const total = SIMULADOS[active].questions.length;
-  if (index < total - 1) return goTo(index + 1);
+  if (!answers[index]) return;
+  if (index < total - 1) return goTo(index + 1, true);
   const pending = answers.findIndex(answer => !answer);
-  if (pending !== -1) return goTo(pending);
+  if (pending !== -1) return goTo(pending, true);
   result();
 }
 
@@ -135,6 +156,7 @@ app.addEventListener('click', event => {
     start: () => start(Number(control.dataset.index)),
     'go-to': () => goTo(Number(control.dataset.index)),
     choose: () => choose(control.dataset.letter),
+    answer,
     prev,
     next,
     result,
