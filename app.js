@@ -57,7 +57,7 @@ function optionExplanation(q, option, letter) {
 function home() {
   active = null;
   homeBtn.classList.add('hidden');
-  app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Dois simulados completos com 40 questões cada. Responda no seu ritmo, acompanhe o progresso e revise o gabarito comentado ao final.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha seu simulado</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" onclick="start(${i})"><span class="num">0${i + 1}</span><h3>${s.title}</h3><div class="meta"><span>40 questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}</section>`;
+  app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Dois simulados completos com 40 questões cada. Responda no seu ritmo, acompanhe o progresso e revise o gabarito comentado ao final.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha seu simulado</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">0${i + 1}</span><h3>${s.title}</h3><div class="meta"><span>40 questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}</section>`;
 }
 
 function start(i) {
@@ -72,8 +72,8 @@ function navigator(s) {
   return `<aside class="question-nav" aria-label="Navegação entre questões"><div class="nav-title"><strong>Questões</strong><span>${answers.filter(Boolean).length}/${s.questions.length}</span></div><div class="number-grid">${s.questions.map((q, i) => {
     const answered = answers[i];
     const status = answered ? (answered === q.a ? 'correct' : 'wrong') : '';
-    return `<button class="question-number ${status} ${i === index ? 'current' : ''}" onclick="goTo(${i})" aria-label="Ir para a questão ${i + 1}" ${i === index ? 'aria-current="true"' : ''}>${i + 1}</button>`;
-  }).join('')}</div><div class="nav-legend"><span><i class="legend-current"></i>Atual</span><span><i class="legend-correct"></i>Correta</span><span><i class="legend-wrong"></i>Incorreta</span></div>${answers.every(Boolean) ? '<button class="primary" style="width:100%;margin-top:15px" onclick="result()">Finalizar simulado</button>' : ''}</aside>`;
+    return `<button class="question-number ${status} ${i === index ? 'current' : ''}" data-action="go-to" data-index="${i}" aria-label="Ir para a questão ${i + 1}" ${i === index ? 'aria-current="true"' : ''}>${i + 1}</button>`;
+  }).join('')}</div><div class="nav-legend"><span><i class="legend-current"></i>Atual</span><span><i class="legend-correct"></i>Correta</span><span><i class="legend-wrong"></i>Incorreta</span></div>${answers.every(Boolean) ? '<button class="primary finish-button" data-action="result">Finalizar simulado</button>' : ''}</aside>`;
 }
 
 function feedback(q, chosen) {
@@ -92,12 +92,13 @@ function renderQuestion() {
   const chosen = answers[index];
   const answeredCount = answers.filter(Boolean).length;
   const pct = answeredCount / s.questions.length * 100;
-  app.innerHTML = `<section class="quiz-shell"><div class="quiz-head"><div class="quiz-row"><div><span class="quiz-kicker">Simulado em andamento</span><h1>${s.title}</h1></div><span class="counter">${answeredCount} de ${s.questions.length} respondidas</span></div><div class="track"><span style="width:${pct}%"></span></div></div><div class="quiz-layout">${navigator(s)}<div class="question-column"><article class="question-card"><span class="qtag">Questão ${String(index + 1).padStart(2, '0')}</span><h2>${q.q}</h2><div class="options">${q.o.map((option, i) => {
+  app.innerHTML = `<section class="quiz-shell"><div class="quiz-head"><div class="quiz-row"><div><span class="quiz-kicker">Simulado em andamento</span><h1>${s.title}</h1></div><span class="counter">${answeredCount} de ${s.questions.length} respondidas</span></div><div class="track"><span></span></div></div><div class="quiz-layout">${navigator(s)}<div class="question-column"><article class="question-card"><span class="qtag">Questão ${String(index + 1).padStart(2, '0')}</span><h2>${q.q}</h2><div class="options">${q.o.map((option, i) => {
     const letter = 'ABCD'[i];
     let state = '';
     if (chosen) state = letter === q.a ? 'correct-option' : (letter === chosen ? 'wrong-option' : 'dimmed-option');
-    return `<button class="option ${chosen === letter ? 'selected' : ''} ${state}" onclick="choose('${letter}')" ${chosen ? 'disabled' : ''}><span class="letter">${letter}</span><span>${option}</span>${chosen && letter === q.a ? '<span class="option-result">✓</span>' : chosen === letter && letter !== q.a ? '<span class="option-result">×</span>' : ''}</button>`;
-  }).join('')}</div>${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" onclick="prev()" ${index === 0 ? 'disabled' : ''}>← Anterior</button><button class="primary" onclick="next()">${index === s.questions.length - 1 ? (answeredCount === s.questions.length ? 'Ver resultado' : 'Ir para pendente') : 'Próxima →'}</button></div></div></div></section>`;
+    return `<button class="option ${chosen === letter ? 'selected' : ''} ${state}" data-action="choose" data-letter="${letter}" ${chosen ? 'disabled' : ''}><span class="letter">${letter}</span><span>${option}</span>${chosen && letter === q.a ? '<span class="option-result">✓</span>' : chosen === letter && letter !== q.a ? '<span class="option-result">×</span>' : ''}</button>`;
+  }).join('')}</div>${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button><button class="primary" data-action="next">${index === s.questions.length - 1 ? (answeredCount === s.questions.length ? 'Ver resultado' : 'Ir para pendente') : 'Próxima →'}</button></div></div></div></section>`;
+  document.querySelector('.track span').style.width = `${pct}%`;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -122,9 +123,26 @@ function result() {
   const correct = qs.reduce((total, q, i) => total + (answers[i] === q.a), 0);
   const pct = Math.round(correct / qs.length * 100);
   const pass = pct >= 65;
-  app.innerHTML = `<section class="result"><div class="result-top"><div class="score-ring" style="--score:${pct * 3.6}deg"><strong>${pct}%</strong></div><span class="eyebrow">Resultado final</span><h1>${pass ? 'Parabéns, você atingiu a meta!' : 'Continue praticando — você está avançando.'}</h1><p>${correct} acertos de ${qs.length} questões • ${qs.length - correct} para revisar</p><div class="result-actions"><button class="primary" onclick="start(${active})">Refazer simulado</button><button class="ghost" onclick="home()">Escolher outro</button></div></div><div class="review"><h2>Revisão comentada</h2>${qs.map((q, i) => `<article class="review-item ${answers[i] === q.a ? 'ok' : ''}"><strong>${i + 1}. ${answers[i] === q.a ? 'Correta' : 'Incorreta'} — resposta ${q.a}</strong><p>${correctExplanation(q, q.o['ABCD'.indexOf(q.a)])}</p>${answers[i] !== q.a ? `<small>Sua resposta: ${answers[i]}</small>` : ''}</article>`).join('')}</div></section>`;
+  app.innerHTML = `<section class="result"><div class="result-top"><div class="score-ring"><strong>${pct}%</strong></div><span class="eyebrow">Resultado final</span><h1>${pass ? 'Parabéns, você atingiu a meta!' : 'Continue praticando — você está avançando.'}</h1><p>${correct} acertos de ${qs.length} questões • ${qs.length - correct} para revisar</p><div class="result-actions"><button class="primary" data-action="restart">Refazer simulado</button><button class="ghost" data-action="home">Escolher outro</button></div></div><div class="review"><h2>Revisão comentada</h2>${qs.map((q, i) => `<article class="review-item ${answers[i] === q.a ? 'ok' : ''}"><strong>${i + 1}. ${answers[i] === q.a ? 'Correta' : 'Incorreta'} — resposta ${q.a}</strong><p>${correctExplanation(q, q.o['ABCD'.indexOf(q.a)])}</p>${answers[i] !== q.a ? `<small>Sua resposta: ${answers[i]}</small>` : ''}</article>`).join('')}</div></section>`;
+  document.querySelector('.score-ring').style.setProperty('--score', `${pct * 3.6}deg`);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-homeBtn.onclick = home;
-home();
+app.addEventListener('click', event => {
+  const control = event.target.closest('[data-action]');
+  if (!control) return;
+  const actions = {
+    start: () => start(Number(control.dataset.index)),
+    'go-to': () => goTo(Number(control.dataset.index)),
+    choose: () => choose(control.dataset.letter),
+    prev,
+    next,
+    result,
+    restart: () => start(active),
+    home
+  };
+  actions[control.dataset.action]?.();
+});
+
+homeBtn.addEventListener('click', home);
+AuthGate.initialize(home);
