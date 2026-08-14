@@ -216,7 +216,7 @@ function home() {
   activeQuiz = null;
   homeBtn.classList.add('hidden');
   const totalDefinitions = typeof QRG_TERMS === 'undefined' ? 0 : QRG_TERMS.length;
-  app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Três simulados completos, incluindo ${totalDefinitions} termos e definições do Guia de Referência Rápida no Simulado 3. Responda no seu ritmo e revise o gabarito comentado.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha seu simulado</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">${String(i + 1).padStart(2, '0')}</span><h3>${s.title}</h3><div class="meta"><span>${s.questions.length} questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}</section>`;
+  app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Três simulados completos e um módulo com ${SlidesModule.total} slides em alta resolução, organizados por Introdução e Módulos 2 a 5. Responda no seu ritmo, revise o gabarito comentado e consulte o material de apoio.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha o que estudar</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">${String(i + 1).padStart(2, '0')}</span><h3>${s.title}</h3><div class="meta"><span>${s.questions.length} questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}<button class="sim-card slide-card" data-action="slides"><span class="num">SL</span><h3>Slide</h3><div class="meta"><span>${SlidesModule.total} slides</span><span>•</span><span>5 apresentações</span></div><span class="start">Abrir módulo →</span></button></section>`;
 }
 
 function beginNewQuiz(i) {
@@ -350,6 +350,7 @@ app.addEventListener('click', event => {
   if (!control) return;
   const actions = {
     start: () => start(Number(control.dataset.index)),
+    slides: () => SlidesModule.open(),
     resume: () => resumeQuiz(Number(control.dataset.index)),
     'restart-saved': () => restartSavedQuiz(Number(control.dataset.index)),
     'go-to': () => goTo(Number(control.dataset.index)),
