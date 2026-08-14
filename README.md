@@ -1,6 +1,8 @@
 # ITIL Study — Simulados
 
-Painel estático com dois simulados de 40 questões, progresso, correção comentada e percentual final.
+Painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
+
+No Simulado 3, cada definição gera uma questão própria. Depois da resposta, o painel explica o conceito correto e também o significado de cada alternativa incorreta, com indicação da seção correspondente do guia.
 
 O acesso possui autenticação no navegador, CAPTCHA matemático e bloqueio de 30 segundos depois de três tentativas consecutivas inválidas.
 

@@ -43,11 +43,17 @@ function definitionFor(text) {
 }
 
 function correctExplanation(q, option) {
+  const optionIndex = 'ABCD'.indexOf(q.a);
+  const explicit = q.x?.[optionIndex];
+  if (explicit) return explicit;
   const specific = q.e && !q.e.startsWith('A alternativa ') ? q.e : '';
   return specific || definitionFor(option) || `“${option}” corresponde diretamente ao conceito e às condições apresentadas no enunciado.`;
 }
 
 function optionExplanation(q, option, letter) {
+  const optionIndex = 'ABCD'.indexOf(letter);
+  const explicit = q.x?.[optionIndex];
+  if (explicit) return explicit;
   if (letter === q.a) return correctExplanation(q, option);
   const definition = definitionFor(option);
   const correctOption = q.o['ABCD'.indexOf(q.a)];
@@ -58,7 +64,8 @@ function optionExplanation(q, option, letter) {
 function home() {
   active = null;
   homeBtn.classList.add('hidden');
-  app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Dois simulados completos com 40 questões cada. Responda no seu ritmo, acompanhe o progresso e revise o gabarito comentado ao final.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha seu simulado</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">0${i + 1}</span><h3>${s.title}</h3><div class="meta"><span>40 questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}</section>`;
+  const totalDefinitions = typeof QRG_TERMS === 'undefined' ? 0 : QRG_TERMS.length;
+  app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Três simulados completos, incluindo ${totalDefinitions} termos e definições do Guia de Referência Rápida no Simulado 3. Responda no seu ritmo e revise o gabarito comentado.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha seu simulado</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">${String(i + 1).padStart(2, '0')}</span><h3>${s.title}</h3><div class="meta"><span>${s.questions.length} questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}</section>`;
 }
 
 function start(i) {
