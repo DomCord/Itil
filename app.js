@@ -2,9 +2,99 @@ const app = document.querySelector('#app');
 const homeBtn = document.querySelector('#homeBtn');
 
 let active = null;
+let activeQuiz = null;
 let index = 0;
 let answers = [];
 let selections = [];
+
+const LAST_LAYOUT_KEY = 'itil-last-quiz-layout-v1-';
+
+function randomIndex(maxExclusive) {
+  if (globalThis.crypto?.getRandomValues) {
+    const value = new Uint32Array(1);
+    globalThis.crypto.getRandomValues(value);
+    return value[0] % maxExclusive;
+  }
+  return Math.floor(Math.random() * maxExclusive);
+}
+
+function shuffledIndices(length) {
+  const order = Array.from({ length }, (_, i) => i);
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = randomIndex(i + 1);
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
+
+function sameOrder(first, second) {
+  return Array.isArray(first) && Array.isArray(second) && first.length === second.length && first.every((value, i) => value === second[i]);
+}
+
+function differentQuestionOrder(length, previousOrder) {
+  const reference = Array.isArray(previousOrder) && previousOrder.length === length
+    ? previousOrder
+    : Array.from({ length }, (_, i) => i);
+  let order = shuffledIndices(length);
+  if (length > 1 && sameOrder(order, reference)) order = [...order.slice(1), order[0]];
+  return order;
+}
+
+function differentOptionOrder(correctIndex, previousOrder) {
+  const original = [0, 1, 2, 3];
+  const reference = Array.isArray(previousOrder) && previousOrder.length === 4 ? previousOrder : original;
+  const previousCorrectPosition = reference.indexOf(correctIndex);
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const order = shuffledIndices(4);
+    if (!sameOrder(order, reference) && order.indexOf(correctIndex) !== previousCorrectPosition) return order;
+  }
+  const fallback = reference.slice();
+  const nextPosition = (previousCorrectPosition + 1) % fallback.length;
+  [fallback[previousCorrectPosition], fallback[nextPosition]] = [fallback[nextPosition], fallback[previousCorrectPosition]];
+  return fallback;
+}
+
+function readPreviousLayout(simIndex, questionCount) {
+  try {
+    const layout = JSON.parse(localStorage.getItem(`${LAST_LAYOUT_KEY}${simIndex}`));
+    const validQuestions = Array.isArray(layout?.questionOrder) && layout.questionOrder.length === questionCount;
+    const validOptions = Array.isArray(layout?.optionOrders) && layout.optionOrders.length === questionCount;
+    return validQuestions && validOptions ? layout : null;
+  } catch {
+    return null;
+  }
+}
+
+function createQuizSession(simIndex) {
+  const source = SIMULADOS[simIndex];
+  const previous = readPreviousLayout(simIndex, source.questions.length);
+  const questionOrder = differentQuestionOrder(source.questions.length, previous?.questionOrder);
+  const optionOrders = source.questions.map((question, originalIndex) => {
+    const correctIndex = 'ABCD'.indexOf(question.a);
+    return differentOptionOrder(correctIndex, previous?.optionOrders?.[originalIndex]);
+  });
+  const layout = { questionOrder, optionOrders };
+  try {
+    localStorage.setItem(`${LAST_LAYOUT_KEY}${simIndex}`, JSON.stringify(layout));
+  } catch {
+    // O simulado continua funcionando mesmo quando o armazenamento está indisponível.
+  }
+
+  return {
+    title: source.title,
+    questions: questionOrder.map(originalIndex => {
+      const question = source.questions[originalIndex];
+      const optionOrder = optionOrders[originalIndex];
+      const originalCorrectIndex = 'ABCD'.indexOf(question.a);
+      return {
+        ...question,
+        o: optionOrder.map(optionIndex => question.o[optionIndex]),
+        a: 'ABCD'[optionOrder.indexOf(originalCorrectIndex)],
+        x: Array.isArray(question.x) ? optionOrder.map(optionIndex => question.x[optionIndex]) : question.x
+      };
+    })
+  };
+}
 
 const conceptDefinitions = [
   [/garantia/i, 'Garantia indica que o serviço é adequado ao uso, atendendo aos níveis acordados de disponibilidade, capacidade, continuidade e segurança.'],
@@ -63,6 +153,7 @@ function optionExplanation(q, option, letter) {
 
 function home() {
   active = null;
+  activeQuiz = null;
   homeBtn.classList.add('hidden');
   const totalDefinitions = typeof QRG_TERMS === 'undefined' ? 0 : QRG_TERMS.length;
   app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Três simulados completos, incluindo ${totalDefinitions} termos e definições do Guia de Referência Rápida no Simulado 3. Responda no seu ritmo e revise o gabarito comentado.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha seu simulado</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">${String(i + 1).padStart(2, '0')}</span><h3>${s.title}</h3><div class="meta"><span>${s.questions.length} questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}</section>`;
@@ -70,9 +161,10 @@ function home() {
 
 function start(i) {
   active = i;
+  activeQuiz = createQuizSession(i);
   index = 0;
-  answers = Array(SIMULADOS[i].questions.length).fill(null);
-  selections = Array(SIMULADOS[i].questions.length).fill(null);
+  answers = Array(activeQuiz.questions.length).fill(null);
+  selections = Array(activeQuiz.questions.length).fill(null);
   homeBtn.classList.remove('hidden');
   renderQuestion(true);
 }
@@ -97,7 +189,7 @@ function feedback(q, chosen) {
 
 function renderQuestion(scrollToTop = false) {
   const previousScroll = window.scrollY;
-  const s = SIMULADOS[active];
+  const s = activeQuiz;
   const q = s.questions[index];
   const chosen = answers[index];
   const selected = chosen || selections[index];
@@ -138,7 +230,7 @@ function answer() {
 function goTo(questionIndex, scrollToTop = false) { index = questionIndex; renderQuestion(scrollToTop); }
 function prev() { if (index > 0) goTo(index - 1); }
 function next() {
-  const total = SIMULADOS[active].questions.length;
+  const total = activeQuiz.questions.length;
   if (!answers[index]) return;
   if (index < total - 1) return goTo(index + 1, true);
   const pending = answers.findIndex(answer => !answer);
@@ -147,7 +239,7 @@ function next() {
 }
 
 function result() {
-  const qs = SIMULADOS[active].questions;
+  const qs = activeQuiz.questions;
   const correct = qs.reduce((total, q, i) => total + (answers[i] === q.a), 0);
   const pct = Math.round(correct / qs.length * 100);
   const pass = pct >= 65;

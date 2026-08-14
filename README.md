@@ -4,6 +4,8 @@ Painel estático com três simulados, progresso, correção comentada e percentu
 
 No Simulado 3, cada definição gera uma questão própria. Depois da resposta, o painel explica o conceito correto e também o significado de cada alternativa incorreta, com indicação da seção correspondente do guia.
 
+Ao abrir ou refazer qualquer simulado, a sequência das questões e a posição das alternativas são embaralhadas. A última configuração é registrada no navegador para que a abertura seguinte não repita a mesma ordem nem mantenha a resposta correta na mesma posição.
+
 O acesso possui autenticação no navegador, CAPTCHA matemático e bloqueio de 30 segundos depois de três tentativas consecutivas inválidas.
 
 > **Limitação de segurança:** por ser hospedado apenas como arquivos estáticos no GitHub Pages, o login funciona como controle de acesso casual. Ele não substitui autenticação no servidor e não deve proteger dados sensíveis. A senha não é armazenada em texto puro, mas o navegador precisa receber todo o código e conteúdo da aplicação.
