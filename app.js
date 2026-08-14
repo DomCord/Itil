@@ -8,6 +8,7 @@ let answers = [];
 let selections = [];
 
 const LAST_LAYOUT_KEY = 'itil-last-quiz-layout-v1-';
+const PROGRESS_KEY = 'itil-quiz-progress-v1-';
 
 function randomIndex(maxExclusive) {
   if (globalThis.crypto?.getRandomValues) {
@@ -54,15 +55,46 @@ function differentOptionOrder(correctIndex, previousOrder) {
   return fallback;
 }
 
+function isPermutation(values, length) {
+  return Array.isArray(values)
+    && values.length === length
+    && new Set(values).size === length
+    && values.every(value => Number.isInteger(value) && value >= 0 && value < length);
+}
+
+function validLayout(layout, questionCount) {
+  return isPermutation(layout?.questionOrder, questionCount)
+    && Array.isArray(layout?.optionOrders)
+    && layout.optionOrders.length === questionCount
+    && layout.optionOrders.every(order => isPermutation(order, 4));
+}
+
 function readPreviousLayout(simIndex, questionCount) {
   try {
     const layout = JSON.parse(localStorage.getItem(`${LAST_LAYOUT_KEY}${simIndex}`));
-    const validQuestions = Array.isArray(layout?.questionOrder) && layout.questionOrder.length === questionCount;
-    const validOptions = Array.isArray(layout?.optionOrders) && layout.optionOrders.length === questionCount;
-    return validQuestions && validOptions ? layout : null;
+    return validLayout(layout, questionCount) ? layout : null;
   } catch {
     return null;
   }
+}
+
+function buildQuizSession(simIndex, layout) {
+  const source = SIMULADOS[simIndex];
+  return {
+    title: source.title,
+    layout,
+    questions: layout.questionOrder.map(originalIndex => {
+      const question = source.questions[originalIndex];
+      const optionOrder = layout.optionOrders[originalIndex];
+      const originalCorrectIndex = 'ABCD'.indexOf(question.a);
+      return {
+        ...question,
+        o: optionOrder.map(optionIndex => question.o[optionIndex]),
+        a: 'ABCD'[optionOrder.indexOf(originalCorrectIndex)],
+        x: Array.isArray(question.x) ? optionOrder.map(optionIndex => question.x[optionIndex]) : question.x
+      };
+    })
+  };
 }
 
 function createQuizSession(simIndex) {
@@ -80,20 +112,48 @@ function createQuizSession(simIndex) {
     // O simulado continua funcionando mesmo quando o armazenamento está indisponível.
   }
 
-  return {
-    title: source.title,
-    questions: questionOrder.map(originalIndex => {
-      const question = source.questions[originalIndex];
-      const optionOrder = optionOrders[originalIndex];
-      const originalCorrectIndex = 'ABCD'.indexOf(question.a);
-      return {
-        ...question,
-        o: optionOrder.map(optionIndex => question.o[optionIndex]),
-        a: 'ABCD'[optionOrder.indexOf(originalCorrectIndex)],
-        x: Array.isArray(question.x) ? optionOrder.map(optionIndex => question.x[optionIndex]) : question.x
-      };
-    })
-  };
+  return buildQuizSession(simIndex, layout);
+}
+
+function validAnswerList(values, questionCount) {
+  return Array.isArray(values)
+    && values.length === questionCount
+    && values.every(value => value === null || 'ABCD'.includes(value));
+}
+
+function readProgress(simIndex) {
+  const questionCount = SIMULADOS[simIndex].questions.length;
+  try {
+    const progress = JSON.parse(localStorage.getItem(`${PROGRESS_KEY}${simIndex}`));
+    const validIndex = Number.isInteger(progress?.index) && progress.index >= 0 && progress.index < questionCount;
+    if (validLayout(progress?.layout, questionCount)
+      && validAnswerList(progress?.answers, questionCount)
+      && validAnswerList(progress?.selections, questionCount)
+      && validIndex) return progress;
+  } catch {
+    // Um progresso inválido é descartado abaixo.
+  }
+  try { localStorage.removeItem(`${PROGRESS_KEY}${simIndex}`); } catch {}
+  return null;
+}
+
+function saveProgress() {
+  if (active === null || !activeQuiz) return;
+  try {
+    localStorage.setItem(`${PROGRESS_KEY}${active}`, JSON.stringify({
+      layout: activeQuiz.layout,
+      answers,
+      selections,
+      index,
+      updatedAt: Date.now()
+    }));
+  } catch {
+    // O progresso em memória continua disponível quando o armazenamento falha.
+  }
+}
+
+function clearProgress(simIndex) {
+  try { localStorage.removeItem(`${PROGRESS_KEY}${simIndex}`); } catch {}
 }
 
 const conceptDefinitions = [
@@ -159,7 +219,7 @@ function home() {
   app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Três simulados completos, incluindo ${totalDefinitions} termos e definições do Guia de Referência Rápida no Simulado 3. Responda no seu ritmo e revise o gabarito comentado.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha seu simulado</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">${String(i + 1).padStart(2, '0')}</span><h3>${s.title}</h3><div class="meta"><span>${s.questions.length} questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}</section>`;
 }
 
-function start(i) {
+function beginNewQuiz(i) {
   active = i;
   activeQuiz = createQuizSession(i);
   index = 0;
@@ -167,6 +227,41 @@ function start(i) {
   selections = Array(activeQuiz.questions.length).fill(null);
   homeBtn.classList.remove('hidden');
   renderQuestion(true);
+}
+
+function showResumeChoice(i, progress) {
+  active = i;
+  activeQuiz = null;
+  homeBtn.classList.remove('hidden');
+  const sim = SIMULADOS[i];
+  const answeredCount = progress.answers.filter(Boolean).length;
+  const percentage = Math.round(answeredCount / sim.questions.length * 100);
+  const lastAccess = progress.updatedAt ? new Date(progress.updatedAt).toLocaleString('pt-BR') : 'acesso anterior';
+  app.innerHTML = `<section class="resume-shell"><article class="resume-card"><span class="resume-icon" aria-hidden="true">↻</span><span class="eyebrow">Progresso encontrado</span><h1>Você já iniciou o ${sim.title}</h1><p>Foram respondidas <strong>${answeredCount} de ${sim.questions.length} questões</strong>. Você pode continuar exatamente de onde parou, mantendo respostas, correções e a ordem sorteada anteriormente.</p><div class="resume-progress"><div><span>Progresso salvo</span><strong>${percentage}%</strong></div><div class="track"><span style="width:${percentage}%"></span></div><small>Último acesso: ${lastAccess}</small></div><div class="resume-actions"><button class="primary" data-action="resume" data-index="${i}">Continuar de onde parei →</button><button class="ghost" data-action="restart-saved" data-index="${i}">Recomeçar o simulado</button><button class="text-button" data-action="home">Escolher outro simulado</button></div></article></section>`;
+}
+
+function start(i) {
+  const progress = readProgress(i);
+  if (progress?.answers.some(Boolean)) return showResumeChoice(i, progress);
+  if (progress) clearProgress(i);
+  beginNewQuiz(i);
+}
+
+function resumeQuiz(i) {
+  const progress = readProgress(i);
+  if (!progress) return beginNewQuiz(i);
+  active = i;
+  activeQuiz = buildQuizSession(i, progress.layout);
+  answers = progress.answers.slice();
+  selections = progress.selections.slice();
+  index = progress.index;
+  homeBtn.classList.remove('hidden');
+  renderQuestion(true);
+}
+
+function restartSavedQuiz(i) {
+  clearProgress(i);
+  beginNewQuiz(i);
 }
 
 function navigator(s) {
@@ -202,6 +297,7 @@ function renderQuestion(scrollToTop = false) {
     return `<button class="option ${selected === letter ? 'selected' : ''} ${state}" data-action="choose" data-letter="${letter}" ${chosen ? 'disabled' : ''}><span class="letter">${letter}</span><span>${option}</span>${chosen && letter === q.a ? '<span class="option-result">✓</span>' : chosen === letter && letter !== q.a ? '<span class="option-result">×</span>' : ''}</button>`;
   }).join('')}</div>${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button>${chosen ? '<button class="primary" data-action="next">Próxima →</button>' : `<button class="primary" data-action="answer" ${selected ? '' : 'disabled'}>Responder</button>`}</div></div></div></section>`;
   document.querySelector('.track span').style.width = `${pct}%`;
+  saveProgress();
   if (scrollToTop) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } else {
@@ -243,6 +339,7 @@ function result() {
   const correct = qs.reduce((total, q, i) => total + (answers[i] === q.a), 0);
   const pct = Math.round(correct / qs.length * 100);
   const pass = pct >= 65;
+  clearProgress(active);
   app.innerHTML = `<section class="result"><div class="result-top"><div class="score-ring"><strong>${pct}%</strong></div><span class="eyebrow">Resultado final</span><h1>${pass ? 'Parabéns, você atingiu a meta!' : 'Continue praticando — você está avançando.'}</h1><p>${correct} acertos de ${qs.length} questões • ${qs.length - correct} para revisar</p><div class="result-actions"><button class="primary" data-action="restart">Refazer simulado</button><button class="ghost" data-action="home">Escolher outro</button></div></div><div class="review"><h2>Revisão comentada</h2>${qs.map((q, i) => `<article class="review-item ${answers[i] === q.a ? 'ok' : ''}"><strong>${i + 1}. ${answers[i] === q.a ? 'Correta' : 'Incorreta'} — resposta ${q.a}</strong><p>${correctExplanation(q, q.o['ABCD'.indexOf(q.a)])}</p>${answers[i] !== q.a ? `<small>Sua resposta: ${answers[i]}</small>` : ''}</article>`).join('')}</div></section>`;
   document.querySelector('.score-ring').style.setProperty('--score', `${pct * 3.6}deg`);
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -253,13 +350,15 @@ app.addEventListener('click', event => {
   if (!control) return;
   const actions = {
     start: () => start(Number(control.dataset.index)),
+    resume: () => resumeQuiz(Number(control.dataset.index)),
+    'restart-saved': () => restartSavedQuiz(Number(control.dataset.index)),
     'go-to': () => goTo(Number(control.dataset.index)),
     choose: () => choose(control.dataset.letter),
     answer,
     prev,
     next,
     result,
-    restart: () => start(active),
+    restart: () => beginNewQuiz(active),
     home
   };
   actions[control.dataset.action]?.();
