@@ -4,7 +4,12 @@ const SlidesModule = (() => {
     { id: 'modulo-2', title: 'Módulo 2', count: 26 },
     { id: 'modulo-3', title: 'Módulo 3', count: 8 },
     { id: 'modulo-4', title: 'Módulo 4', count: 6 },
-    { id: 'modulo-5', title: 'Módulo 5', count: 40 }
+    { id: 'modulo-5', title: 'Módulo 5', count: 40 },
+    { id: 'modulo-6', title: 'Módulo 6', count: 69 },
+    { id: 'modulo-7', title: 'Módulo 7', count: 10 },
+    { id: 'modulo-8', title: 'Módulo 8', count: 17 },
+    { id: 'modulo-9', title: 'Módulo 9', count: 27 },
+    { id: 'modulo-10', title: 'Módulo 10', count: 8 }
   ];
   const TOTAL_SLIDES = DECKS.reduce((total, deck) => total + deck.count, 0);
   const MIN_ZOOM = 75;
