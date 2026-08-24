@@ -3,9 +3,9 @@ const SlidesModule = (() => {
     { id: 'introducao', title: 'Introdução', count: 10 },
     { id: 'modulo-1', title: 'Módulo 1', count: 20, exercise: 'module-1' },
     { id: 'modulo-2', title: 'Módulo 2', count: 20, exercise: 'module-2' },
-    { id: 'modulo-3', title: 'Módulo 3', count: 8 },
-    { id: 'modulo-4', title: 'Módulo 4', count: 6 },
-    { id: 'modulo-5', title: 'Módulo 5', count: 40 },
+    { id: 'modulo-3', title: 'Módulo 3', count: 10, extension: 'jpg', exercise: 'module-3' },
+    { id: 'modulo-4', title: 'Módulo 4', count: 6, extension: 'jpg', exercise: 'module-4' },
+    { id: 'modulo-5', title: 'Módulo 5', count: 36, extension: 'jpg', exercise: 'module-5' },
     { id: 'modulo-6', title: 'Módulo 6', count: 69 },
     { id: 'modulo-7', title: 'Módulo 7', count: 10 },
     { id: 'modulo-8', title: 'Módulo 8', count: 17 },
@@ -82,9 +82,117 @@ const SlidesModule = (() => {
       explanation: 'Cliente é o papel que define os requisitos para produtos e serviços e assume a responsabilidade pelos resultados do consumo desses serviços. Referência: seção 3.2.1.1.'
     }
   ];
+  const MODULE_THREE_EXERCISE = [
+    {
+      question: 'Qual conceito do ITIL inclui governança, práticas e melhoria contínua?',
+      options: [
+        'O Sistema de Valor do ITIL',
+        'As atividades “Entrega” e “Suporte” da cadeia de valor',
+        'O Princípio Orientador do ITIL “Focar no valor”',
+        'A dimensão “fluxos de valor e processos”'
+      ],
+      answer: 'A',
+      explanation: 'O Sistema de Valor do ITIL (ITIL VS) representa como todos os componentes e atividades de uma organização trabalham em conjunto para facilitar a criação de valor por meio de produtos e serviços digitais. Referência: seção 5.1.'
+    },
+    {
+      question: 'Qual conjunto lista CORRETAMENTE os componentes do Sistema de Valor do ITIL (VS)?',
+      options: [
+        'Fluxos de valor, projetos, releases, incidentes, mudanças',
+        'Princípios orientadores, governança, descoberta, entrega',
+        'Produtos, serviços, clientes, fornecedores, parceiros',
+        'Princípios orientadores, governança, cadeia de valor, práticas de gerenciamento, melhoria contínua'
+      ],
+      answer: 'D',
+      explanation: 'O Sistema de Valor do ITIL inclui cinco componentes: Princípios Orientadores, Governança, Cadeia de Valor, Práticas e Melhoria Contínua. Referência: seção 1.3.'
+    },
+    {
+      question: 'O que MELHOR descreve um Acordo de Nível de Serviço (SLA)?',
+      options: [
+        'Um contrato legal entre dois fornecedores que regulamenta penalidades financeiras',
+        'Um acordo documentado entre um provedor de serviços e um cliente que identifica os serviços e seus níveis acordados',
+        'Uma discussão informal entre usuários e provedores de serviço sobre expectativas',
+        'Um documento de diretrizes para equipes internas de TI sem envolvimento do cliente'
+      ],
+      answer: 'B',
+      explanation: 'Acordo de Nível de Serviço (SLA) é um acordo documentado entre um provedor de serviços e um cliente que identifica os serviços fornecidos e o nível acordado de cada serviço. Referência: seção 3.2.5.'
+    }
+  ];
+  const MODULE_FOUR_EXERCISE = [
+    {
+      question: 'Qual atividade de governança está focada em garantir a aderência às políticas e à direção estratégica?',
+      options: [
+        'Avaliação',
+        'Direção',
+        'Monitoramento',
+        'Descoberta'
+      ],
+      answer: 'C',
+      explanation: 'Monitoramento é a atividade que verifica se o desempenho e as atividades estão em conformidade com as políticas e a direção estratégica. O órgão de governança monitora o desempenho da organização e de suas práticas, produtos e serviços. Referência: seção 5.3.1.'
+    },
+    {
+      question: 'Qual é o papel de um órgão de governança em uma organização?',
+      options: [
+        'Ele é responsável pelo desempenho e pela conformidade no mais alto nível',
+        'Ele é responsável pelas operações diárias',
+        'Ele gerencia diretamente os detalhes técnicos de produtos digitais',
+        'Ele se concentra exclusivamente em relatórios financeiros'
+      ],
+      answer: 'A',
+      explanation: 'Toda organização é dirigida por um órgão de governança: uma pessoa ou grupo de pessoas responsável, no mais alto nível, pelo desempenho e pela conformidade da organização. Referência: seção 5.3.1.'
+    },
+    {
+      question: 'Qual afirmação sobre a “faixa de visibilidade” está CORRETA?',
+      options: [
+        'Ela inclui apenas as atividades visíveis ao provedor de serviços',
+        'Ela se aplica exclusivamente a modelos de serviços digitais modernos baseados em tecnologia',
+        'Ela representa todos os aspectos visíveis entre organizações provedoras e consumidoras',
+        'Ela define o caminho completo da jornada de serviço do cliente'
+      ],
+      answer: 'C',
+      explanation: 'A faixa de visibilidade é a soma dos aspectos da organização consumidora que são visíveis ao provedor e dos aspectos da organização provedora que são visíveis ao consumidor de serviços. Referência: seção 3.2.3, Figura 3.4.'
+    }
+  ];
+  const MODULE_FIVE_EXERCISE = [
+    {
+      question: 'Conforme o Princípio Orientador do ITIL “Focar no valor”, a que devem estar vinculadas todas as atividades organizacionais?',
+      options: [
+        'Aos benefícios para a organização, seus clientes e stakeholders',
+        'Somente ao aumento de receita',
+        'À satisfação dos funcionários',
+        'Ao domínio da participação de mercado'
+      ],
+      answer: 'A',
+      explanation: 'O princípio “Focar no valor” estabelece que todas as atividades realizadas pela organização devem estar vinculadas, direta ou indiretamente, ao valor para a própria organização, seus clientes e outros stakeholders. Referência: seção 5.2.1.'
+    },
+    {
+      question: 'Conforme o Princípio Orientador do ITIL “Começar de onde você está”, qual é o PRINCIPAL risco de recomeçar sem considerar o que já está disponível ao melhorar um serviço?',
+      options: [
+        'Perder oportunidades de colaboração e entendimento compartilhado entre equipes',
+        'Tornar soluções complexas demais por ignorar abordagens práticas e simples',
+        'Não conseguir coletar o feedback necessário para guiar a melhoria gradual',
+        'Desperdiçar tempo e perder capacidades e recursos valiosos que já existem'
+      ],
+      answer: 'D',
+      explanation: 'Começar do zero pode desperdiçar tempo e eliminar serviços, processos, pessoas e ferramentas existentes que poderiam contribuir significativamente para a melhoria. Antes de recomeçar, deve-se avaliar o que já está disponível para ser aproveitado. Referência: seção 5.2.2.'
+    },
+    {
+      question: 'Por que as organizações devem considerar a interação dos Princípios Orientadores do ITIL?',
+      options: [
+        'Porque os princípios são interdependentes e se complementam',
+        'Porque um princípio é sempre superior aos demais',
+        'Porque os princípios devem ser aplicados em uma ordem rigorosa',
+        'Porque um princípio geralmente é suficiente para qualquer situação'
+      ],
+      answer: 'A',
+      explanation: 'Os Princípios Orientadores interagem e dependem uns dos outros. Feedback apoia colaboração; foco no valor ajuda a manter soluções simples e práticas; e o progresso iterativo exige pensamento holístico para que cada melhoria entregue resultados reais. Referência: seção 5.2.8.'
+    }
+  ];
   const EXERCISES = {
     'module-1': { questions: MODULE_ONE_EXERCISE, pbq: 'service-chain' },
-    'module-2': { questions: MODULE_TWO_EXERCISE, pbq: 'service-roles' }
+    'module-2': { questions: MODULE_TWO_EXERCISE, pbq: 'service-roles' },
+    'module-3': { questions: MODULE_THREE_EXERCISE, pbq: false },
+    'module-4': { questions: MODULE_FOUR_EXERCISE, pbq: false },
+    'module-5': { questions: MODULE_FIVE_EXERCISE, pbq: false }
   };
   const PBQ_ITEMS = [
     { id: 'technology-resources', label: 'Recursos tecnológicos' },
@@ -126,7 +234,7 @@ const SlidesModule = (() => {
   const isExercise = () => Boolean(activeDeck().exercise && currentSlide > activeDeck().count);
   const activeExercise = () => EXERCISES[activeDeck().exercise];
   const activeExerciseAnswers = () => exerciseAnswers[activeDeck().exercise];
-  const slidePath = (deck, number) => `slides/${deck.id}/slide-${String(number).padStart(3, '0')}.webp`;
+  const slidePath = (deck, number) => `slides/${deck.id}/slide-${String(number).padStart(3, '0')}.${deck.extension || 'webp'}`;
   const clampSlide = number => Math.min(lastStep(activeDeck()), Math.max(1, Number(number) || 1));
   const globalSlideNumber = () => DECKS.slice(0, activeDeckIndex).reduce((total, deck) => total + deck.count, 0) + currentSlide;
 
