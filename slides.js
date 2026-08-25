@@ -393,6 +393,7 @@ const SlidesModule = (() => {
     { id: 'provider-area', title: 'Ofertas e serviços digitais', description: 'Oferece, negocia, entrega e apoia os serviços', answer: 'provider' }
   ];
   const TOTAL_SLIDES = DECKS.reduce((total, deck) => total + deck.count, 0);
+  const EXERCISE_LAYOUT_KEY = 'itil-slide-exercise-layout-v1:';
   const MIN_ZOOM = 75;
   const MAX_ZOOM = 200;
   const ZOOM_STEP = 25;
@@ -400,6 +401,8 @@ const SlidesModule = (() => {
   let currentSlide = 1;
   let zoom = 100;
   let exerciseAnswers = createExerciseAnswers();
+  let exerciseOptionOrders = {};
+  const fallbackPreviousExerciseLayouts = {};
   let pbqPoolOrder = shuffledPBQOrder();
   let pbqSlots = PBQ_ITEMS.map(() => null);
   let pbqSelected = null;
@@ -420,6 +423,94 @@ const SlidesModule = (() => {
 
   function createExerciseAnswers() {
     return Object.fromEntries(Object.entries(EXERCISES).map(([exerciseId, exercise]) => [exerciseId, exercise.questions.map(() => null)]));
+  }
+
+  function shuffledIndices(length) {
+    const order = Array.from({ length }, (_, index) => index);
+    for (let index = order.length - 1; index > 0; index--) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [order[index], order[swapIndex]] = [order[swapIndex], order[index]];
+    }
+    return order;
+  }
+
+  function sameOrder(first, second) {
+    return first.length === second.length && first.every((value, index) => value === second[index]);
+  }
+
+  function isPermutation(order, length) {
+    return Array.isArray(order)
+      && order.length === length
+      && new Set(order).size === length
+      && order.every(value => Number.isInteger(value) && value >= 0 && value < length);
+  }
+
+  function validExerciseLayout(layout, questions) {
+    return Array.isArray(layout)
+      && layout.length === questions.length
+      && layout.every((order, index) => isPermutation(order, questions[index].options.length));
+  }
+
+  function readPreviousExerciseLayout(exerciseId, questions) {
+    try {
+      const layout = JSON.parse(localStorage.getItem(`${EXERCISE_LAYOUT_KEY}${exerciseId}`));
+      if (validExerciseLayout(layout, questions)) return layout;
+    } catch {
+      // A tentativa continua funcionando quando o armazenamento está indisponível.
+    }
+    const fallback = fallbackPreviousExerciseLayouts[exerciseId];
+    return validExerciseLayout(fallback, questions) ? fallback : null;
+  }
+
+  function saveExerciseLayout(exerciseId, layout) {
+    fallbackPreviousExerciseLayouts[exerciseId] = layout.map(order => [...order]);
+    try {
+      localStorage.setItem(`${EXERCISE_LAYOUT_KEY}${exerciseId}`, JSON.stringify(layout));
+    } catch {
+      // A disposição permanece disponível em memória nesta sessão.
+    }
+  }
+
+  function differentOptionOrder(question, previousOrder) {
+    const optionCount = question.options.length;
+    const originalOrder = Array.from({ length: optionCount }, (_, index) => index);
+    const reference = isPermutation(previousOrder, optionCount) ? previousOrder : originalOrder;
+    const correctOptionIndex = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(question.answer);
+    const previousCorrectPosition = reference.indexOf(correctOptionIndex);
+
+    for (let attempt = 0; attempt < 24; attempt++) {
+      const order = shuffledIndices(optionCount);
+      if (!sameOrder(order, reference) && order.indexOf(correctOptionIndex) !== previousCorrectPosition) return order;
+    }
+
+    const fallback = [...reference];
+    const nextPosition = (previousCorrectPosition + 1) % optionCount;
+    [fallback[previousCorrectPosition], fallback[nextPosition]] = [fallback[nextPosition], fallback[previousCorrectPosition]];
+    return fallback;
+  }
+
+  function startExerciseAttempt(exerciseId, previousLayout) {
+    const questions = EXERCISES[exerciseId].questions;
+    const reference = validExerciseLayout(previousLayout, questions)
+      ? previousLayout
+      : readPreviousExerciseLayout(exerciseId, questions);
+    const layout = questions.map((question, questionIndex) => differentOptionOrder(question, reference?.[questionIndex]));
+    exerciseOptionOrders[exerciseId] = layout;
+    saveExerciseLayout(exerciseId, layout);
+    return layout;
+  }
+
+  function ensureExerciseLayout(exerciseId) {
+    return exerciseOptionOrders[exerciseId] || startExerciseAttempt(exerciseId);
+  }
+
+  function exerciseQuestionView(question, optionOrder) {
+    const originalCorrectIndex = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(question.answer);
+    return {
+      ...question,
+      options: optionOrder.map(optionIndex => question.options[optionIndex]),
+      answer: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[optionOrder.indexOf(originalCorrectIndex)]
+    };
   }
 
   function shuffledPBQOrder() {
@@ -583,7 +674,9 @@ const SlidesModule = (() => {
   function slideStageMarkup(deck) {
     if (isExercise()) {
       const exercise = activeExercise();
-      const questions = exercise.questions;
+      const exerciseId = deck.exercise;
+      const optionOrders = ensureExerciseLayout(exerciseId);
+      const questions = exercise.questions.map((question, questionIndex) => exerciseQuestionView(question, optionOrders[questionIndex]));
       const answers = activeExerciseAnswers();
       const answered = answers.filter(Boolean).length;
       const score = questions.reduce((total, question, index) => total + (answers[index] === question.answer ? 1 : 0), 0);
@@ -788,7 +881,9 @@ const SlidesModule = (() => {
   }
 
   function restartExercise() {
-    exerciseAnswers[activeDeck().exercise] = activeExercise().questions.map(() => null);
+    const exerciseId = activeDeck().exercise;
+    exerciseAnswers[exerciseId] = activeExercise().questions.map(() => null);
+    startExerciseAttempt(exerciseId, exerciseOptionOrders[exerciseId]);
     if (activeExercise().pbq) resetActivePBQ();
     updateControls();
     document.querySelector('.slide-stage')?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -859,6 +954,7 @@ const SlidesModule = (() => {
     currentSlide = 1;
     zoom = 100;
     exerciseAnswers = createExerciseAnswers();
+    exerciseOptionOrders = {};
     resetPBQ();
     resetRolePBQ();
     render();
