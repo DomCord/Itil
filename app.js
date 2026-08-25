@@ -216,7 +216,38 @@ function home() {
   activeQuiz = null;
   homeBtn.classList.add('hidden');
   const totalDefinitions = typeof QRG_TERMS === 'undefined' ? 0 : QRG_TERMS.length;
-  app.innerHTML = `<section class="hero"><div><span class="eyebrow">Preparação inteligente</span><h1>Teste seu domínio em <em>ITIL</em></h1><p>Três simulados completos, um módulo com ${SlidesModule.total} slides em alta resolução e uma biblioteca de vídeos. Responda no seu ritmo, revise o gabarito comentado e consulte o material de apoio.</p></div><div class="hero-visual"><span class="mini-label">Meta de aprovação</span><div class="big-score">65%</div><div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div></div></section><h2 class="choose-title">Escolha o que estudar</h2><section class="cards">${SIMULADOS.map((s, i) => `<button class="sim-card" data-action="start" data-index="${i}"><span class="num">${String(i + 1).padStart(2, '0')}</span><h3>${s.title}</h3><div class="meta"><span>${s.questions.length} questões</span><span>•</span><span>aprovação: 65%</span></div><span class="start">Começar agora →</span></button>`).join('')}<button class="sim-card slide-card" data-action="slides"><span class="num">SL</span><h3>Slide</h3><div class="meta"><span>${SlidesModule.total} slides</span><span>•</span><span>${SlidesModule.decks.length} apresentações</span></div><span class="start">Abrir módulo →</span></button><button class="sim-card video-menu-card" data-action="videos"><span class="num">VI</span><h3>Vídeos</h3><div class="meta"><span>${VideosModule.total} vídeos</span><span>•</span><span>ITIL Foundation v5</span></div><span class="start">Assistir agora →</span></button></section>`;
+  app.innerHTML = `
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Preparação inteligente</span>
+        <h1>Teste seu domínio em <em>ITIL</em></h1>
+        <p>Três simulados completos, um módulo com ${SlidesModule.total} slides em alta resolução e uma biblioteca de vídeos. Responda no seu ritmo, revise o gabarito comentado e consulte o material de apoio.</p>
+      </div>
+      <div class="hero-visual">
+        <span class="mini-label">Meta de aprovação</span>
+        <div class="big-score">65%</div>
+        <div class="mini-bars">${'<i class="on"></i>'.repeat(7)}${'<i></i>'.repeat(3)}</div>
+      </div>
+    </section>
+    <h2 class="choose-title">Escolha o que estudar</h2>
+    <section class="cards">
+      ${SIMULADOS.map((simulado, simuladoIndex) => `
+        <button class="sim-card" data-action="start" data-index="${simuladoIndex}">
+          <h3>Simulado ${simuladoIndex + 1}</h3>
+          <div class="meta"><span>${simulado.questions.length} questões</span></div>
+          <span class="start">Começar agora</span>
+        </button>`).join('')}
+      <button class="sim-card slide-card" data-action="slides">
+        <h3>Slide</h3>
+        <div class="meta"><span>${SlidesModule.total} slides</span></div>
+        <span class="start">Abrir módulo</span>
+      </button>
+      <button class="sim-card video-menu-card" data-action="videos">
+        <h3>Vídeos</h3>
+        <div class="meta"><span>${VideosModule.total} vídeos</span></div>
+        <span class="start">Assistir agora</span>
+      </button>
+    </section>`;
 }
 
 function beginNewQuiz(i) {

@@ -225,6 +225,20 @@ body::before {
   color: var(--ink);
   position: relative;
   overflow: hidden;
+  padding: 20px 22px;
+}
+
+.sim-card h3 {
+  margin: 0 0 7px;
+  font-size: 20px;
+}
+
+.sim-card .meta {
+  gap: 0;
+}
+
+.sim-card .start {
+  margin-top: 14px;
 }
 
 .sim-card::after {
