@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Simulados interativos ITIL Foundation">
   <meta name="theme-color" content="#070a07">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
   <title>ITIL Study • Simulados</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +14,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="quiz.css">
   <link rel="stylesheet" href="slides.css">
+  <link rel="stylesheet" href="videos.css">
   <link rel="stylesheet" href="auth.css">
   <link rel="stylesheet" href="theme.css">
 </head>
@@ -21,7 +23,7 @@
   <header class="topbar">
     <a class="brand" href="#" aria-label="Início"><span class="brand-mark">I</span><span>ITIL <b>Study</b></span></a>
     <div class="header-actions">
-      <button id="homeBtn" class="ghost hidden">← Trocar simulado</button>
+      <button id="homeBtn" class="ghost hidden">← Menu principal</button>
       <button id="logoutBtn" class="ghost hidden">Sair</button>
     </div>
   </header>
@@ -32,6 +34,7 @@
   <script src="explanations.js"></script>
   <script src="simulado3.js"></script>
   <script src="slides.js"></script>
+  <script src="videos.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
