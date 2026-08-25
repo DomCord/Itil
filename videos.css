@@ -77,7 +77,21 @@
 .videos-navigation {
   display: grid;
   gap: 8px;
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 10px;
+  scrollbar-color: rgba(199, 255, 47, .38) transparent;
+  scrollbar-width: thin;
+}
+
+.videos-navigation::-webkit-scrollbar {
+  width: 7px;
+}
+
+.videos-navigation::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(199, 255, 47, .32);
 }
 
 .video-nav-item {
@@ -331,6 +345,7 @@
 
   .videos-navigation {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 470px;
   }
 }
 

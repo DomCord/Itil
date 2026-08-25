@@ -2,10 +2,11 @@
 
 Painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
 
-O menu **Vídeos** reúne conteúdos incorporados do YouTube em uma biblioteca com navegação lateral. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
+O menu **Vídeos** reúne 31 conteúdos incorporados do YouTube em uma biblioteca com navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
 
-- **Vídeo 1:** ITIL® Foundation (versão 5) | Introdução
-- **Vídeo 2:** ITIL® Foundation (versão 5) | Termos e Definições Essenciais 1
+- **Vídeo 1:** Itil® Fund v5 | Introdução
+- **Vídeo 2:** Itil® Fund v5 | Termos e Definições Essenciais 1
+- **Vídeos 3 a 31:** termos essenciais, dimensões, ciclo de vida, sistema de valor, princípios, governança, práticas, melhoria contínua, atividades da cadeia de valor, fluxos de valor, IA e outras estruturas.
 
 O player deve ser aberto por HTTP ou HTTPS, como no GitHub Pages ou em um servidor local. A abertura direta do `index.html` por `file://` não envia o cabeçalho de origem exigido pelo YouTube e, por isso, é substituída por uma orientação de acesso.
 
