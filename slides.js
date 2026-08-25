@@ -6,11 +6,11 @@ const SlidesModule = (() => {
     { id: 'modulo-3', title: 'Módulo 3', count: 10, extension: 'jpg', exercise: 'module-3' },
     { id: 'modulo-4', title: 'Módulo 4', count: 6, extension: 'jpg', exercise: 'module-4' },
     { id: 'modulo-5', title: 'Módulo 5', count: 36, extension: 'jpg', exercise: 'module-5' },
-    { id: 'modulo-6', title: 'Módulo 6', count: 69 },
-    { id: 'modulo-7', title: 'Módulo 7', count: 10 },
-    { id: 'modulo-8', title: 'Módulo 8', count: 17 },
-    { id: 'modulo-9', title: 'Módulo 9', count: 27 },
-    { id: 'modulo-10', title: 'Módulo 10', count: 8 }
+    { id: 'modulo-6', title: 'Módulo 6', count: 71, extension: 'jpg', exercise: 'module-6' },
+    { id: 'modulo-7', title: 'Módulo 7', count: 10, extension: 'jpg', exercise: 'module-7' },
+    { id: 'modulo-8', title: 'Módulo 8', count: 14, extension: 'jpg', exercise: 'module-8' },
+    { id: 'modulo-9', title: 'Módulo 9', count: 28, extension: 'jpg', exercise: 'module-9' },
+    { id: 'modulo-10', title: 'Módulo 10', count: 8, extension: 'jpg', exercise: 'module-10' }
   ];
   const MODULE_ONE_EXERCISE = [
     {
@@ -187,12 +187,192 @@ const SlidesModule = (() => {
       explanation: 'Os Princípios Orientadores interagem e dependem uns dos outros. Feedback apoia colaboração; foco no valor ajuda a manter soluções simples e práticas; e o progresso iterativo exige pensamento holístico para que cada melhoria entregue resultados reais. Referência: seção 5.2.8.'
     }
   ];
+  const MODULE_SIX_EXERCISE = [
+    {
+      question: 'Qual é o propósito PRINCIPAL da atividade “descoberta”?',
+      options: [
+        'Desenvolver e testar produtos digitais',
+        'Garantir e alocar recursos de forma eficiente',
+        'Alinhar as capacidades do produto às necessidades dos consumidores e à estratégia',
+        'Manter e monitorar produtos digitais'
+      ],
+      answer: 'C',
+      explanation: 'O objetivo da atividade de “descoberta” é garantir o alinhamento contínuo dos roadmaps de produtos e das ofertas de serviços relacionadas com as necessidades dos consumidores de serviços e com a estratégia organizacional. Referência: seção 4.2.1.'
+    },
+    {
+      question: 'Qual das seguintes opções NÃO é uma métrica de sucesso da atividade “descoberta”?',
+      options: [
+        'Alinhamento estratégico dos produtos e das ofertas de serviços da organização',
+        'Relevância de mercado dos produtos e das ofertas de serviços',
+        'Desempenho do serviço em relação às metas de SLA acordadas',
+        'Satisfação dos stakeholders com os produtos e as ofertas de serviços'
+      ],
+      answer: 'C',
+      explanation: 'O desempenho do serviço em relação às metas de SLA acordadas é uma métrica-chave da atividade de “entrega”, não de “descoberta”. As métricas de descoberta abrangem adequação estratégica, relevância de mercado, satisfação dos stakeholders e, quando aplicável, sucesso comercial dos produtos. Referências: seção 4.8.2, Tabela 4.7; seção 4.2.2, Tabela 4.1.'
+    },
+    {
+      question: 'Qual atividade de gerenciamento do ciclo de vida se concentra em minimizar o impacto de incidentes e desastres quando eles acontecem?',
+      options: [
+        'Transição',
+        'Operação',
+        'Suporte',
+        'Design'
+      ],
+      answer: 'C',
+      explanation: 'O objetivo da atividade de “suporte” é identificar e resolver incidentes, cumprir procedimentos de recuperação de desastre e coletar o feedback do consumidor. Referência: seção 4.9.1.'
+    }
+  ];
+  const MODULE_SEVEN_EXERCISE = [
+    {
+      question: 'Qual opção descreve “o que uma organização faz para seus consumidores e outros stakeholders e por quê”?',
+      options: [
+        'Fluxo de valor',
+        'Cadeia de valor',
+        'Modelo operacional',
+        'Propósito da organização'
+      ],
+      answer: 'D',
+      explanation: 'O propósito da organização descreve o que uma organização faz por seus consumidores e outros stakeholders e por quê. Referência: seção 5.4.1.'
+    },
+    {
+      question: 'Qual das seguintes opções NÃO é um dos passos do mapeamento do fluxo de valor?',
+      options: [
+        'Identificação do fluxo de valor',
+        'Mapeamento do estado atual do fluxo de valor',
+        'Mapeamento do estado desejado do fluxo de valor',
+        'Gerenciamento do fluxo de valor'
+      ],
+      answer: 'D',
+      explanation: 'Gerenciamento do fluxo de valor não é uma etapa do mapeamento. As etapas são: identificar o fluxo de valor, mapear o estado atual (“as-is”), analisar o fluxo, mapear o estado desejado (“to-be”) e planejar e implementar melhorias. Referência: seção 6.3 e Glossário.'
+    },
+    {
+      question: 'Qual é o propósito PRINCIPAL do mapeamento do fluxo de valor em uma organização?',
+      options: [
+        'Automatizar o monitoramento de serviços',
+        'Identificar e priorizar oportunidades de melhoria',
+        'Aprimorar e apoiar práticas de gerenciamento',
+        'Controlar diretamente os stakeholders externos'
+      ],
+      answer: 'B',
+      explanation: 'O mapeamento do fluxo de valor permite que as organizações identifiquem, mapeiem e analisem seus fluxos de valor, além de identificar e priorizar oportunidades de melhoria. Referência: seção 6.4.'
+    }
+  ];
+  const MODULE_EIGHT_EXERCISE = [
+    {
+      question: 'Uma empresa planeja uma iniciativa de melhoria e garante que ela esteja claramente vinculada às metas e aos objetivos organizacionais. Qual passo de melhoria contínua está sendo realizado?',
+      options: [
+        'Qual é a visão?',
+        'Onde estamos agora?',
+        'Aja!',
+        'Onde queremos estar?'
+      ],
+      answer: 'A',
+      explanation: 'Cada iniciativa de melhoria deve apoiar as metas e os objetivos da organização. O primeiro passo do modelo é definir a visão da iniciativa, fornecendo contexto para as decisões seguintes e vinculando as ações à visão futura da organização. Referência: seção 5.6.1.1.'
+    },
+    {
+      question: 'Qual aspecto de um Guia Oficial das Práticas do ITIL descreve os papéis, competências e responsabilidades necessários para uma prática específica?',
+      options: [
+        'Avaliação e desenvolvimento de capacidade',
+        'Informações gerais',
+        'Organizações e pessoas',
+        'Parceiros e fornecedores'
+      ],
+      answer: 'C',
+      explanation: 'O aspecto “organizações e pessoas” de um Guia Oficial das Práticas do ITIL descreve funções, competências e responsabilidades, além das soluções organizacionais e equipes específicas da prática. Referência: seção 5.5.1, Tabela 5.3.'
+    },
+    {
+      question: 'Qual das seguintes opções descreve uma prática de gerenciamento?',
+      options: [
+        'Uma série de etapas que uma organização usa para criar e entregar produtos',
+        'Um conjunto de recursos e capacidades organizacionais projetado para realizar um trabalho ou atingir um objetivo',
+        'Uma representação visual de como uma organização cocria valor com os stakeholders',
+        'Um conjunto de atividades interconectadas que uma organização realiza para criar e entregar produtos'
+      ],
+      answer: 'B',
+      explanation: 'Uma prática de gerenciamento é um conjunto de recursos e capacidades organizacionais projetados e adotados para realizar um trabalho ou atingir um objetivo. Referência: seção 5.5.'
+    }
+  ];
+  const MODULE_NINE_EXERCISE = [
+    {
+      question: 'Qual dimensão do gerenciamento de produtos e serviços é diretamente influenciada pelo compromisso da liderança com a segurança psicológica e o aprendizado contínuo?',
+      options: [
+        'Parceiros e fornecedores',
+        'Fluxos de valor e processos',
+        'Informação e tecnologia',
+        'Organizações e pessoas'
+      ],
+      answer: 'D',
+      explanation: 'A dimensão “organizações e pessoas” aborda cultura, confiança e comportamentos organizacionais. O compromisso da liderança com a segurança psicológica e o aprendizado contínuo ajuda a estabelecer uma cultura de segurança que beneficia todos os stakeholders. Referência: seção 2.2.1.'
+    },
+    {
+      question: 'Qual das seguintes dimensões de gerenciamento de produtos e serviços aborda fluxos de trabalho organizacionais e interorganizacionais?',
+      options: [
+        'Parceiros e fornecedores',
+        'Informação e tecnologia',
+        'Organizações e pessoas',
+        'Fluxos de valor e processos'
+      ],
+      answer: 'D',
+      explanation: 'A dimensão “fluxos de valor e processos” aborda os fluxos de trabalho organizacionais e interorganizacionais, concentrando-se nas atividades realizadas e em como elas são organizadas para habilitar valor de forma eficaz e eficiente. Referência: seção 2.3.'
+    },
+    {
+      question: 'Qual dimensão do gerenciamento de produtos e serviços aborda dados e tecnologias usadas em serviços e produtos digitais?',
+      options: [
+        'Parceiros e fornecedores',
+        'Fluxos de valor e processos',
+        'Organizações e pessoas',
+        'Informação e tecnologia'
+      ],
+      answer: 'D',
+      explanation: 'A dimensão “informação e tecnologia” aborda dados, informações e tecnologias utilizados em produtos e serviços digitais, além daqueles que integram os sistemas de gerenciamento de produtos e serviços da organização. Referência: seção 2.4.'
+    }
+  ];
+  const MODULE_TEN_EXERCISE = [
+    {
+      question: 'Como o ITIL colabora com as práticas DevOps para apoiar o gerenciamento de produtos e serviços digitais?',
+      options: [
+        'Ao fornecer a estrutura, enquanto o DevOps oferece práticas e técnicas',
+        'Substituindo as práticas de DevOps por processos padronizados de gerenciamento de serviços',
+        'Ao limitar o uso de DevOps às atividades de desenvolvimento de software',
+        'Posicionando o DevOps como um framework de governança sobre o ITIL'
+      ],
+      answer: 'A',
+      explanation: 'O ITIL fornece a estrutura para o gerenciamento de produtos e serviços digitais, enquanto o DevOps atua como uma abordagem complementar com práticas e técnicas detalhadas para habilitar as atividades do ciclo de vida de produtos e serviços. Referência: seção 7.3.1.'
+    },
+    {
+      question: 'Por que o gerenciamento de projetos é importante dentro do framework ITIL?',
+      options: [
+        'Ele governa as operações diárias de serviço',
+        'Ele substitui as práticas de gerenciamento de produtos e serviços',
+        'Ele apoia a implementação e a transformação de produtos e serviços',
+        'Ele define metas e métricas de nível de serviço'
+      ],
+      answer: 'C',
+      explanation: 'O gerenciamento de projetos fornece as ferramentas necessárias para implementar ou transformar produtos e serviços. Métodos como o PRINCE2 apoiam a entrega estruturada das mudanças e a transição dos resultados dos projetos para serviços gerenciados e valiosos.'
+    },
+    {
+      question: 'Como o ITIL e o PRINCE2 Agile podem ser usados juntos para entregar produtos e serviços?',
+      options: [
+        'O ITIL substitui as estruturas de governança do PRINCE2',
+        'O PRINCE2 Agile define as práticas de gerenciamento de serviços',
+        'O ITIL gerencia projetos, enquanto o PRINCE2 Agile gerencia a entrega diária e geral dos serviços',
+        'O ITIL fornece orientação para gerenciamento de serviços, enquanto o PRINCE2 Agile gerencia a entrega de projetos'
+      ],
+      answer: 'D',
+      explanation: 'O ITIL orienta o gerenciamento de produtos e serviços digitais, enquanto o PRINCE2 Agile fornece métodos e ferramentas para gerenciar a entrega dos projetos que implementam ou transformam esses produtos e serviços. As duas abordagens são complementares.'
+    }
+  ];
   const EXERCISES = {
     'module-1': { questions: MODULE_ONE_EXERCISE, pbq: 'service-chain' },
     'module-2': { questions: MODULE_TWO_EXERCISE, pbq: 'service-roles' },
     'module-3': { questions: MODULE_THREE_EXERCISE, pbq: false },
     'module-4': { questions: MODULE_FOUR_EXERCISE, pbq: false },
-    'module-5': { questions: MODULE_FIVE_EXERCISE, pbq: false }
+    'module-5': { questions: MODULE_FIVE_EXERCISE, pbq: false },
+    'module-6': { questions: MODULE_SIX_EXERCISE, pbq: false },
+    'module-7': { questions: MODULE_SEVEN_EXERCISE, pbq: false },
+    'module-8': { questions: MODULE_EIGHT_EXERCISE, pbq: false },
+    'module-9': { questions: MODULE_NINE_EXERCISE, pbq: false },
+    'module-10': { questions: MODULE_TEN_EXERCISE, pbq: false }
   };
   const PBQ_ITEMS = [
     { id: 'technology-resources', label: 'Recursos tecnológicos' },
