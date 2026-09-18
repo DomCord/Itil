@@ -1,5 +1,5 @@
 const VideosModule = (() => {
-  const VIDEOS = [
+  const VALUE_INSIGHTS_VIDEOS = [
     {
       title: 'Itil® Fund v5 | Introdução',
       embedUrl: 'https://www.youtube.com/embed/vbCxB-uBj5E',
@@ -157,22 +157,57 @@ const VideosModule = (() => {
     }
   ];
 
+  const VIDEO_LIBRARY = [
+    {
+      id: 'value-insights',
+      name: 'Canal Value Insights',
+      sourceUrl: 'https://www.youtube.com/@valueinsights',
+      sourceLabel: 'Acessar canal',
+      videos: VALUE_INSIGHTS_VIDEOS
+    },
+    {
+      id: 'aksolution',
+      name: 'Conferência AKSolution',
+      videos: [
+        {
+          title: 'Conferência AKSolution',
+          embedUrl: 'https://drive.google.com/file/d/1Fykechpnga4ByuvWK5HvAjRc0xRpG0TI/preview',
+          sourceUrl: 'https://drive.google.com/file/d/1Fykechpnga4ByuvWK5HvAjRc0xRpG0TI/view?usp=sharing',
+          provider: 'google-drive'
+        }
+      ]
+    }
+  ];
+
+  const VIDEOS = VIDEO_LIBRARY.flatMap(folder => folder.videos.map((video, folderVideoIndex) => ({
+    ...video,
+    folderId: folder.id,
+    folderName: folder.name,
+    folderVideoIndex,
+    folderVideoCount: folder.videos.length
+  })));
+
   let activeIndex = 0;
 
   function playerUrl(video) {
     if (!/^https?:$/.test(window.location.protocol)) return '';
     const url = new URL(video.embedUrl);
-    url.searchParams.set('origin', window.location.origin);
-    url.searchParams.set('playsinline', '1');
+    if (url.hostname === 'www.youtube.com' || url.hostname === 'www.youtube-nocookie.com') {
+      url.searchParams.set('origin', window.location.origin);
+      url.searchParams.set('playsinline', '1');
+    }
     return url.toString();
   }
 
   function videoMarkup(video, index) {
     const embedUrl = playerUrl(video);
+    const isGoogleDrive = video.provider === 'google-drive';
+    const sourceUrl = video.sourceUrl || video.youtubeUrl;
+    const sourceName = isGoogleDrive ? 'Google Drive' : 'YouTube';
     return `
       <article class="study-video-card" aria-labelledby="activeVideoTitle">
         <header class="study-video-title">
-          <span>Vídeo ${String(index + 1).padStart(2, '0')} de ${String(VIDEOS.length).padStart(2, '0')}</span>
+          <span>${video.folderName} • Vídeo ${String(video.folderVideoIndex + 1).padStart(2, '0')} de ${String(video.folderVideoCount).padStart(2, '0')}</span>
           <h2 id="activeVideoTitle">${video.title}</h2>
         </header>
         ${embedUrl ? `<div class="study-video-frame">
@@ -186,11 +221,11 @@ const VideosModule = (() => {
             allowfullscreen></iframe>
         </div>` : `<div class="study-video-http-notice" role="status">
           <span aria-hidden="true">▶</span>
-          <div><strong>O player do YouTube exige acesso por HTTP ou HTTPS</strong><p>Abra o projeto por um servidor local, como o Live Server, ou acesse a versão publicada no GitHub Pages. A abertura direta do arquivo por <code>file://</code> não envia a identificação de origem exigida pelo YouTube.</p></div>
+          <div><strong>O player incorporado exige acesso por HTTP ou HTTPS</strong><p>Abra o projeto por um servidor local, como o Live Server, ou acesse a versão publicada no GitHub Pages. A abertura direta do arquivo por <code>file://</code> não fornece a origem necessária para o player.</p></div>
         </div>`}
         <footer class="study-video-source">
-          <span>Conteúdo reproduzido pelo player oficial do YouTube.</span>
-          <a href="${video.youtubeUrl}" target="_blank" rel="noopener noreferrer">Abrir no YouTube ↗</a>
+          <span>Conteúdo reproduzido pelo visualizador do ${sourceName}.</span>
+          <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">Abrir no ${sourceName} ↗</a>
         </footer>
       </article>`;
   }
@@ -213,11 +248,32 @@ const VideosModule = (() => {
           <small>${String(index + 1).padStart(2, '0')}</small>
         </span>
         <span class="video-nav-copy">
-          <small>Vídeo ${index + 1}</small>
+          <small>Vídeo ${video.folderVideoIndex + 1}</small>
           <strong>${video.title}</strong>
         </span>
         <span class="video-nav-arrow" aria-hidden="true">›</span>
       </button>`;
+  }
+
+  function folderMarkup(folder, folderIndex) {
+    const startIndex = VIDEO_LIBRARY
+      .slice(0, folderIndex)
+      .reduce((total, currentFolder) => total + currentFolder.videos.length, 0);
+    const folderVideos = VIDEOS.slice(startIndex, startIndex + folder.videos.length);
+    return `
+      <details class="video-folder" ${folderIndex === 0 ? 'open' : ''}>
+        <summary>
+          <span class="video-folder-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v7A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5Z"></path></svg>
+          </span>
+          <span class="video-folder-copy"><strong>${folder.name}</strong><small>${folder.videos.length} ${folder.videos.length === 1 ? 'vídeo' : 'vídeos'}</small></span>
+          <span class="video-folder-chevron" aria-hidden="true">›</span>
+        </summary>
+        ${folder.sourceUrl ? `<a class="video-folder-source" href="${folder.sourceUrl}" target="_blank" rel="noopener noreferrer">${folder.sourceLabel} ↗</a>` : ''}
+        <div class="video-folder-items" role="tablist" aria-label="Vídeos da pasta ${folder.name}">
+          ${folderVideos.map((video, videoIndex) => navigationMarkup(video, startIndex + videoIndex)).join('')}
+        </div>
+      </details>`;
   }
 
   function select(index) {
@@ -255,9 +311,9 @@ const VideosModule = (() => {
               <span>Biblioteca</span>
               <strong>Selecione um vídeo</strong>
             </div>
-            <nav class="videos-navigation" aria-label="Lista de vídeos" role="tablist">
-              ${VIDEOS.map(navigationMarkup).join('')}
-            </nav>
+            <div class="videos-navigation" aria-label="Pastas de vídeos">
+              ${VIDEO_LIBRARY.map(folderMarkup).join('')}
+            </div>
           </aside>
           <div class="videos-viewer" id="videoViewer" role="tabpanel" aria-labelledby="videoTab0">
             ${videoMarkup(VIDEOS[activeIndex], activeIndex)}

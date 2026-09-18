@@ -2,13 +2,12 @@
 
 Painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
 
-O menu **Vídeos** reúne 31 conteúdos incorporados do YouTube em uma biblioteca com navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
+O menu **Vídeos** reúne 32 conteúdos em uma biblioteca com pastas expansíveis, navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
 
-- **Vídeo 1:** Itil® Fund v5 | Introdução
-- **Vídeo 2:** Itil® Fund v5 | Termos e Definições Essenciais 1
-- **Vídeos 3 a 31:** termos essenciais, dimensões, ciclo de vida, sistema de valor, princípios, governança, práticas, melhoria contínua, atividades da cadeia de valor, fluxos de valor, IA e outras estruturas.
+- **Canal Value Insights:** 31 vídeos do YouTube sobre termos essenciais, dimensões, ciclo de vida, sistema de valor, princípios, governança, práticas, melhoria contínua, atividades da cadeia de valor, fluxos de valor, IA e outras estruturas.
+- **Conferência AKSolution:** um vídeo compartilhado pelo Google Drive e reproduzido pelo visualizador incorporado.
 
-O player deve ser aberto por HTTP ou HTTPS, como no GitHub Pages ou em um servidor local. A abertura direta do `index.html` por `file://` não envia o cabeçalho de origem exigido pelo YouTube e, por isso, é substituída por uma orientação de acesso.
+Os players devem ser abertos por HTTP ou HTTPS, como no GitHub Pages ou em um servidor local. A abertura direta do `index.html` por `file://` não fornece a origem necessária para os players incorporados e, por isso, é substituída por uma orientação de acesso.
 
 O módulo **Slide** reúne 233 slides em resolução 2560×1440, separados em Introdução (10), Módulo 1 (20), Módulo 2 (20), Módulo 3 (10), Módulo 4 (6), Módulo 5 (36), Módulo 6 (71), Módulo 7 (10), Módulo 8 (14), Módulo 9 (28) e Módulo 10 (8). Os Módulos 1 e 2 terminam com três questões comentadas e uma PBQ própria: ordenação da cadeia de serviços no primeiro e posicionamento dos papéis de fornecedor, provedor e consumidor no segundo. O Módulo 3 termina com três questões comentadas sobre o Sistema de Valor do ITIL e SLA; o Módulo 4, com três questões comentadas sobre governança e faixa de visibilidade; o Módulo 5, com três questões comentadas sobre os Princípios Orientadores do ITIL; o Módulo 6, com três questões comentadas sobre descoberta, métricas de sucesso e suporte; o Módulo 7, com três questões comentadas sobre propósito organizacional e mapeamento de fluxos de valor; o Módulo 8, com três questões comentadas sobre melhoria contínua e práticas de gerenciamento; o Módulo 9, com três questões comentadas sobre as quatro dimensões do gerenciamento de produtos e serviços; e o Módulo 10, com três questões comentadas sobre a integração do ITIL com DevOps e PRINCE2 Agile. Em cada nova tentativa de fixação, as alternativas são reorganizadas e a resposta correta muda de posição em relação à tentativa anterior. O visualizador oferece seleção por apresentação, miniaturas, navegação contínua, atalhos de teclado, zoom e modo de tela cheia.
 
