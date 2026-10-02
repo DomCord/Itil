@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>AI-901 Rodada 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --surface-2:#E7EDEB; --ink:#14201D; --ink-2:#34423E; --muted:#5C6B66; --line:#D3DCD9;
+  --accent:#0B6B66; --accent-ink:#FFFFFF; --accent-soft:#D5ECE8;
+  --ok:#1D7443; --ok-soft:#DDF0E3; --bad:#B3261E; --bad-soft:#FADFDB; --flag:#9A6500; --flag-soft:#FBEDC8;
+  --code-bg:#EDF2F0; --shadow:0 1px 2px rgba(20,32,29,.05),0 10px 28px -16px rgba(20,32,29,.18);
+  --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Public Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1413; --surface:#151E1C; --surface-2:#1D2927; --ink:#E3EBE8; --ink-2:#C3D0CC; --muted:#8FA09B; --line:#2A3835;
+    --accent:#4DBDB2; --accent-ink:#06201D; --accent-soft:#163A36;
+    --ok:#5CC98A; --ok-soft:#15301F; --bad:#F08A7E; --bad-soft:#3A1D1A; --flag:#E4B43C; --flag-soft:#372C10;
+    --code-bg:#101816; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1413; --surface:#151E1C; --surface-2:#1D2927; --ink:#E3EBE8; --ink-2:#C3D0CC; --muted:#8FA09B; --line:#2A3835;
+  --accent:#4DBDB2; --accent-ink:#06201D; --accent-soft:#163A36;
+  --ok:#5CC98A; --ok-soft:#15301F; --bad:#F08A7E; --bad-soft:#3A1D1A; --flag:#E4B43C; --flag-soft:#372C10;
+  --code-bg:#101816; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--f-body);-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+code{font:500 .88em/1 var(--f-mono);background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:36px 72px}
+@media (max-width:560px){.wrap{padding-inline:16px;padding-block:22px 56px}}
+
+/* Masthead */
+.masthead{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+.eyebrow{font:600 11px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(32px,5vw,46px);line-height:1.02;letter-spacing:-.025em;margin:8px 0 10px;text-wrap:balance}
+.lead{color:var(--muted);max-width:62ch;margin:0}
+.facts{display:flex;gap:28px;flex-wrap:wrap;margin:0}
+.facts div{display:flex;flex-direction:column-reverse;gap:4px}
+.facts dt{font-size:12px;color:var(--muted)}
+.facts dd{margin:0;font:600 22px/1 var(--f-mono);font-variant-numeric:tabular-nums}
+.facts dd small{font-size:12px;color:var(--muted);font-weight:400}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-block:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:24px}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.chip{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font:500 13px/1 var(--f-body);padding:8px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+.chip:hover:not(:disabled){border-color:var(--muted)}
+.chip .n{font:600 11px/1 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] .n{color:inherit;opacity:.7}
+.chip:disabled{opacity:.45;cursor:not-allowed}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 13px/1 var(--f-body);padding:10px 14px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn:hover:not(:disabled){border-color:var(--muted)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover:not(:disabled){filter:brightness(1.08)}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.btn.flagged{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+.exam-status{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink-2)}
+.live{width:8px;height:8px;border-radius:50%;background:var(--bad);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+.notice{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:-8px 0 24px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
+.notice p{margin:0;max-width:72ch}
+.notice .tools{flex-shrink:0}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
+@media (max-width:920px){.layout{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+main{scroll-margin-top:16px;min-width:0}
+
+/* Question */
+.qcard{padding:28px 32px 24px}
+@media (max-width:560px){.qcard{padding:20px 16px 18px}}
+.qhead{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.qnum{font:600 12px/1 var(--f-mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-variant-numeric:tabular-nums}
+.qnum b{color:var(--ink);font-size:15px}
+.tag{font:500 12px/1.2 var(--f-body);padding:6px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.stem{font-size:17px;line-height:1.6;margin:0 0 16px;max-width:70ch;text-wrap:pretty}
+.pick{display:inline-block;font:600 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--flag);background:var(--flag-soft);padding:6px 9px;border-radius:6px;margin-bottom:14px}
+.codewrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:10px;background:var(--code-bg)}
+pre.code{margin:0;padding:14px 16px;font:400 13px/1.65 var(--f-mono);color:var(--ink-2);width:max-content;min-width:100%}
+.blank{background:var(--flag-soft);color:var(--flag);border-radius:4px;padding:0 4px;font-weight:600}
+
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{position:relative;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:var(--surface);transition:border-color .15s,background-color .15s}
+.opt:hover{border-color:var(--muted)}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.opt:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.bub{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font:600 12px/1 var(--f-mono);color:var(--muted);transition:background-color .15s,border-color .15s,color .15s}
+.opt .txt{padding-top:3px}
+.opt .mark{font:600 10.5px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding-top:9px;white-space:nowrap}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .bub{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opt.locked{cursor:default}
+.opt.locked:hover{border-color:var(--line)}
+.opt.right,.opt.right:hover{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .bub{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.opt.right .mark{color:var(--ok)}
+.opt.wrong,.opt.wrong:hover{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .bub{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.opt.wrong .mark{color:var(--bad)}
+
+.yn{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.yn-head,.yn-row{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:16px;align-items:center;padding:12px 14px}
+.yn-head{background:var(--surface-2);font:600 10.5px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.yn-head .cols{display:grid;grid-template-columns:1fr 1fr;gap:6px;text-align:center}
+.yn-row + .yn-row{border-top:1px solid var(--line)}
+.yn-row.right{background:var(--ok-soft)}
+.yn-row.wrong{background:var(--bad-soft)}
+.yn-ch{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.yn-ch label{position:relative;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:9px 0;cursor:pointer;font:600 13px/1 var(--f-body);color:var(--ink-2)}
+.yn-ch label:hover{border-color:var(--muted)}
+.yn-ch input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.yn-ch label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.yn-ch label.sel{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.yn-row.locked label{cursor:default}
+.yn-row.right label.sel{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.yn-row.wrong label.sel{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.yn-ch label.should{border:2px dashed var(--ok);color:var(--ok)}
+.yn-note{display:block;margin-top:6px;font:600 10.5px/1.3 var(--f-mono);letter-spacing:.05em;text-transform:uppercase}
+.yn-row.right .yn-note{color:var(--ok)} .yn-row.wrong .yn-note{color:var(--bad)}
+@media (max-width:540px){.yn-head{display:none}.yn-row{grid-template-columns:minmax(0,1fr);gap:10px}}
+
+.fb{margin-top:18px;border-radius:12px;padding:16px 18px;background:var(--surface-2)}
+.fb.ok{background:var(--ok-soft)} .fb.bad{background:var(--bad-soft)}
+.fb h3{margin:0 0 6px;font:700 15px/1.35 var(--f-body)}
+.fb.ok h3{color:var(--ok)} .fb.bad h3{color:var(--bad)}
+.fb h3 span{font-weight:500;color:var(--ink-2)}
+.fb p{margin:0;max-width:72ch;color:var(--ink-2)}
+
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.actions > div{display:flex;gap:8px;flex-wrap:wrap}
+.kbd-hint{font-size:12px;color:var(--muted);margin:14px 0 0}
+kbd{font:600 10.5px/1 var(--f-mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:2px 5px;background:var(--surface);color:var(--ink-2)}
+@media (hover:none){.kbd-hint{display:none}}
+
+/* Side */
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:920px){.side{position:static}}
+.panel{padding:18px}
+.panel h2{font:700 13px/1.2 var(--f-body);margin:0 0 14px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.panel h2 small{font:500 12px/1 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.sheet{display:grid;grid-template-columns:repeat(auto-fill,minmax(32px,1fr));gap:7px}
+.dot{position:relative;appearance:none;aspect-ratio:1;width:100%;max-width:40px;justify-self:center;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font:600 11px/1 var(--f-mono);color:var(--muted);cursor:pointer;display:grid;place-items:center;padding:0;font-variant-numeric:tabular-nums}
+.dot:hover{border-color:var(--muted)}
+.dot.answered{background:var(--ink-2);border-color:var(--ink-2);color:var(--surface)}
+.dot.right{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.dot.wrong{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.dot.cur{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--accent)}
+.dot.flag::after{content:"";position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--flag);border:2px solid var(--surface)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+.score{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.score b{font:700 42px/1 var(--f-display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.score span{color:var(--muted);font-size:13px}
+.note{font-size:12px;line-height:1.5;color:var(--muted);margin:10px 0 0}
+.area{margin-top:18px}
+.area-h{display:flex;justify-content:space-between;gap:8px;font:600 12.5px/1.3 var(--f-body);margin-bottom:6px}
+.area-h small{font:500 11px/1.3 var(--f-mono);color:var(--muted);white-space:nowrap}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) 60px 38px;gap:10px;align-items:center;font-size:12.5px;color:var(--ink-2);padding-block:4px}
+.bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:3px;background:var(--muted)}
+.bar i.hi{background:var(--ok)} .bar i.mid{background:var(--flag)} .bar i.lo{background:var(--bad)}
+.v{font:600 11px/1 var(--f-mono);text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.panel .btn{width:100%;justify-content:center;margin-top:16px}
+.timer{font:600 38px/1 var(--f-mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:2px 0 6px}
+.timer.low{color:var(--bad)}
+
+/* Results */
+.res{padding:30px 32px}
+@media (max-width:560px){.res{padding:22px 16px}}
+.res h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin:8px 0 0;text-wrap:balance}
+.big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:18px 0 6px}
+.big b{font:700 68px/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.big span{color:var(--muted)}
+.res p.verdict{margin:0;max-width:66ch;color:var(--ink-2)}
+.tablewrap{overflow-x:auto;margin-top:24px}
+table.topics{width:100%;border-collapse:collapse;font-size:14px;min-width:460px}
+table.topics th{font:600 10.5px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 10px 10px 0;border-bottom:1px solid var(--line)}
+table.topics td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+table.topics td.num{font:600 13px/1 var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.topics td .bar{width:120px}
+table.topics tr.arearow td{font-weight:700;padding-top:18px;border-bottom:0;color:var(--ink)}
+.res h3{font:700 15px/1.3 var(--f-body);margin:28px 0 10px}
+.missed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.missed button{appearance:none;width:100%;text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--ink);font:400 14px/1.45 var(--f-body)}
+.missed button:hover{border-color:var(--muted)}
+.missed .x{width:22px;height:22px;border-radius:50%;background:var(--bad);color:var(--surface);display:grid;place-items:center;font:700 11px/1 var(--f-mono)}
+.missed .t{font:500 11px/1.2 var(--f-mono);color:var(--muted)}
+@media (max-width:540px){.missed button{grid-template-columns:auto minmax(0,1fr)}.missed .t{display:none}}
+.empty{color:var(--muted);margin:0}
+
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between}
+footer p{margin:0;max-width:70ch}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+footer a{color:var(--accent)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div>
+      <div class="eyebrow">Microsoft Azure AI Fundamentals · AI-901 · rodada 3</div>
+      <h1>AI-901 Rodada 3</h1>
+      <p class="lead">Questões novas escritas a partir dos módulos e labs oficiais da AI-901 e de relatos de quem já fez a prova. Tem mais leitura de código Python (Responses API, agentes, Speech, Language, Content Understanding) e conceitos dos módulos (atenção, TF-IDF, prosódia, difusão, RAG). Cada questão passou por revisão técnica e de redação.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>questões</dt><dd id="fact-n">24</dd></div>
+      <div><dt>tópicos</dt><dd>7</dd></div>
+      <div><dt>nota mínima</dt><dd>700<small>/1000</small></dd></div>
+    </dl>
+  </header>
+
+  <div class="toolbar" id="toolbar"></div>
+  <div id="notice"></div>
+
+  <div class="layout">
+    <main id="main"></main>
+    <aside class="side" id="side"></aside>
+  </div>
+
+  <footer>
+    <p>Questões autorais, escritas a partir do guia de estudos oficial. Elas não reproduzem itens reais da prova. Nomes de produtos no Foundry mudam com frequência, então confira a documentação atual quando algo parecer diferente.</p>
+    <ul>
+      <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901" target="_blank" rel="noopener">Guia de estudos AI-901 (Microsoft Learn)</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-901/" target="_blank" rel="noopener">Página do exame e trilhas de aprendizado</a></li>
+      <li><a href="https://aiskillsnavigator.microsoft.com/credentials/cert-83587e0a0754cfee561ade3e27d9fa1cdaf15ae03be52d2413b2b858d1b4eda4" target="_blank" rel="noopener">Avaliação prática gratuita (AI Skills Navigator)</a></li>
+    </ul>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const AREAS = {
+  A: { name: "Conceitos e capacidades de IA", short: "Conceitos de IA", weight: "40–45%" },
+  B: { name: "Soluções com Microsoft Foundry", short: "Foundry", weight: "55–60%" }
+};
+const TOPICS = {
+  A1: { area: "A", name: "IA responsável" },
+  A2: { area: "A", name: "Modelos e configuração" },
+  A3: { area: "A", name: "Cargas de trabalho de IA" },
+  B1: { area: "B", name: "Apps generativos e agentes" },
+  B2: { area: "B", name: "Texto e fala" },
+  B3: { area: "B", name: "Visão e geração de imagens" },
+  B4: { area: "B", name: "Extração de informações" }
+};
+
+const Q = [
+{ id:"n-a1-1", t:"A1", type:"multi",
+  stem:"Um sistema de reconhecimento facial libera a entrada de funcionários em um prédio. Os testes mostram que ele erra com muito mais frequência para pessoas de pele mais escura, que acabam barradas na porta. Quais DOIS princípios de IA responsável esse problema afeta mais diretamente?",
+  opts:["Equidade (fairness)", "Confiabilidade e segurança (reliability and safety)", "Transparência (transparency)", "Privacidade e segurança (privacy and security)"], ans:[0, 1],
+  why:"Há um problema de equidade porque um grupo de pessoas recebe um serviço pior que os outros, em geral por viés ou pouca representatividade nos dados de treino. Também há um problema de confiabilidade e segurança, porque o sistema não funciona de forma consistente para todas as pessoas e condições que precisa atender. A documentação de IA responsável da Microsoft cita, dentro desse princípio, a análise de erros para achar grupos (inclusive demográficos) em que o modelo erra mais que a média. A Microsoft recomenda avaliar o sistema com dados que representem essa diversidade e verificar se os erros se concentram em algum grupo antes de implantar. Transparência (explicar como o sistema funciona) e privacidade e segurança (proteger as imagens) importam, mas não são a causa do erro descrito." },
+{ id:"n-a1-2", t:"A1", type:"single",
+  stem:"Um banco usa um modelo de IA para ajudar a aprovar pedidos de empréstimo e quer aplicar o princípio de transparência. Qual medida atende a esse princípio?",
+  opts:["Avisar os clientes que a IA participa da análise e descrever, em linhas gerais, os dados usados no treino do modelo", "Criptografar os dados dos clientes em trânsito e em repouso e restringir quem pode acessá-los", "Oferecer o formulário de pedido compatível com leitores de tela e vídeos explicativos com legendas", "Enviar para um analista humano os pedidos em que a confiança do modelo fica abaixo de um limite"], ans:0,
+  why:"Transparência significa deixar claro que a IA está sendo usada, como o sistema funciona e quais são seus limites. O próprio material da Microsoft usa este exemplo: um banco que usa IA para aprovar empréstimos deve divulgar o uso de IA e descrever características dos dados de treino, sem revelar informações confidenciais. Criptografia e controle de acesso são uma pegadinha comum: eles protegem os dados, então atendem a privacidade e segurança. Leitor de tela e legendas atendem a inclusão. Encaminhar casos de baixa confiança para revisão humana é uma prática de confiabilidade e segurança, com supervisão humana." },
+{ id:"n-a1-3", t:"A1", type:"yesno",
+  stem:"Para cada afirmação sobre guardrails e segurança de conteúdo no Microsoft Foundry, marque Sim se for verdadeira ou Não se for falsa.",
+  items:[["Por padrão (guardrail `Microsoft.DefaultV2`), conteúdo classificado com severidade média ou alta nas categorias ódio e equidade, sexual, violência e automutilação é bloqueado, tanto no prompt do usuário quanto na resposta do modelo.", true], ["Os avaliadores de segurança (safety evaluators) do Foundry detectam e pontuam conteúdo nocivo nas respostas e também corrigem automaticamente as respostas problemáticas.", false], ["Em uma solução RAG, o texto dos documentos recuperados deve ser tratado como dados, e não como instruções, para reduzir o risco de prompt injection indireto.", true]],
+  why:"A política padrão `Microsoft.DefaultV2` usa o limiar Medium nas quatro categorias de dano e vale para prompts e respostas, então o que for classificado como médio ou alto é bloqueado. Um guardrail é um conjunto de controles, e cada controle define um risco, os pontos de intervenção e a ação. Os pontos de intervenção são a entrada do usuário e a saída; em agentes (cujos guardrails estão em preview), há também a chamada e a resposta de ferramenta, em preview. As ações são annotate (só para modelos) ou annotate and block. Os avaliadores apenas detectam, escaneiam e pontuam problemas; corrigir exige outras medidas, como ajustar prompts, guardrails ou dados. Um documento recuperado pode conter texto que tenta redirecionar o modelo (ataque indireto), por isso o app separa as instruções confiáveis do conteúdo recuperado, e o Prompt Shields ajuda a detectar esses ataques." },
+{ id:"n-a2-1", t:"A2", type:"single",
+  stem:"Um modelo de linguagem recebe duas frases: “Sentei no banco da praça” e “Abri uma conta no banco”. Qual mecanismo do transformer permite que o modelo represente “banco” de forma diferente em cada frase, levando em conta as palavras ao redor?",
+  opts:["Atenção (attention)", "Tokenização", "Codificação posicional (positional encoding)", "Janela de contexto (context window)"], ans:0,
+  why:"A camada de atenção avalia cada token no contexto da sequência e dá mais peso aos tokens que mais influenciam seu significado, como “praça” ou “conta”. O resultado é um embedding contextual diferente para “banco” em cada frase. A tokenização só divide o texto em tokens (palavras, subpalavras e pontuação) com IDs inteiros, e “banco” recebe o mesmo ID nas duas frases. A codificação posicional informa a posição de cada token na sequência, e a janela de contexto é o número máximo de tokens que o modelo considera de uma vez." },
+{ id:"n-a2-2", t:"A2", type:"multi",
+  stem:"Um app de atendimento chama uma implantação Global Standard de um modelo de chat no Foundry. Nos horários de pico, muitas chamadas falham com HTTP 429 (Too Many Requests). As respostas reais raramente passam de 500 tokens, mas o código define o limite de tokens de saída em 8.000. Quais DUAS ações ajudam a reduzir esses erros?",
+  opts:["Aumentar a alocação de TPM (tokens por minuto) da implantação dentro da cota disponível, ou pedir aumento de cota", "Reduzir o limite de tokens de saída para um valor próximo do tamanho real das respostas", "Mudar a implantação para Global Batch para atender os clientes do chat em tempo real", "Diminuir a temperature para que o modelo gere respostas mais curtas"], ans:[0, 1],
+  why:"O TPM atribuído à implantação define o limite de tokens por minuto e, proporcionalmente, o de requisições por minuto (RPM). Ao receber cada chamada, o serviço estima os tokens pelo tamanho do prompt mais o limite máximo de saída, e não pelo que a resposta realmente usa. Por isso, um limite de 8.000 tokens consome cota à toa. Ajudam aumentar o TPM (ou pedir mais cota) e reduzir o limite de saída (`max_output_tokens` na Responses API), além de diminuir requisições simultâneas e usar retry com backoff. Global Batch processa de forma assíncrona, com janela-alvo de 24 horas, então não serve para um chat em tempo real. A temperature controla a aleatoriedade, não o tamanho da resposta nem a cota." },
+{ id:"n-a2-3", t:"A2", type:"single",
+  stem:"Os leaderboards do catálogo de modelos mostram que um modelo tem ótimo índice de qualidade em benchmarks públicos. Você vai usá-lo em um assistente RAG que responde com base nos manuais internos da empresa e precisa verificar se as respostas se apoiam nos trechos recuperados, sem inventar informação. O que fazer antes de ir para produção?",
+  opts:["Rodar uma avaliação com perguntas do seu próprio cenário e medir groundedness (fundamentação) com um avaliador assistido por IA", "Confiar no índice de qualidade do leaderboard, já que ele foi medido em benchmarks padronizados", "Medir apenas fluency (fluência), porque um texto bem escrito indica que a resposta está correta", "Comparar apenas custo e latência dos modelos no leaderboard de desempenho"], ans:0,
+  why:"Os leaderboards de modelos (em preview no portal do Foundry) comparam modelos usando conjuntos de dados públicos e padronizados. Eles ajudam a escolher candidatos, mas não mostram como o modelo se comporta com os seus documentos. Até o cenário 'Groundedness' do leaderboard usa um dataset público (TruthfulQA), e não o seu conteúdo. Por isso, o próximo passo é avaliar com dados do seu cenário, por exemplo pela opção Benchmarks → Try with your own data no catálogo ou por uma evaluation no Foundry. Groundedness é um avaliador assistido por IA (LLM como juiz) que verifica se a resposta se apoia no contexto fornecido, sem conteúdo inventado; relevance verifica se ela responde à pergunta. Fluency e coherence medem a qualidade da escrita, independentemente de o conteúdo estar correto, e custo e latência não dizem nada sobre qualidade. Métricas clássicas de NLP, como o F1 (que combina precision e recall), exigem respostas de referência (ground truth)." },
+{ id:"n-a3-1", t:"A3", type:"single",
+  stem:"Uma empresa tem 2.000 relatórios técnicos. Palavras como “sistema” e “projeto” aparecem em quase todos eles. A equipe quer descobrir quais termos caracterizam cada relatório, dando peso alto a termos frequentes naquele relatório e raros no restante da coleção. Qual técnica usar?",
+  opts:["TF-IDF (term frequency-inverse document frequency)", "Remoção de stop words", "Stemming", "Extração de n-gramas"], ans:0,
+  why:"O TF-IDF multiplica a frequência do termo no documento (TF) por log(N/df), em que N é o total de documentos e df é quantos deles contêm o termo. Um termo presente em todos os relatórios fica com IDF igual a zero, e um termo presente em quase todos (como “sistema” e “projeto”) fica com IDF perto de zero; já um termo frequente em um relatório e raro nos demais recebe peso alto. A remoção de stop words só exclui palavras de uma lista (como “de”, “o”, “que”) que acrescentam pouco significado, sem calcular a importância dos termos entre documentos. O stemming corta terminações para agrupar variações de uma palavra (a lematização faz o mesmo usando regras e vocabulário para chegar a uma forma válida), e a extração de n-gramas agrupa sequências de palavras como “nuvem pública”. Nenhuma dessas técnicas dá peso aos termos conforme a raridade na coleção." },
+{ id:"n-a3-2", t:"A3", type:"single",
+  stem:"Um sistema antigo de text-to-speech pronuncia todas as palavras corretamente, mas soa robótico: as frases saem no mesmo tom, sem pausas naturais e sem ênfase. Qual etapa do pipeline de síntese de fala é a principal responsável por esse problema?",
+  opts:["Geração de prosódia (prosody)", "Normalização do texto", "Conversão de grafemas em fonemas (G2P)", "Extração de características MFCC"], ans:0,
+  why:"A prosódia define ritmo, entonação, duração, intensidade e pausas, ou seja, como as palavras são ditas. Fala robótica costuma vir de prosódia plana, e não de erros de pronúncia; vozes neurais usam transformers para prever uma prosódia natural. A normalização expande números, datas e abreviações (“R$ 10” vira “dez reais”), e o G2P converte letras em fonemas, as menores unidades de som. A extração de MFCC é pré-processamento do reconhecimento de fala (speech-to-text), não da síntese." },
+{ id:"n-a3-3", t:"A3", type:"multi",
+  stem:"Quais DUAS afirmações sobre conceitos de visão computacional são verdadeiras?",
+  opts:["A segmentação semântica classifica cada pixel da imagem de acordo com o objeto a que ele pertence, localizando o objeto com mais precisão que uma caixa delimitadora.", "Modelos de difusão geram uma imagem partindo de pixels aleatórios (ruído) e removendo esse ruído aos poucos, em várias iterações comparadas ao prompt.", "Em uma rede neural convolucional (CNN), os valores dos filtros (kernels) são definidos pelo desenvolvedor, como em um editor de imagens, e permanecem fixos durante o treinamento.", "Um Vision Transformer (ViT) relaciona as regiões da imagem por meio de filtros de convolução, em vez do mecanismo de atenção usado nos modelos de linguagem."], ans:[0, 1],
+  why:"Na segmentação semântica cada pixel recebe uma classe, o que localiza o objeto com mais precisão que a caixa delimitadora da detecção de objetos. A difusão, usada pela maioria dos geradores de imagem, parte de ruído aleatório e remove o ruído em várias iterações, comparando o resultado com o prompt a cada passo. Filtros definidos à mão (como um de detecção de bordas) são usados no processamento de imagens tradicional. Em uma CNN, os kernels começam com pesos aleatórios e são ajustados durante o treinamento, junto com os pesos da rede, para extrair as características mais úteis para a previsão. O ViT divide a imagem em patches, transforma cada um em embedding e usa o mesmo mecanismo de atenção dos modelos de linguagem para relacionar os patches, como um LLM faz com tokens." },
+{ id:"n-a3-4", t:"A3", type:"single",
+  stem:"Qual sequência descreve corretamente uma solução RAG, desde a preparação dos dados até a resposta ao usuário?",
+  opts:["Dividir os documentos em chunks → gerar embeddings dos chunks e armazená-los em um índice → converter a pergunta em embedding com o mesmo modelo e buscar os chunks mais parecidos → incluir esses chunks no prompt e gerar a resposta com citações", "Dividir os documentos em chunks → re-treinar o modelo de chat com os chunks → enviar a pergunta ao modelo → gerar a resposta com citações", "Enviar a pergunta ao modelo e gerar a resposta → buscar no índice os chunks parecidos com a resposta gerada → anexar esses chunks como citações", "Dividir os documentos em chunks → gerar embeddings dos chunks com um modelo de embeddings → converter a pergunta em embedding com outro modelo, diferente do usado na indexação → incluir os chunks no prompt e gerar a resposta"], ans:0,
+  why:"Na indexação, o texto é extraído, dividido em chunks (equilibrando tamanho e sobreposição) e convertido em embeddings guardados em um índice. Na execução, a pergunta vira vetor com o mesmo modelo de embeddings usado na indexação, porque vetores de modelos diferentes não são comparáveis; o Azure AI Search exige o mesmo modelo na indexação e na consulta. Depois, os chunks recuperados entram no prompt para gerar uma resposta fundamentada e com citações. RAG não re-treina o modelo nem altera seus parâmetros: para atualizar o conhecimento, você atualiza os documentos e o índice. Gerar a resposta primeiro e buscar fontes depois não fundamenta nada; só procura justificativas para uma resposta que pode estar errada." },
+{ id:"n-b1-1", t:"B1", type:"single",
+  stem:"Um app Python chama um modelo implantado no Foundry pela Responses API e mantém o contexto entre dois turnos. Complete a última linha para exibir apenas o texto gerado na segunda resposta.",
+  code:"import os\nfrom dotenv import load_dotenv\nfrom openai import OpenAI\n\nload_dotenv()  # lê o arquivo .env\nclient = OpenAI(\n    base_url=os.getenv(\"AZURE_OPENAI_ENDPOINT\"),  # https://<recurso>.openai.azure.com/openai/v1/\n    api_key=os.getenv(\"AZURE_OPENAI_API_KEY\"),\n)\ninstrucoes = \"Você é um tutor de IA. Responda em até 3 frases.\"\n\nprimeira = client.responses.create(\n    model=os.getenv(\"MODEL_DEPLOYMENT_NAME\"),\n    instructions=instrucoes,\n    input=\"O que é um token?\",\n    max_output_tokens=1000,\n)\nsegunda = client.responses.create(\n    model=os.getenv(\"MODEL_DEPLOYMENT_NAME\"),\n    instructions=instrucoes,  # não é herdado via previous_response_id\n    previous_response_id=primeira.id,\n    input=\"Dê um exemplo em português.\",\n)\nprint(segunda.__________)",
+  opts:["output_text", "choices[0].message.content", "output[0]", "content"], ans:0,
+  why:"Na Responses API, a propriedade `output_text` junta em uma única string todo o texto gerado pelo modelo. `choices[0].message.content` pertence à Chat Completions API (`chat.completions.create`). `output` é uma lista de itens (objetos com tipo, papel e conteúdo), então `output[0]` não é uma string, e em modelos de raciocínio o primeiro item pode nem ser a mensagem. O objeto de resposta não tem um atributo `content` no nível superior. O `previous_response_id` encadeia o histórico no serviço, então o app envia só a nova pergunta. Já o `instructions`, que faz o papel do system prompt, não é herdado da resposta anterior e precisa ser reenviado a cada chamada." },
+{ id:"n-b1-2", t:"B1", type:"yesno",
+  stem:"Um app cliente usa o código abaixo, gerado pelo botão Continue in code do playground de agentes, para conversar com o agente `computing-historian`. Para cada afirmação, marque Sim ou Não.",
+  code:"from azure.identity import DefaultAzureCredential\nfrom azure.ai.projects import AIProjectClient\n\nproject_client = AIProjectClient(\n    endpoint=\"https://<recurso>.services.ai.azure.com/api/projects/<projeto>\",\n    credential=DefaultAzureCredential(),\n)\nopenai_client = project_client.get_openai_client()\n\nresponse = openai_client.responses.create(\n    input=[{\"role\": \"user\", \"content\": \"Quem criou o ENIAC?\"}],\n    extra_body={\"agent_reference\": {\"name\": \"computing-historian\",\n                                    \"version\": \"1\",\n                                    \"type\": \"agent_reference\"}},\n)\nprint(response.output_text)",
+  items:[["A chamada não informa `model` porque o modelo, as instruções e as ferramentas já estão na definição do agente referenciado em `extra_body`.", true], ["Como o projeto tem uma chave de API, basta trocar `DefaultAzureCredential()` por `AzureKeyCredential(chave)` no `AIProjectClient`.", false], ["Para manter o contexto entre perguntas, o app pode criar uma conversa com `openai_client.conversations.create()` e passar `conversation=<id da conversa>` em cada chamada a `responses.create`.", true]],
+  why:"O `agent_reference` em `extra_body` direciona a requisição para o agente do projeto, que já carrega modelo, instruções e ferramentas. Por isso não se passa `model`. O `AIProjectClient` se conecta ao endpoint do projeto e aceita apenas Microsoft Entra ID (por exemplo, `DefaultAzureCredential` após `az login`), porque o projeto pode conter recursos privilegiados. A chave de API funciona no endpoint compatível com OpenAI do recurso (`/openai/v1/`), não nesse cliente. Para várias perguntas, o app cria uma conversa (as conversations substituem os antigos threads) e passa o mesmo id a cada `responses.create`. Assim o serviço guarda o histórico." },
+{ id:"n-b1-3", t:"B1", type:"multi",
+  stem:"Você está configurando apps que acessam recursos do Microsoft Foundry. Quais DUAS afirmações sobre endpoints e autenticação estão corretas?",
+  opts:["Para chamar um modelo implantado com `OpenAI(base_url=..., api_key=...)`, use o endpoint `https://<recurso>.openai.azure.com/openai/v1/` e a chave do recurso.", "O `AIProjectClient`, conectado ao endpoint `https://<recurso>.services.ai.azure.com/api/projects/<projeto>`, aceita a chave do recurso por meio de `AzureKeyCredential`.", "Uma boa prática é guardar a chave como segredo no Azure Key Vault e fazer o app lê-la em tempo de execução com uma identidade gerenciada, em vez de deixá-la no código.", "O `TextAnalyticsClient` do Azure Language deve usar o endpoint do projeto (`.../api/projects/<projeto>`) no lugar de `https://<recurso>.cognitiveservices.azure.com/`."], ans:[0, 2],
+  why:"O cliente OpenAI usa o endpoint v1 do Azure OpenAI (`/openai/v1/`) com chave de API ou token do Microsoft Entra ID. O endpoint do projeto é usado pelo `AIProjectClient`, que só aceita Entra ID (por exemplo, `DefaultAzureCredential`), e não chaves. Ferramentas como o Azure Language usam o endpoint `cognitiveservices.azure.com` do recurso, com `AzureKeyCredential` ou Entra ID. Chaves não devem ficar no código: o Key Vault guarda o segredo e o app o recupera com uma identidade gerenciada, o que reduz o risco de vazamento." },
+{ id:"n-b1-4", t:"B1", type:"single",
+  stem:"No playground de um modelo no novo portal do Foundry, você escreveu as Instructions, adicionou a ferramenta Web search e anexou um arquivo como conhecimento. Agora quer que apps clientes usem essa configuração pelo projeto, sem repetir o system prompt no código nem implementar a própria lógica de RAG. Qual ação do portal usar?",
+  opts:["Save as agent, para encapsular modelo, instruções e ferramentas em um agente", "New chat, para iniciar uma conversa limpa com a configuração atual", "Comparar modelos, para testar a mesma configuração com outros modelos lado a lado", "Deploy a base model, para criar uma nova implantação com a configuração embutida"], ans:0,
+  why:"Save as agent transforma a configuração do playground em um agente versionado no projeto, e a aba YAML mostra modelo, instruções e ferramentas. Os apps passam a chamar o agente (por exemplo, com `agent_reference`) sem enviar system prompt nem montar RAG. New chat só limpa o histórico da conversa. A comparação serve para avaliar até três modelos lado a lado. Uma nova implantação traz apenas o modelo, sem instruções nem ferramentas. No modelo atual de agentes do Foundry, cada agente já recebe um endpoint estável ao ser criado, e publicar passou a significar distribuí-lo em canais como Microsoft 365 e Teams." },
+{ id:"n-b1-5", t:"B1", type:"single",
+  stem:"Você cria uma knowledge base no Foundry IQ com as políticas de despesas da empresa e a conecta a um agente. O time jurídico exige que o agente receba trechos literais das políticas, com citação da fonte, sem que um modelo reescreva o conteúdo antes. Qual configuração atende?",
+  opts:["Definir o Output mode como Extractive data", "Definir o Output mode como Answer synthesis", "Aumentar o Retrieval reasoning effort para Medium", "Fazer fine-tuning do modelo do agente com os documentos de política"], ans:0,
+  why:"Com Extractive data, o Foundry IQ devolve ao agente o texto original recuperado das fontes, com citações. É também o comportamento padrão e o único disponível na versão estável (GA) da API de recuperação agêntica. Answer synthesis usa um modelo generativo para redigir uma resposta a partir do que foi recuperado. O Retrieval reasoning effort define quanto processamento com LLM a recuperação agêntica usa para planejar a busca, não o formato da saída. A knowledge base fundamenta as respostas sem alterar os pesos do modelo, então fine-tuning não é necessário. Observação: Answer synthesis e os níveis de reasoning effort acima de minimal continuam em preview, e o portal do Foundry os oferece em modo preview." },
+{ id:"n-b2-1", t:"B2", type:"single",
+  stem:"Um serviço de backend precisa gerar avisos falados e salvá-los em arquivos WAV, sem tocar o áudio no alto-falante. Complete o código.",
+  code:"import azure.cognitiveservices.speech as speechsdk\n\nspeech_config = speechsdk.SpeechConfig(subscription=speech_key, endpoint=speech_endpoint)\nspeech_config.speech_synthesis_voice_name = \"pt-BR-FranciscaNeural\"\n\nfile_config = speechsdk.audio.__________(filename=\"aviso.wav\")\nsynthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)\n\nresult = synthesizer.speak_text_async(\"O embarque começa em dez minutos.\").get()\nif result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:\n    print(\"Áudio salvo.\")",
+  opts:["AudioOutputConfig", "AudioConfig", "SpeechConfig", "AudioDataStream"], ans:0,
+  why:"No SDK de Python do Azure Speech, `AudioOutputConfig` define o destino do áudio sintetizado: o alto-falante padrão (`use_default_speaker=True`) ou um arquivo WAV (`filename=`). `AudioConfig` configura a entrada de áudio (microfone ou arquivo) do `SpeechRecognizer`, e `SpeechConfig` guarda a conexão (chave e endpoint) e a voz. `AudioDataStream` é criado a partir de um resultado já sintetizado e não recebe `filename`. Se `audio_config` for omitido, o áudio toca no alto-falante padrão; com `audio_config=None`, ele fica só em memória." },
+{ id:"n-b2-2", t:"B2", type:"single",
+  stem:"Um app de legendas usa reconhecimento contínuo com o Azure Speech. Ele deve gravar no arquivo de legendas somente o texto final de cada frase, ignorando os resultados parciais que chegam enquanto a pessoa ainda fala. Qual evento conectar?",
+  code:"speech_config.speech_recognition_language = \"pt-BR\"\naudio_config = speechsdk.audio.AudioConfig(use_default_microphone=True)\nrecognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)\n\ndef salvar_legenda(evt):\n    legendas.write(evt.result.text + \"\\n\")\n\nrecognizer.__________.connect(salvar_legenda)\nrecognizer.start_continuous_recognition()",
+  opts:["recognized", "recognizing", "session_started", "canceled"], ans:0,
+  why:"No reconhecimento contínuo, o evento `recognizing` dispara várias vezes com hipóteses parciais, e `recognized` dispara uma vez por frase com o resultado final, lido em `evt.result.text`. `session_started` indica só o início da sessão, e `canceled` sinaliza erro ou cancelamento. O reconhecimento contínuo segue até o app chamar `stop_continuous_recognition()`, ao contrário de `recognize_once_async()`, que captura uma única frase." },
+{ id:"n-b2-3", t:"B2", type:"single",
+  stem:"Um quiosque de aeroporto terá um assistente de voz. Os passageiros falam, ouvem a resposta em poucos instantes e podem interromper o assistente no meio da fala. O ambiente é barulhento, e você quer a solução com menos componentes para montar e manter. O que usar?",
+  opts:["Azure Speech Voice Live, por exemplo ativando o Voice mode em um agente do Foundry", "Speech to text em tempo real, um modelo de chat e text to speech, conectados pelo código do próprio app", "Batch transcription do Azure Speech, seguida de um modelo de chat e de síntese de fala", "Apenas text to speech com uma voz neural HD"], ans:0,
+  why:"Voice Live é um serviço gerenciado de speech-to-speech em tempo real: une reconhecimento de fala, o modelo generativo e a síntese de voz em uma única sessão, com supressão de ruído, cancelamento de eco e detecção de interrupções e de fim de turno. Ativar o Voice mode em um agente do Foundry integra o Voice Live à definição do agente, o que reduz o código do cliente. Montar você mesmo o pipeline speech to text → modelo → text to speech funciona, mas exige integrar e manter cada peça e não traz esses recursos de conversa prontos. Batch transcription é assíncrona e agendada por melhor esforço, então não serve para diálogo ao vivo. Text to speech sozinho cuida só da saída de voz." },
+{ id:"n-b2-4", t:"B2", type:"single",
+  stem:"Um pipeline grava no banco de dados o código de duas letras do idioma de cada mensagem (por exemplo, “pt” ou “es”). Como o valor precisa sair sempre no mesmo formato, você usou o Azure Language em vez de pedir essa informação a um modelo generativo. Complete o código.",
+  code:"from azure.ai.textanalytics import TextAnalyticsClient\nfrom azure.core.credentials import AzureKeyCredential\n\nclient = TextAnalyticsClient(\n    endpoint=\"https://<recurso>.cognitiveservices.azure.com/\",\n    credential=AzureKeyCredential(key),\n)\nresult = client.detect_language([mensagem])[0]\ncodigo = result.primary_language.__________",
+  opts:["iso6391_name", "name", "confidence_score", "language_code"], ans:0,
+  why:"`detect_language` recebe uma lista de documentos e devolve um resultado por item. Em `primary_language`, `iso6391_name` traz o código ISO 639-1 (“pt”), `name` traz o nome do idioma (“Portuguese”) e `confidence_score` traz a confiança de 0 a 1. O Azure Language devolve valores estruturados e consistentes a cada chamada, enquanto a resposta de um modelo generativo pode variar entre execuções." },
+{ id:"n-b3-1", t:"B3", type:"single",
+  stem:"Seu app lê do disco a foto de um computador antigo, codifica em base64 e envia a imagem junto com uma pergunta para um modelo multimodal pela Responses API. Complete o tipo da parte de imagem.",
+  code:"response = client.responses.create(\n    model=deployment_name,  # ex.: gpt-5-mini\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\"type\": \"input_text\", \"text\": \"Que computador é este?\"},\n            {\"type\": \"__________\",\n             \"image_url\": f\"data:image/jpeg;base64,{imagem_b64}\"},\n        ],\n    }],\n)\nprint(response.output_text)",
+  opts:["input_image", "image_url", "image_file", "image"], ans:0,
+  why:"Na Responses API, cada parte do conteúdo tem um tipo: `input_text` para texto e `input_image` para imagem. O campo `image_url` aceita uma URL pública ou uma data URL (`data:image/jpeg;base64,...`) com a imagem codificada. Também é possível passar um `file_id` de um arquivo já enviado. Usar `image_url` como valor de `type` é o formato da Chat Completions API, e `image_file` não é um tipo de entrada da Responses API. No portal, o mesmo teste é feito com o botão Upload image do playground." },
+{ id:"n-b3-2", t:"B3", type:"single",
+  stem:"O código abaixo gera uma imagem com uma implantação de gpt-image-1-mini (em preview de acesso limitado) e salva o resultado como PNG. Complete a linha que obtém os bytes da imagem.",
+  code:"import base64\nfrom openai import OpenAI\n\nclient = OpenAI(base_url=\"https://<recurso>.openai.azure.com/openai/v1/\", api_key=api_key)\n\nimg = client.images.generate(\n    model=deployment_name,  # nome da implantação\n    prompt=\"Um PC antigo com monitor CRT, estilo fotografia\",\n    n=1,\n    size=\"1024x1024\",\n)\nimage_bytes = base64.b64decode(img.data[0].__________)\nwith open(\"pc.png\", \"wb\") as f:\n    f.write(image_bytes)",
+  opts:["b64_json", "url", "revised_prompt", "content"], ans:0,
+  why:"Os modelos da série gpt-image-1 sempre devolvem a imagem em base64 no campo `b64_json`. Eles não oferecem opção de URL. O código decodifica esse texto para bytes e grava o arquivo. Base64 converte dados binários em texto para que possam viajar dentro de JSON. Com esses modelos, `url` e `revised_prompt` não vêm preenchidos (`revised_prompt` era só do DALL-E 3, já aposentado), e `content` não é atributo do objeto de imagem. O parâmetro `model` recebe o nome da implantação, não o nome do modelo base. Observação: gpt-image-1 e gpt-image-1-mini estão em preview de acesso limitado, e é preciso solicitar acesso. Outra forma é a Responses API: chamar `responses.create` com um modelo de chat compatível em `model` e `tools=[{\"type\": \"image_generation\"}]`, informando a implantação de imagem no cabeçalho `x-ms-oai-image-generation-deployment`. A imagem vem em base64 no `result` do item `image_generation_call`." },
+{ id:"n-b3-3", t:"B3", type:"yesno",
+  stem:"Para cada afirmação sobre geração de vídeo com Sora 2 (preview) no Microsoft Foundry, marque Sim ou Não.",
+  items:[["Pela API, o app cria um job de geração, consulta o status até ele ser concluído e só então baixa o arquivo MP4.", true], ["O Sora 2 pode gerar um vídeo com uma celebridade real, desde que o prompt informe o nome dela.", false], ["No playground de vídeo, você pode ajustar parâmetros como dimensões e duração antes de gerar o vídeo.", true]],
+  why:"Gerar vídeo exige muito processamento e costuma levar de 1 a 5 minutos, por isso a API trabalha com jobs assíncronos. O app cria o job, consulta o status até ele terminar e só então baixa o MP4. Na API v1 `/videos` do Sora 2, o status final é `completed`. O endpoint mais antigo `video/generations/jobs`, mostrado no exercício, informa `succeeded`. O Sora 2 tem restrições de IA responsável: não gera pessoas reais, incluindo figuras públicas, e rejeita personagens e músicas protegidos por direitos autorais. Por enquanto, também recusa imagens de entrada com rostos humanos. O playground de vídeo permite testar prompts e ajustar dimensões e duração sem escrever código. Ele também mostra código de exemplo. O Sora 2 está em preview." },
+{ id:"n-b4-1", t:"B4", type:"single",
+  stem:"Complete o código que usa o SDK do Content Understanding para analisar uma fatura e ler o campo com o valor total.",
+  code:"from azure.ai.contentunderstanding import ContentUnderstandingClient\nfrom azure.ai.contentunderstanding.models import AnalysisInput\nfrom azure.core.credentials import AzureKeyCredential\n\nclient = ContentUnderstandingClient(\n    endpoint=\"https://<recurso>.services.ai.azure.com/\",\n    credential=AzureKeyCredential(key),\n    api_version=\"2025-11-01\",\n)\npoller = client.begin_analyze(\n    analyzer_id=\"prebuilt-invoice\",\n    inputs=[AnalysisInput(url=file_url)],\n)\nresult = poller.__________()\n\ncontent = result.contents[0]\ntotal = content.fields.get(\"TotalAmount\")  # campo objeto: Amount + CurrencyCode\namount = total.value.get(\"Amount\") if total else None\nprint(amount.value if amount else \"não encontrado\")",
+  opts:["result", "status", "done", "wait"], ans:0,
+  why:"A análise é uma operação de longa duração: `begin_analyze` inicia o job e devolve um poller. `poller.result()` espera a conclusão, com o SDK fazendo o polling, e devolve o `AnalysisResult`. O `contents` desse resultado traz o Markdown e os campos. `status()` e `done()` só informam o andamento, e `wait()` espera sem devolver o resultado. No `prebuilt-invoice`, o total fica no campo objeto `TotalAmount`, com os subcampos `Amount` e `CurrencyCode`. (`InvoiceTotal` é o nome do campo no Document Intelligence.) Analisadores de domínio, como o de faturas, exigem que o recurso tenha implantações padrão de um modelo de chat e de um modelo de embeddings. Na API REST, o mesmo fluxo aparece como `202 Accepted` com o cabeçalho `Operation-Location`. O app consulta essa URL até o status ser Succeeded." },
+{ id:"n-b4-2", t:"B4", type:"multi",
+  stem:"Uma empresa quer automatizar o reembolso de despesas a partir de fotos de recibos. Em comparação com usar apenas o analisador OCR/Read, quais DUAS vantagens o analisador de recibos (prebuilt-receipt) do Content Understanding oferece?",
+  opts:["Associa os valores aos campos do esquema pelo significado, mesmo quando o rótulo muda (por exemplo, “Total a pagar” em vez de “Total”) ou quando o valor aparece sem rótulo.", "Devolve os itens comprados como uma lista estruturada, relacionando descrição, quantidade e preço de cada item, em vez de apenas linhas de texto soltas.", "Consegue ler o texto de fotos e de imagens escaneadas, enquanto o analisador OCR/Read só aceita PDFs digitais.", "Dispensa implantações de modelos no recurso, porque a associação dos valores aos campos é feita só com OCR e regras fixas."], ans:[0, 1],
+  why:"O OCR/Read transcreve o texto (palavras, linhas e parágrafos, com confiança e posição), mas não diz qual valor é o total, a data ou o estabelecimento. O analisador de recibos aplica um esquema de forma semântica: associa valores aos campos mesmo quando o rótulo muda ou falta. Ele também entende a relação entre os valores e devolve campos aninhados, como a lista de itens com descrição, quantidade e preço. No portal, esses campos aparecem na aba Fields e no JSON da aba Result. Fotos e imagens escaneadas também são entradas normais para o Read. Diferente do prebuilt-read e do prebuilt-layout, os analisadores que extraem campos precisam de modelos implantados no recurso: um modelo de chat e um de embeddings." }
+];
+
+/* ================= Estado ================= */
+const BY = Object.fromEntries(Q.map(q => [q.id, q]));
+const KEY = "ai901-rodada3-v1";
+const EXAM_MS = 25 * 60 * 1000;
+const LETTERS = "ABCDEF";
+const FILTER_LABEL = { all:"Todas", A:AREAS.A.short, B:AREAS.B.short, open:"Não respondidas", wrong:"Erradas", flag:"Marcadas", retry:"Refazendo erradas" };
+
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function fresh(){ const ids = Q.map(q => q.id); return { v:1, answers:{}, flags:[], order:ids, filter:"all", list:ids.slice(), cur:0, mode:"study", deadline:null, optOrder:{}, view:"q" }; }
+function load(){ try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) return s; } catch(e){} return null; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+
+let S = load() || fresh();
+S.order = (S.order || []).filter(id => BY[id]);
+Q.forEach(q => { if (!S.order.includes(q.id)) S.order.push(q.id); });
+S.list = (S.list || []).filter(id => BY[id]);
+if (!S.list.length) { S.list = S.order.slice(); S.filter = "all"; }
+S.cur = Math.min(Math.max(0, S.cur | 0), S.list.length - 1);
+S.flags = (S.flags || []).filter(id => BY[id]);
+S.answers = S.answers || {}; S.optOrder = S.optOrder || {};
+
+const UI = { notice:null };
+let tick = null;
+
+/* ================= Lógica ================= */
+function optOrder(q){
+  let o = S.optOrder[q.id];
+  if (!o || o.length !== q.opts.length){ o = shuffle(q.opts.map((_, i) => i)); S.optOrder[q.id] = o; }
+  return o;
+}
+function complete(q, a){
+  if (!a) return false;
+  if (q.type === "single") return a.sel.length === 1;
+  if (q.type === "multi") return a.sel.length === q.ans.length;
+  return q.items.every((_, i) => typeof a.sel[i] === "boolean");
+}
+function correct(q, a){
+  if (!a) return false;
+  if (q.type === "single") return a.sel.length === 1 && a.sel[0] === q.ans;
+  if (q.type === "multi"){ const x = a.sel.slice().sort(), y = q.ans.slice().sort(); return x.length === y.length && x.every((v, i) => v === y[i]); }
+  return q.items.every((it, i) => a.sel[i] === it[1]);
+}
+function status(id){
+  const q = BY[id], a = S.answers[id];
+  if (!a) return "none";
+  if (a.checked) return correct(q, a) ? "right" : "wrong";
+  return complete(q, a) ? "answered" : "none";
+}
+function listFor(f){
+  const o = S.order;
+  if (f === "A" || f === "B") return o.filter(id => TOPICS[BY[id].t].area === f);
+  if (f === "wrong") return o.filter(id => status(id) === "wrong");
+  if (f === "flag") return o.filter(id => S.flags.includes(id));
+  if (f === "open") return o.filter(id => { const s = status(id); return s === "none" || s === "answered"; });
+  return o.slice();
+}
+function tally(ids){
+  let right = 0, checked = 0;
+  ids.forEach(id => { const s = status(id); if (s === "right"){ right++; checked++; } else if (s === "wrong") checked++; });
+  return { right, checked, total: ids.length };
+}
+function pct(t){ return t.checked ? Math.round(100 * t.right / t.checked) : null; }
+function level(p){ return p === null ? "" : p >= 80 ? "hi" : p >= 60 ? "mid" : "lo"; }
+
+/* ================= Formatação ================= */
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c])); }
+function fmt(s){ return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>"); }
+function fmtCode(s){ return esc(s).replace(/_{6,}/g, '<span class="blank">______</span>'); }
+function plain(s){ return String(s).replace(/`/g, ""); }
+function mmss(ms){ const t = Math.max(0, Math.ceil(ms / 1000)); return String(Math.floor(t / 60)).padStart(2, "0") + ":" + String(t % 60).padStart(2, "0"); }
+
+/* ================= Render ================= */
+const $ = s => document.querySelector(s);
+
+function render(){
+  const fid = document.activeElement && document.activeElement.id;
+  renderToolbar(); renderNotice(); renderMain(); renderSide();
+  $("#fact-n").textContent = Q.length;
+  if (fid){ const el = document.getElementById(fid); if (el) el.focus({ preventScroll:true }); }
+  save();
+}
+
+function renderToolbar(){
+  if (S.mode === "exam"){
+    $("#toolbar").innerHTML =
+      '<div class="exam-status"><span class="live" aria-hidden="true"></span>Modo prova em andamento · a correção aparece quando você entregar</div>' +
+      '<div class="tools"><button class="btn primary" id="tb-submit" data-act="submit">Entregar prova</button></div>';
+    return;
+  }
+  const chips = ["all","A","B","open","wrong","flag"].map(f => {
+    const n = listFor(f).length;
+    const pressed = S.filter === f;
+    const dis = n === 0 && f !== "all";
+    return `<button class="chip" id="f-${f}" data-filter="${f}" aria-pressed="${pressed}" ${dis ? "disabled" : ""}>${FILTER_LABEL[f]}<span class="n">${n}</span></button>`;
+  }).join("");
+  $("#toolbar").innerHTML =
+    `<div class="filters" role="group" aria-label="Filtrar questões">${chips}</div>` +
+    '<div class="tools">' +
+      '<button class="btn" id="tb-shuffle" data-act="shuffle">Embaralhar</button>' +
+      '<button class="btn" id="tb-reset" data-act="reset">Recomeçar</button>' +
+      '<button class="btn primary" id="tb-exam" data-act="exam">Modo prova · 25 min</button>' +
+    '</div>';
+}
+
+function renderNotice(){
+  const n = UI.notice, box = $("#notice");
+  if (!n){ box.innerHTML = ""; return; }
+  let msg = "", btns = "";
+  if (n === "exam"){
+    msg = `<p><b>Modo prova:</b> as ${Q.length} questões em ordem aleatória, cronômetro de 25 minutos e correção só no final. Suas respostas atuais serão apagadas.</p>`;
+    btns = '<button class="btn" id="nt-cancel" data-act="cancel">Cancelar</button><button class="btn primary" id="nt-go" data-act="exam-yes">Começar prova</button>';
+  } else if (n === "reset"){
+    msg = "<p><b>Recomeçar?</b> Isso apaga todas as respostas e marcações deste navegador.</p>";
+    btns = '<button class="btn" id="nt-cancel" data-act="cancel">Cancelar</button><button class="btn danger" id="nt-go" data-act="reset-yes">Apagar respostas</button>';
+  } else if (n === "submit"){
+    const open = S.order.filter(id => status(id) !== "answered").length;
+    msg = `<p><b>Entregar a prova agora?</b> ${open ? `${open} ${open === 1 ? "questão está sem resposta completa e vai contar" : "questões estão sem resposta completa e vão contar"} como erro.` : "Todas as questões foram respondidas."}</p>`;
+    btns = '<button class="btn" id="nt-cancel" data-act="cancel">Continuar prova</button><button class="btn primary" id="nt-go" data-act="submit-yes">Entregar</button>';
+  }
+  box.innerHTML = `<div class="notice" role="alertdialog" aria-live="polite">${msg}<div class="tools">${btns}</div></div>`;
+}
+
+function renderMain(){
+  if (S.view === "results"){ renderResults(); return; }
+  const id = S.list[S.cur], q = BY[id], a = S.answers[id] || null;
+  const exam = S.mode === "exam";
+  const reveal = !!(a && a.checked);
+  const topic = TOPICS[q.t];
+  let h = '<article class="card qcard">';
+  h += '<div class="qhead">';
+  h += `<div class="qnum">Questão <b>${S.cur + 1}</b> de ${S.list.length}${S.filter !== "all" && !exam ? " · " + esc(FILTER_LABEL[S.filter]) : ""}</div>`;
+  if (!exam) h += `<span class="tag">${esc(AREAS[topic.area].short)} › ${esc(topic.name)}</span>`;
+  h += "</div>";
+  h += `<p class="stem">${fmt(q.stem)}</p>`;
+  if (q.type === "multi") h += `<span class="pick">Escolha ${q.ans.length}</span>`;
+  if (q.code) h += `<div class="codewrap"><pre class="code">${fmtCode(q.code)}</pre></div>`;
+
+  if (q.type === "yesno"){
+    h += '<div class="yn" role="group" aria-label="Afirmações"><div class="yn-head"><span>Afirmação</span><span class="cols"><span>Sim</span><span>Não</span></span></div>';
+    q.items.forEach((it, i) => {
+      const v = a && typeof a.sel[i] === "boolean" ? a.sel[i] : null;
+      let rc = "yn-row";
+      if (reveal) rc += (v === it[1] ? " right" : " wrong") + " locked";
+      h += `<div class="${rc}"><div>${fmt(it[0])}`;
+      if (reveal) h += `<span class="yn-note">${v === it[1] ? "Correto" : "Resposta certa: " + (it[1] ? "Sim" : "Não")}</span>`;
+      h += '</div><div class="yn-ch">';
+      [[true, "Sim", "s"], [false, "Não", "n"]].forEach(([val, lab, k]) => {
+        let lc = v === val ? "sel" : "";
+        if (reveal && it[1] === val && v !== val) lc += " should";
+        const iid = `yn-${id}-${i}-${k}`;
+        h += `<label class="${lc}" for="${iid}"><input type="radio" id="${iid}" name="yn-${id}-${i}" data-yn="${i}" data-val="${val ? 1 : 0}" ${v === val ? "checked" : ""} ${reveal ? "disabled" : ""}>${lab}</label>`;
+      });
+      h += "</div></div>";
+    });
+    h += "</div>";
+  } else {
+    const ord = optOrder(q), sel = a ? a.sel : [];
+    const isAns = oi => q.type === "single" ? oi === q.ans : q.ans.includes(oi);
+    h += `<div class="opts" role="${q.type === "single" ? "radiogroup" : "group"}" aria-label="Alternativas">`;
+    ord.forEach((oi, pos) => {
+      const s = sel.includes(oi);
+      let c = "opt" + (s ? " sel" : "");
+      let mark = "";
+      if (reveal){ c += " locked"; if (isAns(oi)){ c += " right"; mark = "Correta"; } else if (s){ c += " wrong"; mark = "Sua escolha"; } }
+      const iid = `o-${id}-${oi}`;
+      h += `<label class="${c}" for="${iid}"><input type="${q.type === "single" ? "radio" : "checkbox"}" name="q-${id}" id="${iid}" data-opt="${oi}" ${s ? "checked" : ""} ${reveal ? "disabled" : ""}><span class="bub">${LETTERS[pos]}</span><span class="txt">${fmt(q.opts[oi])}</span><span class="mark">${mark}</span></label>`;
+    });
+    h += "</div>";
+  }
+
+  if (reveal){
+    const ok = correct(q, a);
+    const empty = q.type === "yesno" ? !a.sel.some(v => typeof v === "boolean") : !a.sel.length;
+    let extra = "";
+    if (q.type === "yesno" && !empty){ const n = q.items.filter((it, i) => a.sel[i] === it[1]).length; extra = ` <span>· ${n} de ${q.items.length} afirmações certas</span>`; }
+    const title = ok ? "Resposta correta" : empty ? "Sem resposta" : "Resposta incorreta";
+    h += `<div class="fb ${ok ? "ok" : "bad"}" role="status"><h3>${ok ? "✓" : "✕"} ${title}${extra}</h3><p>${fmt(q.why)}</p></div>`;
+  }
+
+  const flagged = S.flags.includes(id);
+  const last = S.cur === S.list.length - 1;
+  h += '<div class="actions"><div>';
+  h += `<button class="btn" id="ac-prev" data-act="prev" ${S.cur === 0 ? "disabled" : ""}>← Anterior</button>`;
+  h += `<button class="btn ${flagged ? "flagged" : ""}" id="ac-flag" data-act="flag" aria-pressed="${flagged}">${flagged ? "Marcada para revisão" : "Marcar para revisão"}</button>`;
+  h += "</div><div>";
+  if (exam){
+    h += `<button class="btn primary" id="btn-primary" data-act="next" ${last ? "disabled" : ""}>Próxima →</button>`;
+  } else if (!reveal){
+    h += `<button class="btn primary" id="btn-primary" data-act="confirm" ${complete(q, a) ? "" : "disabled"}>Confirmar resposta</button>`;
+  } else {
+    h += last
+      ? '<button class="btn primary" id="btn-primary" data-act="results">Ver resultado</button>'
+      : '<button class="btn primary" id="btn-primary" data-act="next">Próxima →</button>';
+  }
+  h += "</div></div>";
+  h += `<p class="kbd-hint">Atalhos: <kbd>A</kbd>–<kbd>D</kbd> escolhem · <kbd>Enter</kbd> ${exam ? "avança" : "confirma e avança"} · <kbd>←</kbd> <kbd>→</kbd> navegam</p>`;
+  h += "</article>";
+  $("#main").innerHTML = h;
+}
+
+function topicRows(){
+  return Object.keys(AREAS).map(ak => {
+    const ids = S.order.filter(id => TOPICS[BY[id].t].area === ak);
+    const at = tally(ids), ap = pct(at);
+    let h = `<div class="area"><div class="area-h"><span>${esc(AREAS[ak].name)}</span><small>${AREAS[ak].weight} da prova${ap === null ? "" : " · " + ap + "%"}</small></div>`;
+    Object.keys(TOPICS).filter(t => TOPICS[t].area === ak).forEach(t => {
+      const tt = tally(S.order.filter(id => BY[id].t === t)), p = pct(tt);
+      h += `<div class="trow"><span>${esc(TOPICS[t].name)}</span><span class="bar"><i class="${level(p)}" style="width:${p === null ? 0 : Math.max(p, 4)}%"></i></span><span class="v">${tt.right}/${tt.total}</span></div>`;
+    });
+    return h + "</div>";
+  }).join("");
+}
+
+function renderSide(){
+  const exam = S.mode === "exam";
+  let h = "";
+  if (exam){
+    const answered = S.order.filter(id => status(id) === "answered").length;
+    const left = S.deadline - Date.now();
+    h += '<section class="card panel" aria-label="Cronômetro">';
+    h += `<h2>Tempo restante <small>${answered}/${Q.length} respondidas</small></h2>`;
+    h += `<div class="timer ${left < 5 * 60 * 1000 ? "low" : ""}" id="timer" role="timer">${mmss(left)}</div>`;
+    h += '<p class="note">Você pode voltar a qualquer questão pelo cartão-resposta. Ao zerar o tempo, a prova é entregue automaticamente.</p>';
+    h += '<button class="btn primary" id="sd-submit" data-act="submit">Entregar prova</button>';
+    h += "</section>";
+  }
+  const done = S.list.filter(id => status(id) !== "none").length;
+  h += '<section class="card panel" aria-label="Cartão-resposta">';
+  h += `<h2>Cartão-resposta <small>${done}/${S.list.length}</small></h2><div class="sheet">`;
+  const lab = { none:"sem resposta", answered:"respondida", right:"correta", wrong:"errada" };
+  S.list.forEach((id, i) => {
+    const st = status(id), fl = S.flags.includes(id);
+    const cur = S.view === "q" && i === S.cur;
+    h += `<button class="dot ${st} ${cur ? "cur" : ""} ${fl ? "flag" : ""}" id="dot-${i}" data-go="${i}" aria-label="Questão ${i + 1}, ${lab[st]}${fl ? ", marcada" : ""}"${cur ? ' aria-current="true"' : ""}>${i + 1}</button>`;
+  });
+  h += "</div><div class=\"legend\">";
+  h += exam ? '<span><i style="background:var(--ink-2)"></i>Respondida</span>' : '<span><i style="background:var(--ok)"></i>Correta</span><span><i style="background:var(--bad)"></i>Errada</span>';
+  h += '<span><i style="background:var(--flag)"></i>Marcada</span></div></section>';
+
+  if (!exam){
+    const t = tally(S.order), p = pct(t);
+    h += '<section class="card panel" aria-label="Desempenho">';
+    h += `<h2>Desempenho <small>${t.checked}/${Q.length} corrigidas</small></h2>`;
+    h += `<div class="score"><b>${p === null ? "—" : p + "%"}</b><span>${t.checked ? `${t.right} de ${t.checked} corretas` : "Confirme uma resposta para começar"}</span></div>`;
+    h += topicRows();
+    h += '<p class="note">A prova exige 700 numa escala de 1 a 1000, que não equivale exatamente a 70% de acertos. Para treinar, mire em 80% ou mais aqui.</p>';
+    h += '<button class="btn" id="sd-results" data-act="results">Ver resultado completo</button>';
+    h += "</section>";
+  }
+  $("#side").innerHTML = h;
+}
+
+function renderResults(){
+  const t = tally(S.order), p = pct(t);
+  const unanswered = Q.length - t.checked;
+  let title, text;
+  if (p === null){ title = "Nenhuma questão corrigida ainda"; text = "Responda e confirme algumas questões para ver seu desempenho por tópico."; }
+  else if (p >= 80){ title = "Boa margem para a prova"; text = "Você está acima da faixa recomendada. Revise as questões erradas e qualquer tópico abaixo de 80% antes de marcar o exame."; }
+  else if (p >= 65){ title = "Perto da linha"; text = "Concentre a revisão nos tópicos em amarelo e vermelho e refaça as erradas. Os módulos do Microsoft Learn de cada tópico são o melhor próximo passo."; }
+  else { title = "Hora de reforçar a base"; text = "Estude os módulos do Microsoft Learn dos tópicos em vermelho e depois refaça as questões erradas. O peso maior da prova (55–60%) está na implementação com Foundry."; }
+
+  let h = '<section class="card res" aria-label="Resultado">';
+  h += '<div class="eyebrow">Resultado</div>';
+  h += `<h2>${esc(title)}</h2>`;
+  h += `<div class="big"><b>${p === null ? "—" : p + "%"}</b><span>${t.right} de ${t.checked} corretas${unanswered ? ` · ${unanswered} ainda não ${unanswered === 1 ? "corrigida" : "corrigidas"}` : ""}</span></div>`;
+  h += `<p class="verdict">${esc(text)}</p>`;
+
+  h += '<div class="tablewrap"><table class="topics"><thead><tr><th>Tópico</th><th>Acertos</th><th>%</th><th></th></tr></thead><tbody>';
+  Object.keys(AREAS).forEach(ak => {
+    const at = tally(S.order.filter(id => TOPICS[BY[id].t].area === ak)), ap = pct(at);
+    h += `<tr class="arearow"><td>${esc(AREAS[ak].name)} <span style="font-weight:400;color:var(--muted)">(${AREAS[ak].weight})</span></td><td class="num">${at.right}/${at.checked}</td><td class="num">${ap === null ? "—" : ap + "%"}</td><td></td></tr>`;
+    Object.keys(TOPICS).filter(k => TOPICS[k].area === ak).forEach(k => {
+      const tt = tally(S.order.filter(id => BY[id].t === k)), tp = pct(tt);
+      h += `<tr><td>${esc(TOPICS[k].name)}</td><td class="num">${tt.right}/${tt.checked}</td><td class="num">${tp === null ? "—" : tp + "%"}</td><td><span class="bar"><i class="${level(tp)}" style="width:${tp === null ? 0 : Math.max(tp, 4)}%"></i></span></td></tr>`;
+    });
+  });
+  h += "</tbody></table></div>";
+
+  const wrong = S.order.filter(id => status(id) === "wrong");
+  h += `<h3>Questões para revisar${wrong.length ? ` (${wrong.length})` : ""}</h3>`;
+  if (!wrong.length) h += '<p class="empty">Nenhuma questão errada até agora.</p>';
+  else {
+    h += '<ol class="missed">';
+    wrong.forEach(id => {
+      const q = BY[id]; let s = plain(q.stem); if (s.length > 120) s = s.slice(0, 117).trimEnd() + "…";
+      h += `<li><button id="jm-${id}" data-jump="${id}"><span class="x" aria-hidden="true">✕</span><span>${esc(s)}</span><span class="t">${esc(TOPICS[q.t].name)}</span></button></li>`;
+    });
+    h += "</ol>";
+  }
+  h += '<div class="actions"><div>';
+  h += '<button class="btn" id="rs-back" data-act="back">← Voltar às questões</button>';
+  h += "</div><div>";
+  h += `<button class="btn primary" id="rs-retry" data-act="retry-wrong" ${wrong.length ? "" : "disabled"}>Refazer as erradas</button>`;
+  h += "</div></div></section>";
+  $("#main").innerHTML = h;
+}
+
+/* ================= Ações ================= */
+function scrollToMain(){
+  const m = $("#main"); const r = m.getBoundingClientRect();
+  if (r.top < 0 || r.top > window.innerHeight * 0.6){
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    m.scrollIntoView({ block:"start", behavior: reduce ? "auto" : "smooth" });
+  }
+}
+function go(i, scroll){
+  if (i < 0 || i >= S.list.length) return;
+  S.cur = i; S.view = "q"; render();
+  if (scroll) scrollToMain();
+}
+function setFilter(f){
+  const l = listFor(f); if (!l.length) return;
+  S.filter = f; S.list = l; S.cur = 0; S.view = "q"; UI.notice = null; render();
+}
+function choose(q, oi, checked){
+  const id = q.id;
+  const a = S.answers[id] || (S.answers[id] = { sel:[], checked:false });
+  if (a.checked) return;
+  if (q.type === "single") a.sel = [oi];
+  else {
+    const on = checked === undefined ? !a.sel.includes(oi) : checked;
+    a.sel = on ? Array.from(new Set(a.sel.concat(oi))) : a.sel.filter(x => x !== oi);
+  }
+  render();
+}
+function chooseYN(q, i, val){
+  const id = q.id;
+  const a = S.answers[id] || (S.answers[id] = { sel:q.items.map(() => null), checked:false });
+  if (a.checked) return;
+  a.sel[i] = val; render();
+}
+function primary(){
+  const q = BY[S.list[S.cur]], a = S.answers[q.id];
+  if (S.mode === "exam"){ if (S.cur < S.list.length - 1) go(S.cur + 1); return; }
+  if (!a || !a.checked){ if (complete(q, a)){ a.checked = true; render(); } return; }
+  if (S.cur < S.list.length - 1) go(S.cur + 1); else { S.view = "results"; render(); scrollToMain(); }
+}
+function startExam(){
+  const ids = shuffle(Q.map(q => q.id));
+  S = fresh(); S.mode = "exam"; S.order = ids; S.list = ids.slice(); S.deadline = Date.now() + EXAM_MS;
+  UI.notice = null; render(); startTick(); scrollToMain();
+}
+function submitExam(){
+  Q.forEach(q => {
+    const a = S.answers[q.id];
+    if (!a) S.answers[q.id] = { sel: q.type === "yesno" ? q.items.map(() => null) : [], checked:true };
+    else a.checked = true;
+  });
+  S.mode = "study"; S.deadline = null; S.filter = "all"; S.list = S.order.slice(); S.cur = 0; S.view = "results";
+  UI.notice = null; stopTick(); render(); scrollToMain();
+}
+function startTick(){
+  stopTick();
+  tick = setInterval(() => {
+    if (S.mode !== "exam"){ stopTick(); return; }
+    const left = S.deadline - Date.now();
+    if (left <= 0){ submitExam(); return; }
+    const el = document.getElementById("timer");
+    if (el){ el.textContent = mmss(left); el.classList.toggle("low", left < 5 * 60 * 1000); }
+  }, 1000);
+}
+function stopTick(){ if (tick){ clearInterval(tick); tick = null; } }
+
+function act(k){
+  const id = S.list[S.cur];
+  switch (k){
+    case "prev": go(S.cur - 1); break;
+    case "next": go(S.cur + 1); break;
+    case "confirm": primary(); break;
+    case "flag": {
+      const i = S.flags.indexOf(id);
+      if (i >= 0) S.flags.splice(i, 1); else S.flags.push(id);
+      render(); break;
+    }
+    case "shuffle":
+      S.order = shuffle(S.order);
+      S.list = S.filter === "retry" ? shuffle(S.list) : listFor(S.filter);
+      if (!S.list.length){ S.filter = "all"; S.list = S.order.slice(); }
+      S.cur = 0; S.view = "q"; render(); break;
+    case "reset": UI.notice = "reset"; render(); focusNotice(); break;
+    case "reset-yes": S = fresh(); UI.notice = null; render(); break;
+    case "exam": UI.notice = "exam"; render(); focusNotice(); break;
+    case "exam-yes": startExam(); break;
+    case "submit": UI.notice = "submit"; render(); focusNotice(); break;
+    case "submit-yes": submitExam(); break;
+    case "cancel": UI.notice = null; render(); break;
+    case "results": S.view = "results"; render(); scrollToMain(); break;
+    case "back": S.view = "q"; render(); break;
+    case "retry-wrong": {
+      const wrong = S.order.filter(x => status(x) === "wrong");
+      if (!wrong.length) break;
+      wrong.forEach(x => { delete S.answers[x]; delete S.optOrder[x]; });
+      S.filter = "retry"; S.list = wrong; S.cur = 0; S.view = "q"; render(); scrollToMain(); break;
+    }
+  }
+}
+function focusNotice(){ const b = document.getElementById("nt-go"); if (b) b.focus(); }
+function jump(id){
+  S.filter = "all"; S.list = S.order.slice(); S.cur = Math.max(0, S.list.indexOf(id)); S.view = "q"; render(); scrollToMain();
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act],[data-go],[data-filter],[data-jump]");
+  if (!b || b.disabled) return;
+  if (b.dataset.filter) setFilter(b.dataset.filter);
+  else if (b.dataset.go !== undefined) go(+b.dataset.go, true);
+  else if (b.dataset.jump) jump(b.dataset.jump);
+  else act(b.dataset.act);
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (S.view !== "q") return;
+  const q = BY[S.list[S.cur]];
+  if (t.dataset.opt !== undefined) choose(q, +t.dataset.opt, q.type === "multi" ? t.checked : undefined);
+  else if (t.dataset.yn !== undefined) chooseYN(q, +t.dataset.yn, t.dataset.val === "1");
+});
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || S.view !== "q") return;
+  const tag = e.target.tagName, k = e.key.toLowerCase();
+  const q = BY[S.list[S.cur]];
+  if (/^[a-f]$/.test(k) || /^[1-6]$/.test(k)){
+    if (q.type === "yesno") return;
+    const pos = /\d/.test(k) ? +k - 1 : k.charCodeAt(0) - 97;
+    const ord = optOrder(q); if (pos >= ord.length) return;
+    e.preventDefault(); choose(q, ord[pos]);
+  } else if (k === "enter" && tag !== "BUTTON" && tag !== "A"){
+    e.preventDefault(); primary();
+  } else if ((k === "arrowright" || k === "arrowleft") && tag !== "INPUT"){
+    e.preventDefault(); go(S.cur + (k === "arrowright" ? 1 : -1));
+  }
+});
+
+if (S.mode === "exam"){
+  if (!S.deadline || S.deadline <= Date.now()) submitExam();
+  else { render(); startTick(); }
+} else render();
+})();
+</script>
+
+</body>
+</html>

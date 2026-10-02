@@ -1,6 +1,8 @@
-# ITIL Study — Simulados
+# Study — ITIL v5 e AI-901
 
-Painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
+Após o login, o menu principal permite escolher **ITIL v5** ou **AI-901**. Cada curso tem seu próprio menu, e os botões do cabeçalho permitem voltar ao curso ou trocar de curso. As credenciais e o progresso ITIL já salvo continuam válidos.
+
+A área **ITIL v5** mantém o painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
 
 O menu **Vídeos** reúne 32 conteúdos em uma biblioteca com pastas expansíveis, navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
 
@@ -20,6 +22,31 @@ Se o usuário sair antes de finalizar e tiver respondido ao menos uma questão, 
 O acesso possui autenticação no navegador, CAPTCHA matemático e bloqueio de 30 segundos depois de três tentativas consecutivas inválidas.
 
 > **Limitação de segurança:** por ser hospedado apenas como arquivos estáticos no GitHub Pages, o login funciona como controle de acesso casual. Ele não substitui autenticação no servidor e não deve proteger dados sensíveis. A senha não é armazenada em texto puro, mas o navegador precisa receber todo o código e conteúdo da aplicação.
+
+
+## AI-901
+
+A área **AI-901** reúne os três simulados fornecidos na pasta `Google AI`, com **101 questões** organizadas em sete tópicos: IA responsável; modelos e configuração; cargas de trabalho de IA; apps generativos e agentes; texto e fala; visão e geração de imagens; extração de informações.
+
+| Simulado | Arquivo de origem | Questões |
+| --- | --- | ---: |
+| Simulado 1 | `1-simulado-ai901.html` | 54 |
+| Simulado 2 — Na prática | `2-ai901-na-pratica.html` | 23 |
+| Simulado 3 — Rodada 3 | `3-ai901-rodada-3.html` | 24 |
+
+O conteúdo foi importado em `ai901.js`, mantendo os arquivos originais. Foram preservados os enunciados, as alternativas, os gabaritos, as explicações e os **16 exemplos de código**.
+
+As correções exibidas usam `ai901-explanations.js`: **394 comentários individuais** para as alternativas e afirmações das 101 questões. Cada comentário explica o conceito e por que ele atende ou não ao enunciado. As fontes primárias, principalmente a documentação Microsoft Learn, aparecem em **Fontes e documentação** abaixo da correção. Questões Sim/Não também recebem uma justificativa por afirmação, e a revisão final apresenta todas as alternativas.
+
+- 82 questões de alternativa única.
+- 9 questões de múltipla seleção: selecione a quantidade solicitada antes de confirmar. A questão conta como correta quando todas as alternativas corretas forem selecionadas.
+- 10 questões de Sim/Não, com três afirmações cada: responda todas antes de confirmar. A questão conta como correta quando as três respostas estiverem corretas.
+
+Os simulados utilizam o mesmo painel de questões, embaralhamento, feedback, progresso salvo, retomada e revisão final do ITIL. Cada um salva seu próprio progresso, e o resultado também mostra o desempenho por tópico. A meta de **80%** é uma referência de estudo do material fornecido, não uma conversão da pontuação oficial do exame.
+
+O progresso dos simulados AI-901 usa as posições 3, 4 e 5 no banco; as posições e chaves existentes do ITIL (0, 1 e 2) foram mantidas. Os comentários foram revisados em 2 de outubro de 2026, incluindo distinções entre APIs, autenticação, modelos e recursos. Parâmetros e modalidades dependem do modelo e da versão: os comentários indicam essas condições quando relevantes. O embaralhamento mantém cada explicação vinculada à alternativa original.
+
+Os testes e seus resultados estão documentados em [VALIDATION.md](VALIDATION.md). O teste reutilizável do motor pode ser executado com `node tests/quiz.test.mjs`.
 
 ## Publicar no GitHub Pages
 

@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>AI-901 na Prática</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --surface-2:#E7EDEB; --ink:#14201D; --ink-2:#34423E; --muted:#5C6B66; --line:#D3DCD9;
+  --accent:#0B6B66; --accent-ink:#FFFFFF; --accent-soft:#D5ECE8;
+  --ok:#1D7443; --ok-soft:#DDF0E3; --bad:#B3261E; --bad-soft:#FADFDB; --flag:#9A6500; --flag-soft:#FBEDC8;
+  --code-bg:#EDF2F0; --shadow:0 1px 2px rgba(20,32,29,.05),0 10px 28px -16px rgba(20,32,29,.18);
+  --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Public Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1413; --surface:#151E1C; --surface-2:#1D2927; --ink:#E3EBE8; --ink-2:#C3D0CC; --muted:#8FA09B; --line:#2A3835;
+    --accent:#4DBDB2; --accent-ink:#06201D; --accent-soft:#163A36;
+    --ok:#5CC98A; --ok-soft:#15301F; --bad:#F08A7E; --bad-soft:#3A1D1A; --flag:#E4B43C; --flag-soft:#372C10;
+    --code-bg:#101816; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1413; --surface:#151E1C; --surface-2:#1D2927; --ink:#E3EBE8; --ink-2:#C3D0CC; --muted:#8FA09B; --line:#2A3835;
+  --accent:#4DBDB2; --accent-ink:#06201D; --accent-soft:#163A36;
+  --ok:#5CC98A; --ok-soft:#15301F; --bad:#F08A7E; --bad-soft:#3A1D1A; --flag:#E4B43C; --flag-soft:#372C10;
+  --code-bg:#101816; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--f-body);-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+code{font:500 .88em/1 var(--f-mono);background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:36px 72px}
+@media (max-width:560px){.wrap{padding-inline:16px;padding-block:22px 56px}}
+
+/* Masthead */
+.masthead{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+.eyebrow{font:600 11px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(32px,5vw,46px);line-height:1.02;letter-spacing:-.025em;margin:8px 0 10px;text-wrap:balance}
+.lead{color:var(--muted);max-width:62ch;margin:0}
+.facts{display:flex;gap:28px;flex-wrap:wrap;margin:0}
+.facts div{display:flex;flex-direction:column-reverse;gap:4px}
+.facts dt{font-size:12px;color:var(--muted)}
+.facts dd{margin:0;font:600 22px/1 var(--f-mono);font-variant-numeric:tabular-nums}
+.facts dd small{font-size:12px;color:var(--muted);font-weight:400}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-block:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:24px}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.chip{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font:500 13px/1 var(--f-body);padding:8px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+.chip:hover:not(:disabled){border-color:var(--muted)}
+.chip .n{font:600 11px/1 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] .n{color:inherit;opacity:.7}
+.chip:disabled{opacity:.45;cursor:not-allowed}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 13px/1 var(--f-body);padding:10px 14px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn:hover:not(:disabled){border-color:var(--muted)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover:not(:disabled){filter:brightness(1.08)}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.btn.flagged{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+.exam-status{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink-2)}
+.live{width:8px;height:8px;border-radius:50%;background:var(--bad);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+.notice{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:-8px 0 24px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
+.notice p{margin:0;max-width:72ch}
+.notice .tools{flex-shrink:0}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
+@media (max-width:920px){.layout{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+main{scroll-margin-top:16px;min-width:0}
+
+/* Question */
+.qcard{padding:28px 32px 24px}
+@media (max-width:560px){.qcard{padding:20px 16px 18px}}
+.qhead{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.qnum{font:600 12px/1 var(--f-mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-variant-numeric:tabular-nums}
+.qnum b{color:var(--ink);font-size:15px}
+.tag{font:500 12px/1.2 var(--f-body);padding:6px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.stem{font-size:17px;line-height:1.6;margin:0 0 16px;max-width:70ch;text-wrap:pretty}
+.pick{display:inline-block;font:600 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--flag);background:var(--flag-soft);padding:6px 9px;border-radius:6px;margin-bottom:14px}
+.codewrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:10px;background:var(--code-bg)}
+pre.code{margin:0;padding:14px 16px;font:400 13px/1.65 var(--f-mono);color:var(--ink-2);width:max-content;min-width:100%}
+.blank{background:var(--flag-soft);color:var(--flag);border-radius:4px;padding:0 4px;font-weight:600}
+
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{position:relative;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:var(--surface);transition:border-color .15s,background-color .15s}
+.opt:hover{border-color:var(--muted)}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.opt:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.bub{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font:600 12px/1 var(--f-mono);color:var(--muted);transition:background-color .15s,border-color .15s,color .15s}
+.opt .txt{padding-top:3px}
+.opt .mark{font:600 10.5px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding-top:9px;white-space:nowrap}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .bub{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opt.locked{cursor:default}
+.opt.locked:hover{border-color:var(--line)}
+.opt.right,.opt.right:hover{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .bub{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.opt.right .mark{color:var(--ok)}
+.opt.wrong,.opt.wrong:hover{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .bub{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.opt.wrong .mark{color:var(--bad)}
+
+.yn{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.yn-head,.yn-row{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:16px;align-items:center;padding:12px 14px}
+.yn-head{background:var(--surface-2);font:600 10.5px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.yn-head .cols{display:grid;grid-template-columns:1fr 1fr;gap:6px;text-align:center}
+.yn-row + .yn-row{border-top:1px solid var(--line)}
+.yn-row.right{background:var(--ok-soft)}
+.yn-row.wrong{background:var(--bad-soft)}
+.yn-ch{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.yn-ch label{position:relative;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:9px 0;cursor:pointer;font:600 13px/1 var(--f-body);color:var(--ink-2)}
+.yn-ch label:hover{border-color:var(--muted)}
+.yn-ch input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.yn-ch label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.yn-ch label.sel{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.yn-row.locked label{cursor:default}
+.yn-row.right label.sel{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.yn-row.wrong label.sel{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.yn-ch label.should{border:2px dashed var(--ok);color:var(--ok)}
+.yn-note{display:block;margin-top:6px;font:600 10.5px/1.3 var(--f-mono);letter-spacing:.05em;text-transform:uppercase}
+.yn-row.right .yn-note{color:var(--ok)} .yn-row.wrong .yn-note{color:var(--bad)}
+@media (max-width:540px){.yn-head{display:none}.yn-row{grid-template-columns:minmax(0,1fr);gap:10px}}
+
+.fb{margin-top:18px;border-radius:12px;padding:16px 18px;background:var(--surface-2)}
+.fb.ok{background:var(--ok-soft)} .fb.bad{background:var(--bad-soft)}
+.fb h3{margin:0 0 6px;font:700 15px/1.35 var(--f-body)}
+.fb.ok h3{color:var(--ok)} .fb.bad h3{color:var(--bad)}
+.fb h3 span{font-weight:500;color:var(--ink-2)}
+.fb p{margin:0;max-width:72ch;color:var(--ink-2)}
+
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+.actions > div{display:flex;gap:8px;flex-wrap:wrap}
+.kbd-hint{font-size:12px;color:var(--muted);margin:14px 0 0}
+kbd{font:600 10.5px/1 var(--f-mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:2px 5px;background:var(--surface);color:var(--ink-2)}
+@media (hover:none){.kbd-hint{display:none}}
+
+/* Side */
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:920px){.side{position:static}}
+.panel{padding:18px}
+.panel h2{font:700 13px/1.2 var(--f-body);margin:0 0 14px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.panel h2 small{font:500 12px/1 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.sheet{display:grid;grid-template-columns:repeat(auto-fill,minmax(32px,1fr));gap:7px}
+.dot{position:relative;appearance:none;aspect-ratio:1;width:100%;max-width:40px;justify-self:center;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font:600 11px/1 var(--f-mono);color:var(--muted);cursor:pointer;display:grid;place-items:center;padding:0;font-variant-numeric:tabular-nums}
+.dot:hover{border-color:var(--muted)}
+.dot.answered{background:var(--ink-2);border-color:var(--ink-2);color:var(--surface)}
+.dot.right{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.dot.wrong{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.dot.cur{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--accent)}
+.dot.flag::after{content:"";position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--flag);border:2px solid var(--surface)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+.score{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.score b{font:700 42px/1 var(--f-display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.score span{color:var(--muted);font-size:13px}
+.note{font-size:12px;line-height:1.5;color:var(--muted);margin:10px 0 0}
+.area{margin-top:18px}
+.area-h{display:flex;justify-content:space-between;gap:8px;font:600 12.5px/1.3 var(--f-body);margin-bottom:6px}
+.area-h small{font:500 11px/1.3 var(--f-mono);color:var(--muted);white-space:nowrap}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) 60px 38px;gap:10px;align-items:center;font-size:12.5px;color:var(--ink-2);padding-block:4px}
+.bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:3px;background:var(--muted)}
+.bar i.hi{background:var(--ok)} .bar i.mid{background:var(--flag)} .bar i.lo{background:var(--bad)}
+.v{font:600 11px/1 var(--f-mono);text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.panel .btn{width:100%;justify-content:center;margin-top:16px}
+.timer{font:600 38px/1 var(--f-mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:2px 0 6px}
+.timer.low{color:var(--bad)}
+
+/* Results */
+.res{padding:30px 32px}
+@media (max-width:560px){.res{padding:22px 16px}}
+.res h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin:8px 0 0;text-wrap:balance}
+.big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:18px 0 6px}
+.big b{font:700 68px/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.big span{color:var(--muted)}
+.res p.verdict{margin:0;max-width:66ch;color:var(--ink-2)}
+.tablewrap{overflow-x:auto;margin-top:24px}
+table.topics{width:100%;border-collapse:collapse;font-size:14px;min-width:460px}
+table.topics th{font:600 10.5px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 10px 10px 0;border-bottom:1px solid var(--line)}
+table.topics td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+table.topics td.num{font:600 13px/1 var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.topics td .bar{width:120px}
+table.topics tr.arearow td{font-weight:700;padding-top:18px;border-bottom:0;color:var(--ink)}
+.res h3{font:700 15px/1.3 var(--f-body);margin:28px 0 10px}
+.missed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.missed button{appearance:none;width:100%;text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--ink);font:400 14px/1.45 var(--f-body)}
+.missed button:hover{border-color:var(--muted)}
+.missed .x{width:22px;height:22px;border-radius:50%;background:var(--bad);color:var(--surface);display:grid;place-items:center;font:700 11px/1 var(--f-mono)}
+.missed .t{font:500 11px/1.2 var(--f-mono);color:var(--muted)}
+@media (max-width:540px){.missed button{grid-template-columns:auto minmax(0,1fr)}.missed .t{display:none}}
+.empty{color:var(--muted);margin:0}
+
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between}
+footer p{margin:0;max-width:70ch}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+footer a{color:var(--accent)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div>
+      <div class="eyebrow">Microsoft Azure AI Fundamentals · AI-901 · rodada 2</div>
+      <h1>AI-901 na Prática</h1>
+      <p class="lead">Rodada focada nas ferramentas da prova: portal do Foundry, playground, SDK, agentes, Language, Speech, geração de imagem e Content Understanding. Inclui parâmetros e tipos de implantação, seu ponto mais fraco na primeira rodada.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>questões</dt><dd id="fact-n">23</dd></div>
+      <div><dt>tópicos</dt><dd>5</dd></div>
+      <div><dt>nota mínima</dt><dd>700<small>/1000</small></dd></div>
+    </dl>
+  </header>
+
+  <div class="toolbar" id="toolbar"></div>
+  <div id="notice"></div>
+
+  <div class="layout">
+    <main id="main"></main>
+    <aside class="side" id="side"></aside>
+  </div>
+
+  <footer>
+    <p>Questões autorais, escritas a partir do guia de estudos oficial. Elas não reproduzem itens reais da prova. Nomes de produtos no Foundry mudam com frequência, então confira a documentação atual quando algo parecer diferente.</p>
+    <ul>
+      <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901" target="_blank" rel="noopener">Guia de estudos AI-901 (Microsoft Learn)</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-901/" target="_blank" rel="noopener">Página do exame e trilhas de aprendizado</a></li>
+      <li><a href="https://aiskillsnavigator.microsoft.com/credentials/cert-83587e0a0754cfee561ade3e27d9fa1cdaf15ae03be52d2413b2b858d1b4eda4" target="_blank" rel="noopener">Avaliação prática gratuita (AI Skills Navigator)</a></li>
+    </ul>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+const AREAS = {
+  A: { name: "Conceitos e capacidades de IA", short: "Conceitos de IA", weight: "40–45%" },
+  B: { name: "Soluções com Microsoft Foundry", short: "Foundry", weight: "55–60%" }
+};
+const TOPICS = {
+  A1: { area: "A", name: "IA responsável" },
+  A2: { area: "A", name: "Modelos e configuração" },
+  A3: { area: "A", name: "Cargas de trabalho de IA" },
+  B1: { area: "B", name: "Apps generativos e agentes" },
+  B2: { area: "B", name: "Texto e fala" },
+  B3: { area: "B", name: "Visão e geração de imagens" },
+  B4: { area: "B", name: "Extração de informações" }
+};
+
+const Q = [
+/* ---------- A2 · Modelos e configuração, no portal ---------- */
+{ id:"p-a2-1", t:"A2", type:"single",
+  stem:"No portal do Foundry, você vai implantar o gpt-5-mini para um app com tráfego variável. Quer pagar só pelo que usar e ter a maior disponibilidade de cota. Qual tipo de implantação selecionar?",
+  opts:["Global Standard","Provisioned (PTU)","Global Batch","Developer"], ans:0,
+  why:"Global Standard cobra por token (pagamento por uso) e distribui o tráfego pela infraestrutura global da Microsoft, com a maior cota padrão. Provisioned reserva capacidade fixa, Global Batch é assíncrono (até 24h) e Developer serve para avaliar modelos com fine-tuning." },
+{ id:"p-a2-2", t:"A2", type:"multi",
+  stem:"Ao implantar um modelo a partir do catálogo do Foundry, quais DUAS informações você define na própria implantação?",
+  opts:["O nome da implantação","O tipo de implantação (ex.: Global Standard)","A mensagem de sistema do chat","O valor de temperature"], ans:[0,1],
+  why:"Na implantação você escolhe o nome, o tipo (e a cota/limite de tokens por minuto). A mensagem de sistema e a temperature são definidas depois, no playground ou em cada chamada do código." },
+{ id:"p-a2-3", t:"A2", type:"single",
+  stem:"No playground de chat, as respostas do modelo estão sendo cortadas no meio da frase. Qual parâmetro você deve aumentar?",
+  opts:["Max tokens (tamanho máximo da resposta)","Temperature","Top P","Frequency penalty"], ans:0,
+  why:"Max tokens (`max_completion_tokens` na Chat Completions, `max_output_tokens` na Responses API) limita quantos tokens a resposta pode ter. Quando o limite é atingido, o texto para no meio. Temperature e Top P mudam a aleatoriedade, e frequency penalty reduz repetição." },
+{ id:"p-a2-4", t:"A2", type:"single",
+  stem:"Você quer que o modelo pare de gerar texto assim que escrever a sequência \"###\". Qual parâmetro configurar?",
+  opts:["Stop sequences","Max tokens","Presence penalty","Top P"], ans:0,
+  why:"Stop sequences definem uma ou mais sequências que, quando geradas, encerram a resposta. É útil para controlar o formato da saída." },
+{ id:"p-a2-5", t:"A2", type:"single",
+  stem:"As respostas do modelo repetem as mesmas palavras e expressões várias vezes. Qual parâmetro ajuda a reduzir isso?",
+  opts:["Frequency penalty","Stop sequences","Max tokens","O tipo de implantação"], ans:0,
+  why:"Frequency penalty penaliza tokens de acordo com quantas vezes já apareceram, reduzindo repetição. Presence penalty incentiva o modelo a trazer assuntos novos. Modelos de raciocínio, como o `gpt-5-mini`, não aceitam esses parâmetros nem temperature." },
+
+/* ---------- B1 · SDK, playground e agentes ---------- */
+{ id:"p-b1-1", t:"B1", type:"yesno",
+  stem:"Sobre ler a resposta de um modelo no código Python, marque Sim ou Não.",
+  items:[
+    ["Na Chat Completions API, o texto da resposta fica em `response.choices[0].message.content`.", true],
+    ["Na Responses API, `response.output_text` retorna o texto gerado.", true],
+    ["O parâmetro `model` das duas APIs recebe a região do recurso do Azure.", false]
+  ],
+  why:"Chat Completions devolve uma lista de choices, e o texto fica em `choices[0].message.content`. A Responses API, usada pelo SDK do Foundry mais recente, oferece o atalho `output_text`. Nas duas, `model` recebe o nome da implantação." },
+{ id:"p-b1-2", t:"B1", type:"single",
+  stem:"Seu código usa `DefaultAzureCredential()` para se conectar ao projeto do Foundry. O que é necessário para ele funcionar quando você roda o app na sua máquina?",
+  opts:["Estar autenticado na Azure CLI (az login) com uma conta que tenha permissão no projeto","Colar a chave da API diretamente no código","Criar um agente antes de rodar o código","Implantar o modelo como Provisioned"], ans:0,
+  why:"DefaultAzureCredential tenta várias fontes de identidade do Microsoft Entra ID. Na máquina do desenvolvedor, normalmente usa o login da Azure CLI (`az login`). A conta também precisa de uma função (role) com acesso ao projeto." },
+{ id:"p-b1-3", t:"B1", type:"single",
+  stem:"No playground de chat, você chegou a um bom resultado e quer levar essa configuração para um app Python. Qual é o caminho mais rápido?",
+  opts:["Abrir a aba Code do playground (View code no portal clássico), que mostra o código com o endpoint, a implantação e os parâmetros","Exportar o modelo como arquivo e copiá-lo para o app","Criar um novo recurso de Speech","Treinar o modelo com fine-tuning"], ans:0,
+  why:"O playground mostra o código equivalente à sessão (endpoint, nome da implantação, mensagens e parâmetros) em Python e outras linguagens. É o ponto de partida recomendado para o chat client." },
+{ id:"p-b1-4", t:"B1", type:"single",
+  stem:"Você quer que um agente responda sempre em português e recuse assuntos que não sejam de RH. Onde configurar isso no portal do Foundry?",
+  opts:["Nas instruções (instructions) do agente","Na ferramenta Code interpreter","No tipo de implantação do modelo","No nome do agente"], ans:0,
+  why:"As instruções funcionam como a system message do agente: definem objetivo, tom, idioma, limites e regras. Ferramentas dão acesso a dados e ações, mas não definem comportamento." },
+{ id:"p-b1-5", t:"B1", type:"single",
+  stem:"Um agente precisa responder perguntas sobre notícias e cotações do dia. Qual ferramenta adicionar?",
+  opts:["Web search (pesquisa na web com Bing)","File search","Code interpreter","Content Understanding"], ans:0,
+  why:"A ferramenta Web search (baseada no Grounding with Bing Search) traz informações públicas e atuais, com citações. File search consulta apenas documentos enviados, e Code interpreter executa código." },
+{ id:"p-b1-6", t:"B1", type:"single",
+  stem:"Você testou um agente no playground e agora vai criar um app cliente para ele. Quais informações o app precisa?",
+  opts:["O endpoint do projeto, uma credencial e o nome (ou ID) do agente","Somente a chave do recurso de Speech","O arquivo de pesos do modelo","A string de conexão de um banco de dados"], ans:0,
+  why:"O app se conecta ao projeto com o endpoint e uma credencial (como DefaultAzureCredential) e referencia o agente já criado pelo nome ou ID. O modelo, as instruções e as ferramentas continuam configurados no agente." },
+{ id:"p-b1-7", t:"B1", type:"single",
+  stem:"Qual é a sequência correta para um app cliente conversar com um agente que já existe?",
+  opts:["Criar (ou reutilizar) uma conversa, enviar a mensagem do usuário, executar o agente e ler a resposta","Treinar o agente, implantar o agente e chamar o endpoint de embeddings","Criar um novo agente a cada mensagem e ler a resposta","Enviar a mensagem para o playground e copiar a resposta"], ans:0,
+  why:"A conversa (thread nas versões anteriores da API) guarda o histórico. O app adiciona a mensagem do usuário, pede a execução do agente e lê a resposta. Para manter o contexto, reutiliza a mesma conversa nas próximas perguntas." },
+{ id:"p-b1-8", t:"B1", type:"single",
+  stem:"Você quer bloquear respostas com violência de severidade média ou alta em uma implantação. Onde configurar isso no Foundry?",
+  opts:["Nos guardrails / filtros de conteúdo associados à implantação","Na temperature do playground","Nas instruções do agente","No tipo de implantação"], ans:0,
+  why:"Os filtros de conteúdo (guardrails) avaliam prompts e respostas nas categorias ódio, sexual, violência e automutilação, com limites de severidade configuráveis. Eles também incluem Prompt Shields contra jailbreak." },
+
+/* ---------- B2 · Language e Speech ---------- */
+{ id:"p-b2-1", t:"B2", type:"single",
+  stem:"Complete o código para obter o sentimento de cada aspecto mencionado na avaliação.",
+  code:`from azure.ai.textanalytics import TextAnalyticsClient
+from azure.core.credentials import AzureKeyCredential
+
+client = TextAnalyticsClient(endpoint=endpoint, credential=AzureKeyCredential(key))
+docs = ["O atendimento foi ótimo, mas a entrega atrasou."]
+
+result = client.__________(docs, show_opinion_mining=True)`,
+  opts:["analyze_sentiment","extract_key_phrases","recognize_entities","detect_language"], ans:0,
+  why:"`analyze_sentiment` retorna o sentimento do documento e de cada frase. Com `show_opinion_mining=True`, também associa opiniões a aspectos (atendimento → positivo, entrega → negativo)." },
+{ id:"p-b2-2", t:"B2", type:"single",
+  stem:"Depois de chamar `recognize_pii_entities`, qual propriedade de cada resultado traz o texto com os dados pessoais mascarados?",
+  opts:["redacted_text","entities","key_phrases","sentiment"], ans:0,
+  why:"`redacted_text` devolve o texto com as entidades sensíveis substituídas por asteriscos. `entities` lista cada item encontrado (tipo, texto e confiança)." },
+{ id:"p-b2-3", t:"B2", type:"single",
+  stem:"Seu app usa o Azure Speech para transcrever áudio falado em português do Brasil. Qual propriedade do `SpeechConfig` você deve definir?",
+  opts:["speech_recognition_language = \"pt-BR\"","speech_synthesis_voice_name = \"pt-BR-FranciscaNeural\"","output_format = \"pt-BR\"","endpoint_id = \"pt-BR\""], ans:0,
+  why:"`speech_recognition_language` define o idioma do reconhecimento (fala → texto). `speech_synthesis_voice_name` é para síntese (texto → fala)." },
+{ id:"p-b2-4", t:"B2", type:"single",
+  stem:"Você quer que a voz sintetizada faça uma pausa de meio segundo e fale mais devagar em um trecho. Como fazer com o Azure Speech?",
+  opts:["Enviar SSML com os elementos break e prosody usando speak_ssml_async","Aumentar a temperature do modelo","Usar speech_recognition_language","Trocar SpeechSynthesizer por SpeechRecognizer"], ans:0,
+  why:"SSML controla a síntese: `<break time=\"500ms\"/>` insere pausas e `<prosody rate=\"slow\">` muda a velocidade. O método `speak_ssml_async` envia o SSML, e `speak_text_async` envia texto simples." },
+{ id:"p-b2-5", t:"B2", type:"single",
+  stem:"Você envia um arquivo de áudio para um modelo multimodal com entrada de áudio pela Chat Completions API. Qual tipo de parte de conteúdo usar?",
+  code:`{"role": "user", "content": [
+    {"type": "text", "text": "Responda à pergunta do áudio."},
+    {"type": "__________",
+     "input_audio": {"data": audio_b64, "format": "wav"}},
+]}`,
+  opts:["input_audio","image_url","audio_file","speech"], ans:0,
+  why:"Modelos com entrada de áudio recebem uma parte `input_audio` com o áudio em base64 e o formato (wav, mp3). O modelo interpreta a fala diretamente, sem uma etapa separada de speech-to-text. Nos módulos da AI-901, a opção para conversa por voz em tempo real é o Voice Live (Voice mode em um agente)." },
+
+/* ---------- B3 · Visão e geração de imagens ---------- */
+{ id:"p-b3-1", t:"B3", type:"single",
+  stem:"Complete o código para gerar uma imagem com um modelo da família GPT-Image (ex.: gpt-image-1-mini) implantado no Foundry.",
+  code:`result = openai_client.__________(
+    model="minha-gpt-image",
+    prompt="Garrafa de café em fundo azul, estilo fotografia de produto",
+    size="1024x1024",
+    n=1,
+)`,
+  opts:["images.generate","chat.completions.create","embeddings.create","audio.speech.create"], ans:0,
+  why:"`images.generate` cria imagens a partir do prompt, com parâmetros como `size` e `n`. Com os modelos GPT-Image, a imagem volta em base64 (`result.data[0].b64_json`). Os outros métodos são de chat, embeddings e síntese de fala." },
+{ id:"p-b3-2", t:"B3", type:"single",
+  stem:"O modelo multimodal está errando ao ler números pequenos em fotos de etiquetas. Qual ajuste na parte `image_url` da mensagem pode ajudar?",
+  opts:["Definir \"detail\": \"high\"","Aumentar max tokens para 10","Trocar o modelo por um de embeddings","Remover a pergunta em texto"], ans:0,
+  why:"O campo `detail` (low, high ou auto) controla a resolução com que o modelo processa a imagem. `high` analisa mais detalhes, com mais tokens e custo. `low` é mais barato e rápido." },
+
+/* ---------- B4 · Content Understanding ---------- */
+{ id:"p-b4-1", t:"B4", type:"single",
+  stem:"Na chamada REST de análise do Content Understanding, como você indica qual esquema de campos usar?",
+  code:`POST {endpoint}/contentunderstanding/analyzers/__________:analyze?api-version=...`,
+  opts:["O ID do analyzer","O nome da implantação do GPT","O ID da assinatura","O nome do arquivo"], ans:0,
+  why:"Cada analyzer (prebuilt ou personalizado) tem um ID. A URL de análise usa esse ID, e o serviço aplica o esquema de campos e as configurações daquele analyzer. A resposta é assíncrona: você acompanha o resultado pelo `Operation-Location`." },
+{ id:"p-b4-2", t:"B4", type:"single",
+  stem:"Ao criar um analyzer personalizado no portal, o que mais ajuda o Content Understanding a extrair corretamente cada campo?",
+  opts:["Dar a cada campo um nome e uma descrição claros, com o tipo e o método certos","Enviar milhares de documentos rotulados para treinar","Aumentar a temperature","Usar sempre o método generate"], ans:0,
+  why:"O Content Understanding usa modelos generativos guiados pelo esquema. A descrição do campo diz ao modelo o que procurar, e o tipo e o método (extract, generate ou classify) definem o formato do valor. Não é preciso treinar com grandes volumes rotulados." },
+{ id:"p-b4-3", t:"B4", type:"yesno",
+  stem:"Sobre analyzers personalizados do Content Understanding, marque Sim ou Não.",
+  items:[
+    ["Depois de criado, o analyzer pode ser chamado por vários apps pelo seu ID.", true],
+    ["Um campo com o método classify recebe uma lista fixa de categorias possíveis.", true],
+    ["O Content Understanding só aceita arquivos PDF.", false]
+  ],
+  why:"O analyzer é um recurso reutilizável, chamado pelo ID. Campos classify usam uma lista (enum) de categorias. O serviço aceita documentos, imagens, áudio e vídeo." }
+];
+
+/* ================= Estado ================= */
+const BY = Object.fromEntries(Q.map(q => [q.id, q]));
+const KEY = "ai901-pratica-v1";
+const EXAM_MS = 20 * 60 * 1000;
+const LETTERS = "ABCDEF";
+const FILTER_LABEL = { all:"Todas", A:AREAS.A.short, B:AREAS.B.short, open:"Não respondidas", wrong:"Erradas", flag:"Marcadas", retry:"Refazendo erradas" };
+
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function fresh(){ const ids = Q.map(q => q.id); return { v:1, answers:{}, flags:[], order:ids, filter:"all", list:ids.slice(), cur:0, mode:"study", deadline:null, optOrder:{}, view:"q" }; }
+function load(){ try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1) return s; } catch(e){} return null; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+
+let S = load() || fresh();
+S.order = (S.order || []).filter(id => BY[id]);
+Q.forEach(q => { if (!S.order.includes(q.id)) S.order.push(q.id); });
+S.list = (S.list || []).filter(id => BY[id]);
+if (!S.list.length) { S.list = S.order.slice(); S.filter = "all"; }
+S.cur = Math.min(Math.max(0, S.cur | 0), S.list.length - 1);
+S.flags = (S.flags || []).filter(id => BY[id]);
+S.answers = S.answers || {}; S.optOrder = S.optOrder || {};
+
+const UI = { notice:null };
+let tick = null;
+
+/* ================= Lógica ================= */
+function optOrder(q){
+  let o = S.optOrder[q.id];
+  if (!o || o.length !== q.opts.length){ o = shuffle(q.opts.map((_, i) => i)); S.optOrder[q.id] = o; }
+  return o;
+}
+function complete(q, a){
+  if (!a) return false;
+  if (q.type === "single") return a.sel.length === 1;
+  if (q.type === "multi") return a.sel.length === q.ans.length;
+  return q.items.every((_, i) => typeof a.sel[i] === "boolean");
+}
+function correct(q, a){
+  if (!a) return false;
+  if (q.type === "single") return a.sel.length === 1 && a.sel[0] === q.ans;
+  if (q.type === "multi"){ const x = a.sel.slice().sort(), y = q.ans.slice().sort(); return x.length === y.length && x.every((v, i) => v === y[i]); }
+  return q.items.every((it, i) => a.sel[i] === it[1]);
+}
+function status(id){
+  const q = BY[id], a = S.answers[id];
+  if (!a) return "none";
+  if (a.checked) return correct(q, a) ? "right" : "wrong";
+  return complete(q, a) ? "answered" : "none";
+}
+function listFor(f){
+  const o = S.order;
+  if (f === "A" || f === "B") return o.filter(id => TOPICS[BY[id].t].area === f);
+  if (f === "wrong") return o.filter(id => status(id) === "wrong");
+  if (f === "flag") return o.filter(id => S.flags.includes(id));
+  if (f === "open") return o.filter(id => { const s = status(id); return s === "none" || s === "answered"; });
+  return o.slice();
+}
+function tally(ids){
+  let right = 0, checked = 0;
+  ids.forEach(id => { const s = status(id); if (s === "right"){ right++; checked++; } else if (s === "wrong") checked++; });
+  return { right, checked, total: ids.length };
+}
+function pct(t){ return t.checked ? Math.round(100 * t.right / t.checked) : null; }
+function level(p){ return p === null ? "" : p >= 80 ? "hi" : p >= 60 ? "mid" : "lo"; }
+
+/* ================= Formatação ================= */
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c])); }
+function fmt(s){ return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>"); }
+function fmtCode(s){ return esc(s).replace(/_{6,}/g, '<span class="blank">______</span>'); }
+function plain(s){ return String(s).replace(/`/g, ""); }
+function mmss(ms){ const t = Math.max(0, Math.ceil(ms / 1000)); return String(Math.floor(t / 60)).padStart(2, "0") + ":" + String(t % 60).padStart(2, "0"); }
+
+/* ================= Render ================= */
+const $ = s => document.querySelector(s);
+
+function render(){
+  const fid = document.activeElement && document.activeElement.id;
+  renderToolbar(); renderNotice(); renderMain(); renderSide();
+  $("#fact-n").textContent = Q.length;
+  if (fid){ const el = document.getElementById(fid); if (el) el.focus({ preventScroll:true }); }
+  save();
+}
+
+function renderToolbar(){
+  if (S.mode === "exam"){
+    $("#toolbar").innerHTML =
+      '<div class="exam-status"><span class="live" aria-hidden="true"></span>Modo prova em andamento · a correção aparece quando você entregar</div>' +
+      '<div class="tools"><button class="btn primary" id="tb-submit" data-act="submit">Entregar prova</button></div>';
+    return;
+  }
+  const chips = ["all","A","B","open","wrong","flag"].map(f => {
+    const n = listFor(f).length;
+    const pressed = S.filter === f;
+    const dis = n === 0 && f !== "all";
+    return `<button class="chip" id="f-${f}" data-filter="${f}" aria-pressed="${pressed}" ${dis ? "disabled" : ""}>${FILTER_LABEL[f]}<span class="n">${n}</span></button>`;
+  }).join("");
+  $("#toolbar").innerHTML =
+    `<div class="filters" role="group" aria-label="Filtrar questões">${chips}</div>` +
+    '<div class="tools">' +
+      '<button class="btn" id="tb-shuffle" data-act="shuffle">Embaralhar</button>' +
+      '<button class="btn" id="tb-reset" data-act="reset">Recomeçar</button>' +
+      '<button class="btn primary" id="tb-exam" data-act="exam">Modo prova · 20 min</button>' +
+    '</div>';
+}
+
+function renderNotice(){
+  const n = UI.notice, box = $("#notice");
+  if (!n){ box.innerHTML = ""; return; }
+  let msg = "", btns = "";
+  if (n === "exam"){
+    msg = `<p><b>Modo prova:</b> as ${Q.length} questões em ordem aleatória, cronômetro de 20 minutos e correção só no final. Suas respostas atuais serão apagadas.</p>`;
+    btns = '<button class="btn" id="nt-cancel" data-act="cancel">Cancelar</button><button class="btn primary" id="nt-go" data-act="exam-yes">Começar prova</button>';
+  } else if (n === "reset"){
+    msg = "<p><b>Recomeçar?</b> Isso apaga todas as respostas e marcações deste navegador.</p>";
+    btns = '<button class="btn" id="nt-cancel" data-act="cancel">Cancelar</button><button class="btn danger" id="nt-go" data-act="reset-yes">Apagar respostas</button>';
+  } else if (n === "submit"){
+    const open = S.order.filter(id => status(id) !== "answered").length;
+    msg = `<p><b>Entregar a prova agora?</b> ${open ? `${open} ${open === 1 ? "questão está sem resposta completa e vai contar" : "questões estão sem resposta completa e vão contar"} como erro.` : "Todas as questões foram respondidas."}</p>`;
+    btns = '<button class="btn" id="nt-cancel" data-act="cancel">Continuar prova</button><button class="btn primary" id="nt-go" data-act="submit-yes">Entregar</button>';
+  }
+  box.innerHTML = `<div class="notice" role="alertdialog" aria-live="polite">${msg}<div class="tools">${btns}</div></div>`;
+}
+
+function renderMain(){
+  if (S.view === "results"){ renderResults(); return; }
+  const id = S.list[S.cur], q = BY[id], a = S.answers[id] || null;
+  const exam = S.mode === "exam";
+  const reveal = !!(a && a.checked);
+  const topic = TOPICS[q.t];
+  let h = '<article class="card qcard">';
+  h += '<div class="qhead">';
+  h += `<div class="qnum">Questão <b>${S.cur + 1}</b> de ${S.list.length}${S.filter !== "all" && !exam ? " · " + esc(FILTER_LABEL[S.filter]) : ""}</div>`;
+  if (!exam) h += `<span class="tag">${esc(AREAS[topic.area].short)} › ${esc(topic.name)}</span>`;
+  h += "</div>";
+  h += `<p class="stem">${fmt(q.stem)}</p>`;
+  if (q.type === "multi") h += `<span class="pick">Escolha ${q.ans.length}</span>`;
+  if (q.code) h += `<div class="codewrap"><pre class="code">${fmtCode(q.code)}</pre></div>`;
+
+  if (q.type === "yesno"){
+    h += '<div class="yn" role="group" aria-label="Afirmações"><div class="yn-head"><span>Afirmação</span><span class="cols"><span>Sim</span><span>Não</span></span></div>';
+    q.items.forEach((it, i) => {
+      const v = a && typeof a.sel[i] === "boolean" ? a.sel[i] : null;
+      let rc = "yn-row";
+      if (reveal) rc += (v === it[1] ? " right" : " wrong") + " locked";
+      h += `<div class="${rc}"><div>${fmt(it[0])}`;
+      if (reveal) h += `<span class="yn-note">${v === it[1] ? "Correto" : "Resposta certa: " + (it[1] ? "Sim" : "Não")}</span>`;
+      h += '</div><div class="yn-ch">';
+      [[true, "Sim", "s"], [false, "Não", "n"]].forEach(([val, lab, k]) => {
+        let lc = v === val ? "sel" : "";
+        if (reveal && it[1] === val && v !== val) lc += " should";
+        const iid = `yn-${id}-${i}-${k}`;
+        h += `<label class="${lc}" for="${iid}"><input type="radio" id="${iid}" name="yn-${id}-${i}" data-yn="${i}" data-val="${val ? 1 : 0}" ${v === val ? "checked" : ""} ${reveal ? "disabled" : ""}>${lab}</label>`;
+      });
+      h += "</div></div>";
+    });
+    h += "</div>";
+  } else {
+    const ord = optOrder(q), sel = a ? a.sel : [];
+    const isAns = oi => q.type === "single" ? oi === q.ans : q.ans.includes(oi);
+    h += `<div class="opts" role="${q.type === "single" ? "radiogroup" : "group"}" aria-label="Alternativas">`;
+    ord.forEach((oi, pos) => {
+      const s = sel.includes(oi);
+      let c = "opt" + (s ? " sel" : "");
+      let mark = "";
+      if (reveal){ c += " locked"; if (isAns(oi)){ c += " right"; mark = "Correta"; } else if (s){ c += " wrong"; mark = "Sua escolha"; } }
+      const iid = `o-${id}-${oi}`;
+      h += `<label class="${c}" for="${iid}"><input type="${q.type === "single" ? "radio" : "checkbox"}" name="q-${id}" id="${iid}" data-opt="${oi}" ${s ? "checked" : ""} ${reveal ? "disabled" : ""}><span class="bub">${LETTERS[pos]}</span><span class="txt">${fmt(q.opts[oi])}</span><span class="mark">${mark}</span></label>`;
+    });
+    h += "</div>";
+  }
+
+  if (reveal){
+    const ok = correct(q, a);
+    const empty = q.type === "yesno" ? !a.sel.some(v => typeof v === "boolean") : !a.sel.length;
+    let extra = "";
+    if (q.type === "yesno" && !empty){ const n = q.items.filter((it, i) => a.sel[i] === it[1]).length; extra = ` <span>· ${n} de ${q.items.length} afirmações certas</span>`; }
+    const title = ok ? "Resposta correta" : empty ? "Sem resposta" : "Resposta incorreta";
+    h += `<div class="fb ${ok ? "ok" : "bad"}" role="status"><h3>${ok ? "✓" : "✕"} ${title}${extra}</h3><p>${fmt(q.why)}</p></div>`;
+  }
+
+  const flagged = S.flags.includes(id);
+  const last = S.cur === S.list.length - 1;
+  h += '<div class="actions"><div>';
+  h += `<button class="btn" id="ac-prev" data-act="prev" ${S.cur === 0 ? "disabled" : ""}>← Anterior</button>`;
+  h += `<button class="btn ${flagged ? "flagged" : ""}" id="ac-flag" data-act="flag" aria-pressed="${flagged}">${flagged ? "Marcada para revisão" : "Marcar para revisão"}</button>`;
+  h += "</div><div>";
+  if (exam){
+    h += `<button class="btn primary" id="btn-primary" data-act="next" ${last ? "disabled" : ""}>Próxima →</button>`;
+  } else if (!reveal){
+    h += `<button class="btn primary" id="btn-primary" data-act="confirm" ${complete(q, a) ? "" : "disabled"}>Confirmar resposta</button>`;
+  } else {
+    h += last
+      ? '<button class="btn primary" id="btn-primary" data-act="results">Ver resultado</button>'
+      : '<button class="btn primary" id="btn-primary" data-act="next">Próxima →</button>';
+  }
+  h += "</div></div>";
+  h += `<p class="kbd-hint">Atalhos: <kbd>A</kbd>–<kbd>D</kbd> escolhem · <kbd>Enter</kbd> ${exam ? "avança" : "confirma e avança"} · <kbd>←</kbd> <kbd>→</kbd> navegam</p>`;
+  h += "</article>";
+  $("#main").innerHTML = h;
+}
+
+function topicRows(){
+  return Object.keys(AREAS).map(ak => {
+    const ids = S.order.filter(id => TOPICS[BY[id].t].area === ak);
+    const at = tally(ids), ap = pct(at);
+    let h = `<div class="area"><div class="area-h"><span>${esc(AREAS[ak].name)}</span><small>${AREAS[ak].weight} da prova${ap === null ? "" : " · " + ap + "%"}</small></div>`;
+    Object.keys(TOPICS).filter(t => TOPICS[t].area === ak && Q.some(q => q.t === t)).forEach(t => {
+      const tt = tally(S.order.filter(id => BY[id].t === t)), p = pct(tt);
+      h += `<div class="trow"><span>${esc(TOPICS[t].name)}</span><span class="bar"><i class="${level(p)}" style="width:${p === null ? 0 : Math.max(p, 4)}%"></i></span><span class="v">${tt.right}/${tt.total}</span></div>`;
+    });
+    return h + "</div>";
+  }).join("");
+}
+
+function renderSide(){
+  const exam = S.mode === "exam";
+  let h = "";
+  if (exam){
+    const answered = S.order.filter(id => status(id) === "answered").length;
+    const left = S.deadline - Date.now();
+    h += '<section class="card panel" aria-label="Cronômetro">';
+    h += `<h2>Tempo restante <small>${answered}/${Q.length} respondidas</small></h2>`;
+    h += `<div class="timer ${left < 5 * 60 * 1000 ? "low" : ""}" id="timer" role="timer">${mmss(left)}</div>`;
+    h += '<p class="note">Você pode voltar a qualquer questão pelo cartão-resposta. Ao zerar o tempo, a prova é entregue automaticamente.</p>';
+    h += '<button class="btn primary" id="sd-submit" data-act="submit">Entregar prova</button>';
+    h += "</section>";
+  }
+  const done = S.list.filter(id => status(id) !== "none").length;
+  h += '<section class="card panel" aria-label="Cartão-resposta">';
+  h += `<h2>Cartão-resposta <small>${done}/${S.list.length}</small></h2><div class="sheet">`;
+  const lab = { none:"sem resposta", answered:"respondida", right:"correta", wrong:"errada" };
+  S.list.forEach((id, i) => {
+    const st = status(id), fl = S.flags.includes(id);
+    const cur = S.view === "q" && i === S.cur;
+    h += `<button class="dot ${st} ${cur ? "cur" : ""} ${fl ? "flag" : ""}" id="dot-${i}" data-go="${i}" aria-label="Questão ${i + 1}, ${lab[st]}${fl ? ", marcada" : ""}"${cur ? ' aria-current="true"' : ""}>${i + 1}</button>`;
+  });
+  h += "</div><div class=\"legend\">";
+  h += exam ? '<span><i style="background:var(--ink-2)"></i>Respondida</span>' : '<span><i style="background:var(--ok)"></i>Correta</span><span><i style="background:var(--bad)"></i>Errada</span>';
+  h += '<span><i style="background:var(--flag)"></i>Marcada</span></div></section>';
+
+  if (!exam){
+    const t = tally(S.order), p = pct(t);
+    h += '<section class="card panel" aria-label="Desempenho">';
+    h += `<h2>Desempenho <small>${t.checked}/${Q.length} corrigidas</small></h2>`;
+    h += `<div class="score"><b>${p === null ? "—" : p + "%"}</b><span>${t.checked ? `${t.right} de ${t.checked} corretas` : "Confirme uma resposta para começar"}</span></div>`;
+    h += topicRows();
+    h += '<p class="note">A prova exige 700 numa escala de 1 a 1000, que não equivale exatamente a 70% de acertos. Para treinar, mire em 80% ou mais aqui.</p>';
+    h += '<button class="btn" id="sd-results" data-act="results">Ver resultado completo</button>';
+    h += "</section>";
+  }
+  $("#side").innerHTML = h;
+}
+
+function renderResults(){
+  const t = tally(S.order), p = pct(t);
+  const unanswered = Q.length - t.checked;
+  let title, text;
+  if (p === null){ title = "Nenhuma questão corrigida ainda"; text = "Responda e confirme algumas questões para ver seu desempenho por tópico."; }
+  else if (p >= 80){ title = "Boa margem para a prova"; text = "Você está acima da faixa recomendada. Revise as questões erradas e qualquer tópico abaixo de 80% antes de marcar o exame."; }
+  else if (p >= 65){ title = "Perto da linha"; text = "Concentre a revisão nos tópicos em amarelo e vermelho e refaça as erradas. Os módulos do Microsoft Learn de cada tópico são o melhor próximo passo."; }
+  else { title = "Hora de reforçar a base"; text = "Estude os módulos do Microsoft Learn dos tópicos em vermelho e depois refaça as questões erradas. O peso maior da prova (55–60%) está na implementação com Foundry."; }
+
+  let h = '<section class="card res" aria-label="Resultado">';
+  h += '<div class="eyebrow">Resultado</div>';
+  h += `<h2>${esc(title)}</h2>`;
+  h += `<div class="big"><b>${p === null ? "—" : p + "%"}</b><span>${t.right} de ${t.checked} corretas${unanswered ? ` · ${unanswered} ainda não ${unanswered === 1 ? "corrigida" : "corrigidas"}` : ""}</span></div>`;
+  h += `<p class="verdict">${esc(text)}</p>`;
+
+  h += '<div class="tablewrap"><table class="topics"><thead><tr><th>Tópico</th><th>Acertos</th><th>%</th><th></th></tr></thead><tbody>';
+  Object.keys(AREAS).forEach(ak => {
+    const at = tally(S.order.filter(id => TOPICS[BY[id].t].area === ak)), ap = pct(at);
+    h += `<tr class="arearow"><td>${esc(AREAS[ak].name)} <span style="font-weight:400;color:var(--muted)">(${AREAS[ak].weight})</span></td><td class="num">${at.right}/${at.checked}</td><td class="num">${ap === null ? "—" : ap + "%"}</td><td></td></tr>`;
+    Object.keys(TOPICS).filter(k => TOPICS[k].area === ak && Q.some(q => q.t === k)).forEach(k => {
+      const tt = tally(S.order.filter(id => BY[id].t === k)), tp = pct(tt);
+      h += `<tr><td>${esc(TOPICS[k].name)}</td><td class="num">${tt.right}/${tt.checked}</td><td class="num">${tp === null ? "—" : tp + "%"}</td><td><span class="bar"><i class="${level(tp)}" style="width:${tp === null ? 0 : Math.max(tp, 4)}%"></i></span></td></tr>`;
+    });
+  });
+  h += "</tbody></table></div>";
+
+  const wrong = S.order.filter(id => status(id) === "wrong");
+  h += `<h3>Questões para revisar${wrong.length ? ` (${wrong.length})` : ""}</h3>`;
+  if (!wrong.length) h += '<p class="empty">Nenhuma questão errada até agora.</p>';
+  else {
+    h += '<ol class="missed">';
+    wrong.forEach(id => {
+      const q = BY[id]; let s = plain(q.stem); if (s.length > 120) s = s.slice(0, 117).trimEnd() + "…";
+      h += `<li><button id="jm-${id}" data-jump="${id}"><span class="x" aria-hidden="true">✕</span><span>${esc(s)}</span><span class="t">${esc(TOPICS[q.t].name)}</span></button></li>`;
+    });
+    h += "</ol>";
+  }
+  h += '<div class="actions"><div>';
+  h += '<button class="btn" id="rs-back" data-act="back">← Voltar às questões</button>';
+  h += "</div><div>";
+  h += `<button class="btn primary" id="rs-retry" data-act="retry-wrong" ${wrong.length ? "" : "disabled"}>Refazer as erradas</button>`;
+  h += "</div></div></section>";
+  $("#main").innerHTML = h;
+}
+
+/* ================= Ações ================= */
+function scrollToMain(){
+  const m = $("#main"); const r = m.getBoundingClientRect();
+  if (r.top < 0 || r.top > window.innerHeight * 0.6){
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    m.scrollIntoView({ block:"start", behavior: reduce ? "auto" : "smooth" });
+  }
+}
+function go(i, scroll){
+  if (i < 0 || i >= S.list.length) return;
+  S.cur = i; S.view = "q"; render();
+  if (scroll) scrollToMain();
+}
+function setFilter(f){
+  const l = listFor(f); if (!l.length) return;
+  S.filter = f; S.list = l; S.cur = 0; S.view = "q"; UI.notice = null; render();
+}
+function choose(q, oi, checked){
+  const id = q.id;
+  const a = S.answers[id] || (S.answers[id] = { sel:[], checked:false });
+  if (a.checked) return;
+  if (q.type === "single") a.sel = [oi];
+  else {
+    const on = checked === undefined ? !a.sel.includes(oi) : checked;
+    a.sel = on ? Array.from(new Set(a.sel.concat(oi))) : a.sel.filter(x => x !== oi);
+  }
+  render();
+}
+function chooseYN(q, i, val){
+  const id = q.id;
+  const a = S.answers[id] || (S.answers[id] = { sel:q.items.map(() => null), checked:false });
+  if (a.checked) return;
+  a.sel[i] = val; render();
+}
+function primary(){
+  const q = BY[S.list[S.cur]], a = S.answers[q.id];
+  if (S.mode === "exam"){ if (S.cur < S.list.length - 1) go(S.cur + 1); return; }
+  if (!a || !a.checked){ if (complete(q, a)){ a.checked = true; render(); } return; }
+  if (S.cur < S.list.length - 1) go(S.cur + 1); else { S.view = "results"; render(); scrollToMain(); }
+}
+function startExam(){
+  const ids = shuffle(Q.map(q => q.id));
+  S = fresh(); S.mode = "exam"; S.order = ids; S.list = ids.slice(); S.deadline = Date.now() + EXAM_MS;
+  UI.notice = null; render(); startTick(); scrollToMain();
+}
+function submitExam(){
+  Q.forEach(q => {
+    const a = S.answers[q.id];
+    if (!a) S.answers[q.id] = { sel: q.type === "yesno" ? q.items.map(() => null) : [], checked:true };
+    else a.checked = true;
+  });
+  S.mode = "study"; S.deadline = null; S.filter = "all"; S.list = S.order.slice(); S.cur = 0; S.view = "results";
+  UI.notice = null; stopTick(); render(); scrollToMain();
+}
+function startTick(){
+  stopTick();
+  tick = setInterval(() => {
+    if (S.mode !== "exam"){ stopTick(); return; }
+    const left = S.deadline - Date.now();
+    if (left <= 0){ submitExam(); return; }
+    const el = document.getElementById("timer");
+    if (el){ el.textContent = mmss(left); el.classList.toggle("low", left < 5 * 60 * 1000); }
+  }, 1000);
+}
+function stopTick(){ if (tick){ clearInterval(tick); tick = null; } }
+
+function act(k){
+  const id = S.list[S.cur];
+  switch (k){
+    case "prev": go(S.cur - 1); break;
+    case "next": go(S.cur + 1); break;
+    case "confirm": primary(); break;
+    case "flag": {
+      const i = S.flags.indexOf(id);
+      if (i >= 0) S.flags.splice(i, 1); else S.flags.push(id);
+      render(); break;
+    }
+    case "shuffle":
+      S.order = shuffle(S.order);
+      S.list = S.filter === "retry" ? shuffle(S.list) : listFor(S.filter);
+      if (!S.list.length){ S.filter = "all"; S.list = S.order.slice(); }
+      S.cur = 0; S.view = "q"; render(); break;
+    case "reset": UI.notice = "reset"; render(); focusNotice(); break;
+    case "reset-yes": S = fresh(); UI.notice = null; render(); break;
+    case "exam": UI.notice = "exam"; render(); focusNotice(); break;
+    case "exam-yes": startExam(); break;
+    case "submit": UI.notice = "submit"; render(); focusNotice(); break;
+    case "submit-yes": submitExam(); break;
+    case "cancel": UI.notice = null; render(); break;
+    case "results": S.view = "results"; render(); scrollToMain(); break;
+    case "back": S.view = "q"; render(); break;
+    case "retry-wrong": {
+      const wrong = S.order.filter(x => status(x) === "wrong");
+      if (!wrong.length) break;
+      wrong.forEach(x => { delete S.answers[x]; delete S.optOrder[x]; });
+      S.filter = "retry"; S.list = wrong; S.cur = 0; S.view = "q"; render(); scrollToMain(); break;
+    }
+  }
+}
+function focusNotice(){ const b = document.getElementById("nt-go"); if (b) b.focus(); }
+function jump(id){
+  S.filter = "all"; S.list = S.order.slice(); S.cur = Math.max(0, S.list.indexOf(id)); S.view = "q"; render(); scrollToMain();
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act],[data-go],[data-filter],[data-jump]");
+  if (!b || b.disabled) return;
+  if (b.dataset.filter) setFilter(b.dataset.filter);
+  else if (b.dataset.go !== undefined) go(+b.dataset.go, true);
+  else if (b.dataset.jump) jump(b.dataset.jump);
+  else act(b.dataset.act);
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (S.view !== "q") return;
+  const q = BY[S.list[S.cur]];
+  if (t.dataset.opt !== undefined) choose(q, +t.dataset.opt, q.type === "multi" ? t.checked : undefined);
+  else if (t.dataset.yn !== undefined) chooseYN(q, +t.dataset.yn, t.dataset.val === "1");
+});
+document.addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey || S.view !== "q") return;
+  const tag = e.target.tagName, k = e.key.toLowerCase();
+  const q = BY[S.list[S.cur]];
+  if (/^[a-f]$/.test(k) || /^[1-6]$/.test(k)){
+    if (q.type === "yesno") return;
+    const pos = /\d/.test(k) ? +k - 1 : k.charCodeAt(0) - 97;
+    const ord = optOrder(q); if (pos >= ord.length) return;
+    e.preventDefault(); choose(q, ord[pos]);
+  } else if (k === "enter" && tag !== "BUTTON" && tag !== "A"){
+    e.preventDefault(); primary();
+  } else if ((k === "arrowright" || k === "arrowleft") && tag !== "INPUT"){
+    e.preventDefault(); go(S.cur + (k === "arrowright" ? 1 : -1));
+  }
+});
+
+if (S.mode === "exam"){
+  if (!S.deadline || S.deadline <= Date.now()) submitExam();
+  else { render(); startTick(); }
+} else render();
+})();
+</script>
+
+</body>
+</html>

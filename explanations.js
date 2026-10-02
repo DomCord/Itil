@@ -79,10 +79,10 @@
       "O oposto é geralmente verdadeiro: as pessoas devem ser empoderadas por confiança, autonomia e recursos. Isso tende a ser mais efetivo que procedimentos e controles excessivamente complicados, especialmente em situações complexas. Ref. 5.2.6.2"
     ],
     [
-      "\"Além de estar ciente dos Princípios N Orientadores do ITIL, também é importante reconhecer que eles interagem entre si e dependem uns dos outros. Por exemplo, se uma organização está comprometida em progredir de forma iterativa com feedback, ela também deve pensar e trabalhar de maneira holística para garantir que cada iteração de uma melhoria inclua todos os elementos necessários para entregar resultados reais. Da mesma forma, fazer uso do feedback apropriado é fundamental para a colaboração e ter foco no que realmente será valioso para o cliente facilita manter as coisas simples e práticas.\" Ref. 5.2.8",
-      "\"As organizações não devem utilizar apenas um ou dois dos princípios, mas devem considerar a relevância de cada um deles e como eles se complementam. Não há uma ordem ou hierarquia particular para esses princípios; eles são igualmente importantes para o ITIL VS.\" Ref. 5.2.8",
-      "Os princípios não seguem uma ordem rígida. \"As organizações não devem utilizar apenas um ou dois dos princípios, mas devem considerar a relevância de cada um deles e como eles se complementam. Não há uma ordem ou hierarquia particular para esses princípios; eles são igualmente importantes para o ITIL VS.\" Ref, 5.2.8",
-      "\"As organizações não devem utilizar apenas um ou dois dos princípios, mas devem considerar a relevância de cada um deles e como eles se complementam. Não há uma ordem ou hierarquia particular para esses princípios; eles são igualmente importantes para o ITIL VS.\" Ref. 5.2.8"
+      "Os Princípios Orientadores se complementam e devem ser considerados em conjunto. Por exemplo, feedback apoia colaboração, enquanto a visão holística ajuda a planejar iterações que entreguem valor. Essa interação explica a resposta correta. Ref. 5.2.8",
+      "Nenhum Princípio Orientador sempre supera os demais. Não há hierarquia fixa: sua relevância depende da situação, e cada um pode apoiar a aplicação dos outros. A afirmação cria uma prioridade universal que o ITIL não estabelece. Ref. 5.2.8",
+      "Os Princípios Orientadores não são etapas de um procedimento e não exigem uma sequência rígida. Eles orientam decisões em conjunto, conforme o contexto; tratá-los como fases ordenadas contradiz sua aplicação complementar. Ref. 5.2.8",
+      "Um único princípio não basta para qualquer situação. A organização deve considerar a relevância de todos e como se reforçam, pois cada um ilumina aspectos diferentes das decisões e da criação de valor. Ref. 5.2.8"
     ],
     [
       "\"Toda organização é dirigida por um órgão de governança, ou seja, uma pessoa ou grupo de pessoas que são responsáveis, no mais alto nível, pelo desempenho e conformidade da organização.\" Ref. 5.3.1",
@@ -109,10 +109,10 @@
       "O propósito da organização descreve \"o que uma organização faz por seus consumidores e outros stakeholders e porquê.\" Ref. 5.4.1"
     ],
     [
-      "“Estratégia financeira” faz parte da atividade de \"aquisição\", que inclui \"gerenciamento, de fornecedores, gerenciamento financeiro de serviço e gerenciamento de ativos de TI\", Ref. 4.4.2",
-      "Um \"modelo operacional\" é \"uma representação conceitual e/ou visual de como uma organização cocria valor com seus clientes e outros stakeholders, bem como de como a organização se gerencia.\" Ref. 5.4.1",
-      "Uma \"cadeia de valor\" é um “conjunto completo de atividades que geram valor por meio do fornecimento de um produto ou serviço\", enquanto um \"modelo operacional\" \"é uma representação conceitual e/ou visual de como uma organização cocria valor com seus clientes e outras partes interessadas, bem como de como a organização se gerencia.” Ref. 2.3.1, 5.4.1",
-      "Um \"modelo operacional\" é \"uma representação conceitual e/ou visual de como uma organização cocria valor com seus clientes e outros stakeholders, bem como de como a organização se gerencia.\" Ref. 5.4.1"
+      "O modelo operacional descreve como a organização cocria valor e se organiza para atuar. A estratégia financeira trata de objetivos e decisões financeiras; ela não define, por si só, a relação entre o propósito e a forma de cumpri-lo. Ref. 5.4.1",
+      "O propósito expressa a razão de existir e a direção da organização. O modelo operacional representa como ela organiza atividades e recursos para cocriação de valor e realização desse propósito. Por isso, a alternativa relaciona corretamente o porquê ao como. Ref. 5.4.1",
+      "O modelo operacional não substitui o propósito: traduz a direção organizacional em uma forma de trabalhar. Mudar o arranjo de atividades não elimina a necessidade de uma razão de existir que oriente a criação de valor. Ref. 5.4.1",
+      "Propósito e modelo operacional precisam estar relacionados: a maneira de organizar o trabalho deve apoiar a razão de existir e a criação de valor pretendida. Um modelo sem esse alinhamento pode tornar a atuação incoerente. Ref. 5.4.1"
     ],
     [
       "Um \"fluxo de valor\" é \"uma série de etapas que uma organização utiliza para criar e entregar produtos e serviços aos consumidores de serviços.” Ref. 2.3.1",

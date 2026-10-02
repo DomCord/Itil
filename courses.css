@@ -1,0 +1,52 @@
+/* Cursos e formatos de questões usam o mesmo tema do painel. */
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.course-hero { grid-template-columns: 1fr; padding-bottom: 12px; }
+.course-hero h1 { max-width: 850px; }
+.course-card { min-height: 270px; color: var(--ink); }
+.course-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--surface-soft); border: 1px solid var(--line); color: var(--teal); font-weight: 800; margin-bottom: 18px; }
+.course-card p { color: var(--muted); font-size: 15px; line-height: 1.6; }
+.course-card .meta { flex-wrap: wrap; gap: 8px 16px; }
+.course-topics, .topic-results { margin-top: 32px; }
+.course-topics h2, .topic-results h2 { font-size: 22px; }
+.topic-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.topic-list span { padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--muted); font-size: 14px; }
+.hero-visual .target-note, .result-top .target-note { font-size: 13px; line-height: 1.5; margin: 14px 0 0; }
+.question-column, .question-card { min-width: 0; }
+.question-hint { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+.question-code { max-width: 100%; overflow: auto; padding: 18px; margin: 0 0 22px; background: #080c08; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font: 13px/1.65 Consolas, monospace; tab-size: 4; }
+.question-code code { font: inherit; }
+.question-card h2 code, .option code, .analysis-item code, .question-explanation code, .review-item code { overflow-wrap: anywhere; }
+.yesno-options { display: grid; gap: 14px; }
+.yesno-row { padding: 17px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.yesno-row p { margin: 0 0 14px; line-height: 1.6; }
+.yesno-choices { display: flex; gap: 10px; }
+.yesno-choices .option { width: auto; min-width: 85px; justify-content: center; }
+.statement-correct { border-color: #3f8f59; }
+.statement-wrong { border-color: #8f454b; }
+.question-explanation { color: var(--muted); line-height: 1.7; }
+.topic-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.topic-results table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+.topic-results th, .topic-results td { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.topic-results th { font-weight: 600; }
+.topic-results td { white-space: nowrap; color: var(--muted); }
+.topic-results thead { color: var(--teal); background: var(--surface-soft); }
+.topic-results tbody tr:last-child > * { border-bottom: 0; }
+.review-item li { line-height: 1.7; color: var(--muted); }
+.analysis-item .option-explanation { margin-top: 8px; }
+.analysis-item .statement-answer { margin-top: 8px; font-size: 14px; }
+.answer-sources { margin-top: 20px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.answer-sources summary { cursor: pointer; color: var(--teal); font-weight: 600; }
+.answer-sources ul { padding-left: 20px; margin: 12px 0 0; }
+.answer-sources li + li { margin-top: 8px; }
+.answer-sources a { color: var(--ink); overflow-wrap: anywhere; text-underline-offset: 3px; }
+.answer-sources a:hover { color: var(--teal); }
+.review-item .alternative-analysis { margin-top: 18px; }
+@media (max-width: 520px) {
+  .topbar { height: auto; min-height: 82px; flex-wrap: wrap; gap: 12px; padding: 18px; }
+  .header-actions { flex-wrap: wrap; }
+  .header-actions .ghost { font-size: 12px; padding: 9px 10px; }
+  .course-card { min-height: 0; }
+  .yesno-row { padding: 14px; }
+  .question-code { padding: 12px; font-size: 12px; }
+  .topic-results th, .topic-results td { padding: 12px; }
+}
