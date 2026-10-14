@@ -301,7 +301,7 @@ function home() {
     <section class="cards course-cards" aria-label="Cursos disponíveis">
       <button class="sim-card course-card" data-action="course" data-course="itil"><span class="course-icon" aria-hidden="true">IT</span><h3>ITIL v5</h3><p>Gerenciamento de produtos e serviços digitais.</p><div class="meta"><span>3 simulados</span><span>${SlidesModule.total} slides</span><span>${VideosModule.total} vídeos</span></div><span class="start">Acessar material →</span></button>
       <button class="sim-card course-card" data-action="course" data-course="ai901"><span class="course-icon" aria-hidden="true">AI</span><h3>AI-901</h3><p>Conceitos de IA e soluções com Microsoft Foundry.</p><div class="meta"><span>${aiSimulations.length} simulados</span><span>${aiQuestionCount} questões</span><span>${aiTopicCount} tópicos</span></div><span class="start">Acessar simulados →</span></button>
-      <button class="sim-card course-card" data-action="course" data-course="tenable"><span class="course-icon" aria-hidden="true">TV</span><h3>Tenable</h3><p>Vulnerability Management Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable').length} simulados</span><span>${TenableStudy.uniqueCount()} questões</span></div><span class="start">Acessar simulados →</span></button>
+      <button class="sim-card course-card" data-action="course" data-course="tenable"><span class="course-icon" aria-hidden="true">TV</span><h3>Tenable</h3><p>Vulnerability Management Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable').length} simulados</span><span>${TenableStudy.uniqueCount()} questões</span><span>${VideosModule.countFor('tenable')} vídeo</span></div><span class="start">Acessar material →</span></button>
     </section>`;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -346,10 +346,10 @@ function courseHome(course = activeCourse) {
         <h3>Slide</h3>
         <div class="meta"><span>${SlidesModule.total} slides</span></div>
         <span class="start">Abrir módulo</span>
-      </button>
-      <button class="sim-card video-menu-card" data-action="videos">
+      </button>` : ''}
+      ${isITIL || isTenable ? `<button class="sim-card video-menu-card" data-action="videos">
         <h3>Vídeos</h3>
-        <div class="meta"><span>${VideosModule.total} vídeos</span></div>
+        <div class="meta"><span>${VideosModule.countFor(course)} ${VideosModule.countFor(course) === 1 ? 'vídeo' : 'vídeos'}</span></div>
         <span class="start">Assistir agora</span>
       </button>` : ''}
     </section>
@@ -572,7 +572,7 @@ app.addEventListener('click', event => {
     start: () => start(Number(control.dataset.index)),
     slides: () => { if (activeCourse === 'itil' || activeCourse === 'tenable') { showCourseNavigation(); SlidesModule.open(activeCourse === 'tenable' ? { title: 'Tenable Vulnerability Management', decks: TenableStudy.decks } : undefined); } },
     'tenable-material': () => { if (activeCourse === 'tenable') { showCourseNavigation(); tenableMaterials(); } },
-    videos: () => { if (activeCourse === 'itil') { showCourseNavigation(); VideosModule.open(); } },
+    videos: () => { if (activeCourse === 'itil' || activeCourse === 'tenable') { showCourseNavigation(); VideosModule.open(activeCourse); } },
     resume: () => resumeQuiz(Number(control.dataset.index)),
     'restart-saved': () => restartSavedQuiz(Number(control.dataset.index)),
     'go-to': () => goTo(Number(control.dataset.index)),

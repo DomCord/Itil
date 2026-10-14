@@ -179,7 +179,25 @@ const VideosModule = (() => {
     }
   ];
 
-  const VIDEOS = VIDEO_LIBRARY.flatMap(folder => folder.videos.map((video, folderVideoIndex) => ({
+  const TENABLE_VIDEO_LIBRARY = [
+    {
+      id: 'tenable-vulnerability-management',
+      name: 'Tenable Vulnerability Management',
+      videos: [
+        {
+          title: 'Gerenciamento de Vulnerabilidades Tenable | Criação de Varreduras de Agente Nessus',
+          embedUrl: 'https://www.youtube.com/embed/kj1EfweEEgM',
+          youtubeUrl: 'https://www.youtube.com/watch?v=kj1EfweEEgM'
+        }
+      ]
+    }
+  ];
+
+  const LIBRARIES = {
+    itil: { title: 'ITIL Foundation', folders: VIDEO_LIBRARY },
+    tenable: { title: 'Tenable', folders: TENABLE_VIDEO_LIBRARY }
+  };
+  const flattenVideos = folders => folders.flatMap(folder => folder.videos.map((video, folderVideoIndex) => ({
     ...video,
     folderId: folder.id,
     folderName: folder.name,
@@ -187,6 +205,9 @@ const VideosModule = (() => {
     folderVideoCount: folder.videos.length
   })));
 
+  const countFor = course => LIBRARIES[course]?.folders.reduce((total, folder) => total + folder.videos.length, 0) || 0;
+  let activeLibrary = LIBRARIES.itil;
+  let VIDEOS = flattenVideos(activeLibrary.folders);
   let activeIndex = 0;
 
   function playerUrl(video) {
@@ -256,7 +277,7 @@ const VideosModule = (() => {
   }
 
   function folderMarkup(folder, folderIndex) {
-    const startIndex = VIDEO_LIBRARY
+    const startIndex = activeLibrary.folders
       .slice(0, folderIndex)
       .reduce((total, currentFolder) => total + currentFolder.videos.length, 0);
     const folderVideos = VIDEOS.slice(startIndex, startIndex + folder.videos.length);
@@ -292,7 +313,10 @@ const VideosModule = (() => {
     });
   }
 
-  function open() {
+  function open(course = 'itil') {
+    if (!LIBRARIES[course]) return;
+    activeLibrary = LIBRARIES[course];
+    VIDEOS = flattenVideos(activeLibrary.folders);
     activeIndex = 0;
     document.querySelector('#homeBtn').classList.remove('hidden');
     document.querySelector('#app').innerHTML = `
@@ -300,10 +324,10 @@ const VideosModule = (() => {
         <header class="videos-head">
           <div>
             <span class="eyebrow">Aprendizagem em vídeo</span>
-            <h1>Vídeos ITIL Foundation</h1>
+            <h1>Vídeos ${activeLibrary.title}</h1>
             <p>Assista ao conteúdo diretamente no painel e complemente o estudo dos slides e simulados.</p>
           </div>
-          <span class="videos-count">${VIDEOS.length.toString().padStart(2, '0')} vídeos</span>
+          <span class="videos-count">${VIDEOS.length.toString().padStart(2, '0')} ${VIDEOS.length === 1 ? 'vídeo' : 'vídeos'}</span>
         </header>
         <div class="videos-workspace">
           <aside class="videos-sidebar">
@@ -312,7 +336,7 @@ const VideosModule = (() => {
               <strong>Selecione um vídeo</strong>
             </div>
             <div class="videos-navigation" aria-label="Pastas de vídeos">
-              ${VIDEO_LIBRARY.map(folderMarkup).join('')}
+              ${activeLibrary.folders.map(folderMarkup).join('')}
             </div>
           </aside>
           <div class="videos-viewer" id="videoViewer" role="tabpanel" aria-labelledby="videoTab0">
@@ -328,5 +352,5 @@ const VideosModule = (() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  return { open, select, total: VIDEOS.length };
+  return { open, select, total: countFor('itil'), countFor };
 })();

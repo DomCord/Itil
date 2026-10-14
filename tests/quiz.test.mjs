@@ -22,7 +22,7 @@ const context = vm.createContext({
   window: { scrollY: 0, scrollTo() {}, addEventListener() {} },
   requestAnimationFrame: callback => callback(),
   AuthGate: { initialize() {}, isAuthenticated: () => true },
-  SlidesModule: { total: 233 }, VideosModule: { total: 32 },
+  SlidesModule: { total: 233 }, VideosModule: { total: 32, countFor: course => course === 'tenable' ? 1 : 32 },
   TenableStudy: { slideCount: 73, uniqueCount: () => 160 },
   localStorage: {
     getItem: key => storage.get(key) ?? null,

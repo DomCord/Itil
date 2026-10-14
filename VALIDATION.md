@@ -74,3 +74,11 @@ As 260 questões recebem 976 justificativas individuais em inglês, usando o mes
 Por solicitação expressa do responsável pelo projeto, os arquivos do Banco complementar foram incluídos no versionamento e no carregamento padrão do site. O `index.html` carrega diretamente a integração e suas explicações, sem restrição de hostname ou protocolo. O carregador local anterior foi removido. O curso passa a oferecer 13 opções e 260 questões únicas também em hospedagem pública.
 
 O teste `tests/tenable.test.mjs` usa a ordem real dos scripts do HTML em contextos HTTPS de `domcord.github.io` e `localhost`. Foram conferidas as 100 questões e suas 400 justificativas, respostas corretas e incorretas, retomada do mesmo embaralhamento, revisão final, resultado misto de 50% e remoção do progresso concluído. O índice do banco permanece 18, preservando a compatibilidade do progresso local anterior. Caderno, gabarito, revisão técnica e demais links da biblioteca foram verificados. As regressões ITIL/AI-901 e os 65 embaralhamentos Tenable passaram.
+
+## Vídeos Tenable — 14/10/2026
+
+O curso Tenable recebeu um menu de Vídeos com o mesmo visualizador responsivo do ITIL. Foi incluído o vídeo “Gerenciamento de Vulnerabilidades Tenable | Criação de Varreduras de Agente Nessus”, com URL de incorporação `https://www.youtube.com/embed/kj1EfweEEgM` e link para o vídeo original. As bibliotecas são selecionadas por curso: 32 itens no ITIL e um no Tenable.
+
+As regressões `tests/quiz.test.mjs` e `tests/tenable.test.mjs` passaram. O teste Tenable carrega o módulo real de vídeos e confere a presença do menu, as contagens por curso e a ausência de menu de vídeos no AI-901.
+
+No Microsoft Edge headless, foram aprovadas **6/6 verificações em desktop (1280 px)** e **6/6 em viewport móvel de 390 px**: abertura do menu, título/URL/origem/permissões do iframe, seleção ativa, retorno ao curso, alternância com os 32 vídeos ITIL, retorno ao vídeo Tenable sem resíduos da biblioteca anterior, índice inválido, layout e ausência de erros JavaScript. A largura móvel medida foi de 390 px, sem transbordamento horizontal. A fixture de autenticação existe apenas no ambiente local de QA; a autenticação do site não foi alterada. A reprodução audiovisual no serviço YouTube não foi verificada.

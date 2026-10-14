@@ -10,7 +10,7 @@ const node=selector=>{
   if(!nodes.has(selector)) nodes.set(selector,{innerHTML:'',classList:{add(){},remove(){}},style:{setProperty(){}},addEventListener(){},querySelector(){return null;}});
   return nodes.get(selector);
 };
-const createContext=()=>vm.createContext({document:{querySelector:node,documentElement:{style:{}}},window:{scrollY:0,scrollTo(){},addEventListener(){}},requestAnimationFrame:f=>f(),AuthGate:{initialize(){},isAuthenticated:()=>true},SlidesModule:{total:233},VideosModule:{total:32},crypto:webcrypto,localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)}});
+const createContext=()=>vm.createContext({document:{querySelector:node,documentElement:{style:{}}},window:{scrollY:0,scrollTo(){},addEventListener(){}},requestAnimationFrame:f=>f(),AuthGate:{initialize(){},isAuthenticated:()=>true},SlidesModule:{total:233},crypto:webcrypto,URL,localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)}});
 const siteHTML=await read('index.html');
 const siteScripts=[...siteHTML.matchAll(/<script src="([^"]+)"/g)].map(match=>match[1].split('?')[0]);
 const integration='Tenable/Simulados/Banco_complementar/integracao.js';
@@ -20,10 +20,11 @@ assert.ok(siteScripts.includes(rationales));
 assert.ok(siteScripts.indexOf(integration)<siteScripts.indexOf(rationales));
 assert.ok(siteScripts.indexOf(rationales)<siteScripts.indexOf('app.js'));
 assert.ok(!siteHTML.includes('carregar_pessoal.js'));
-const files=siteScripts.filter(file=>!['auth.js','slides.js','videos.js','app.js'].includes(file));
+const files=siteScripts.filter(file=>!['auth.js','slides.js','app.js'].includes(file));
 async function load(hostname='domcord.github.io'){
   const context=createContext();
   context.location=new URL(`https://${hostname}/Itil/`);
+  context.window.location=context.location;
   for(const file of [...files,'app.js']) vm.runInContext(await read(file),context,{filename:file});
   return code=>vm.runInContext(code,context);
 }
@@ -116,7 +117,16 @@ for(const deck of decks){
 const publicRun=await load();
 assert.equal(publicRun('courseSimulations("tenable").length'),13);
 assert.equal(publicRun('TenableStudy.uniqueCount()'),260);
-publicRun('home(); courseHome("tenable"); tenableMaterials()');
+assert.equal(publicRun('VideosModule.total'),32);
+assert.equal(publicRun('VideosModule.countFor("tenable")'),1);
+publicRun('home(); courseHome("tenable")');
+assert.ok(node('#app').innerHTML.includes('data-action="videos"'));
+assert.ok(node('#app').innerHTML.includes('1 vídeo'));
+publicRun('courseHome("ai901")');
+assert.ok(!node('#app').innerHTML.includes('data-action="videos"'));
+publicRun('courseHome("itil")');
+assert.ok(node('#app').innerHTML.includes('32 vídeos'));
+publicRun('courseHome("tenable"); tenableMaterials()');
 assert.ok(node('#app').innerHTML.includes('Banco complementar — 100 questions (English)'));
 assert.ok(!node('#app').innerHTML.includes('cópia pessoal local'));
 for(const match of node('#app').innerHTML.matchAll(/href="(Tenable\/[^"]+)"/g)) await access(new URL(match[1],root));

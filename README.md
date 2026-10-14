@@ -4,7 +4,7 @@ Após o login, o menu principal permite escolher **ITIL v5**, **AI-901** ou **Te
 
 A área **ITIL v5** mantém o painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
 
-O menu **Vídeos** reúne 32 conteúdos em uma biblioteca com pastas expansíveis, navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
+O menu **Vídeos** do ITIL reúne 32 conteúdos em uma biblioteca com pastas expansíveis, navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
 
 - **Canal Value Insights:** 31 vídeos do YouTube sobre termos essenciais, dimensões, ciclo de vida, sistema de valor, princípios, governança, práticas, melhoria contínua, atividades da cadeia de valor, fluxos de valor, IA e outras estruturas.
 - **Conferência AKSolution:** um vídeo compartilhado pelo Google Drive e reproduzido pelo visualizador incorporado.
@@ -57,6 +57,8 @@ Abra `index.html` diretamente para testar localmente. Nenhuma instalação é ne
 ## Tenable
 
 O terceiro curso usa o mesmo tema, cabeçalho, cards, motor de questões e visualizador dos cursos existentes. A pasta `Tenable` reúne 9 apresentações revisadas (73 slides PNG para leitura no navegador e PPTX editáveis), versões originais, notas, fontes, planejamento, cadernos e gabaritos.
+
+O menu **Tenable → Vídeos** usa o mesmo player responsivo e a navegação por pastas do ITIL. Inclui [Gerenciamento de Vulnerabilidades Tenable | Criação de Varreduras de Agente Nessus](https://www.youtube.com/watch?v=kj1EfweEEgM), com reprodução incorporada, tela cheia e link para abrir no YouTube. Cada curso mostra sua própria biblioteca, e o cabeçalho permite voltar ao menu Tenable ou trocar de curso.
 
 - 8 simulados temáticos de 20 questões.
 - Completos A/B de 60 questões cada, sem itens comuns entre eles.

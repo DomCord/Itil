@@ -2,6 +2,8 @@
 
 Abra o `index.html` da raiz do site e selecione **Tenable** após entrar. Há slides com miniaturas, zoom, tela cheia, notas, fontes e download do PPTX. Os simulados seguem o motor de correção, embaralhamento e retomada do site.
 
+Em **Vídeos**, assista a “Gerenciamento de Vulnerabilidades Tenable | Criação de Varreduras de Agente Nessus” pelo player incorporado do YouTube. O módulo segue o layout do ITIL, com biblioteca lateral, tela cheia, link para o vídeo original e retorno ao curso.
+
 ## Pastas
 
 - `Slides`: nove apresentações atualizadas, 73 imagens para visualização e versões originais.
