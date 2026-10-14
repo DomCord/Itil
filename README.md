@@ -1,6 +1,6 @@
-# Study — ITIL v5 e AI-901
+# Study — ITIL v5, AI-901 e Tenable
 
-Após o login, o menu principal permite escolher **ITIL v5** ou **AI-901**. Cada curso tem seu próprio menu, e os botões do cabeçalho permitem voltar ao curso ou trocar de curso. As credenciais e o progresso ITIL já salvo continuam válidos.
+Após o login, o menu principal permite escolher **ITIL v5**, **AI-901** ou **Tenable**. Cada curso tem seu próprio menu, e os botões do cabeçalho permitem voltar ao curso ou trocar de curso. As credenciais e o progresso ITIL já salvo continuam válidos.
 
 A área **ITIL v5** mantém o painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
 
@@ -53,3 +53,27 @@ Os testes e seus resultados estão documentados em [VALIDATION.md](VALIDATION.md
 Em **Settings → Pages**, selecione **Deploy from a branch**, escolha a branch `main` e a pasta `/ (root)`.
 
 Abra `index.html` diretamente para testar localmente. Nenhuma instalação é necessária.
+
+## Tenable
+
+O terceiro curso usa o mesmo tema, cabeçalho, cards, motor de questões e visualizador dos cursos existentes. A pasta `Tenable` reúne 9 apresentações revisadas (73 slides PNG para leitura no navegador e PPTX editáveis), versões originais, notas, fontes, planejamento, cadernos e gabaritos.
+
+- 8 simulados temáticos de 20 questões.
+- Completos A/B de 60 questões cada, sem itens comuns entre eles.
+- Reserva de 40 questões e seleção aleatória de 60 do banco autoral de 160.
+- Banco complementar: 100 questões em inglês na cópia pessoal local.
+
+O total é de 260 questões únicas; os cadernos, completos e aleatório reutilizam os mesmos itens. Os tempos de 40, 80, 120 e 200 minutos aparecem como referência de treino. O motor mantém o padrão do site de correção após cada resposta; as versões originais dos simuladores cronometrados também estão arquivadas na pasta `Tenable/Simulados`.
+
+As questões mantêm enunciado, alternativas, resposta e explicação originais. Verdadeiro/falso usa duas opções em inglês. Os novos índices são anexados depois dos seis simulados existentes, preservando suas chaves de progresso. O aleatório salva os 60 IDs escolhidos para retomar a mesma tentativa após recarregar a página.
+
+### Banco complementar e publicação
+
+A exceção de uso educacional pessoal da fonte não autoriza redistribuição. O banco de 100, os arquivos combinados que o contêm e as capturas ficam ignorados pelo Git. O carregador dessa cópia pessoal só roda por `file://` ou em `localhost`/loopback. Em hospedagem pública ficam os 160 itens autorais, 12 opções de simulado e os 73 slides. Não foi executada publicação nesta integração local.
+
+Validação adicional: `node tests/tenable.test.mjs`. Os testes antigos continuam em `node tests/quiz.test.mjs`.
+
+
+## Correção comentada por alternativa — 14/10/2026
+
+As 260 questões recebem 976 justificativas individuais em inglês, usando o mesmo painel de alternativas corretas/incorretas dos demais cursos. As justificativas acompanham suas opções durante o embaralhamento e aparecem tanto após responder quanto na revisão final e nos gabaritos para download. Os 32 itens verdadeiro/falso recebem duas justificativas cada. Os enunciados, opções e respostas da base permanecem iguais; notas técnicas identificam itens complementares ambíguos ou imprecisos sem alterar silenciosamente sua pontuação. O nome do banco complementar foi padronizado nos menus, arquivos e materiais. A restrição de uso pessoal e a exclusão do banco complementar da publicação permanecem.

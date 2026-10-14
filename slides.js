@@ -1,5 +1,5 @@
 const SlidesModule = (() => {
-  const DECKS = [
+  const ITIL_DECKS = [
     { id: 'introducao', title: 'Introdução', count: 10 },
     { id: 'modulo-1', title: 'Módulo 1', count: 20, exercise: 'module-1' },
     { id: 'modulo-2', title: 'Módulo 2', count: 20, exercise: 'module-2' },
@@ -12,6 +12,8 @@ const SlidesModule = (() => {
     { id: 'modulo-9', title: 'Módulo 9', count: 28, extension: 'jpg', exercise: 'module-9' },
     { id: 'modulo-10', title: 'Módulo 10', count: 8, extension: 'jpg', exercise: 'module-10' }
   ];
+  let DECKS = ITIL_DECKS;
+  let presentationTitle = 'ITIL Foundation';
   const MODULE_ONE_EXERCISE = [
     {
       question: 'O que é um serviço digital?',
@@ -392,7 +394,7 @@ const SlidesModule = (() => {
     { id: 'supplier-area', title: 'Recursos e produtos digitais', description: 'Adquire, constrói e gerencia a base tecnológica', answer: 'supplier' },
     { id: 'provider-area', title: 'Ofertas e serviços digitais', description: 'Oferece, negocia, entrega e apoia os serviços', answer: 'provider' }
   ];
-  const TOTAL_SLIDES = DECKS.reduce((total, deck) => total + deck.count, 0);
+  let TOTAL_SLIDES = DECKS.reduce((total, deck) => total + deck.count, 0);
   const EXERCISE_LAYOUT_KEY = 'itil-slide-exercise-layout-v1:';
   const MIN_ZOOM = 75;
   const MAX_ZOOM = 200;
@@ -417,7 +419,7 @@ const SlidesModule = (() => {
   const isExercise = () => Boolean(activeDeck().exercise && currentSlide > activeDeck().count);
   const activeExercise = () => EXERCISES[activeDeck().exercise];
   const activeExerciseAnswers = () => exerciseAnswers[activeDeck().exercise];
-  const slidePath = (deck, number) => `slides/${deck.id}/slide-${String(number).padStart(3, '0')}.${deck.extension || 'webp'}`;
+  const slidePath = (deck, number) => `${deck.path || 'slides/'+deck.id}/slide-${String(number).padStart(3, '0')}.${deck.extension || 'webp'}`;
   const clampSlide = number => Math.min(lastStep(activeDeck()), Math.max(1, Number(number) || 1));
   const globalSlideNumber = () => DECKS.slice(0, activeDeckIndex).reduce((total, deck) => total + deck.count, 0) + currentSlide;
 
@@ -734,6 +736,9 @@ const SlidesModule = (() => {
         button.removeAttribute('aria-current');
       }
     });
+    const resources = root.querySelector('#slideResources');
+    const note=deck.notes?.[currentSlide-1];
+    resources.innerHTML=deck.pptx ? `<div class="slide-download"><a href="${escapeHTML(deck.pptx)}" download>Baixar apresentação PPTX ↓</a></div>${note ? `<details class="slide-notes"><summary>Notas e fontes deste slide</summary><h3>${escapeHTML(note.title)}</h3><p>${escapeHTML(note.text)}</p><ul>${note.references.map(ref=>`<li><a href="${escapeHTML(ref.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(ref.title)} ↗</a></li>`).join('')}</ul></details>` : ''}` : '';
     preloadNeighbors();
   }
 
@@ -907,7 +912,7 @@ const SlidesModule = (() => {
         <header class="slides-head">
           <div>
             <span class="eyebrow">Módulo Slide</span>
-            <h1>Apresentações ITIL Foundation</h1>
+            <h1>Apresentações ${escapeHTML(presentationTitle)}</h1>
             <p>${TOTAL_SLIDES} slides em alta resolução, organizados por etapa do curso.</p>
           </div>
           <div class="slides-head-actions">
@@ -943,13 +948,17 @@ const SlidesModule = (() => {
             </div>
             <figure class="slide-stage"></figure>
             <p id="slideStatus" class="slide-status" aria-live="polite"></p>
+            <div id="slideResources"></div>
           </section>
         </div>
       </section>`;
     updateControls();
   }
 
-  function open() {
+  function open(configuration) {
+    DECKS = configuration?.decks || ITIL_DECKS;
+    presentationTitle = configuration?.title || 'ITIL Foundation';
+    TOTAL_SLIDES=DECKS.reduce((total,deck)=>total+deck.count,0);
     activeDeckIndex = 0;
     currentSlide = 1;
     zoom = 100;
@@ -1065,5 +1074,5 @@ const SlidesModule = (() => {
     if (event.key === 'End') selectDeck(DECKS.length - 1, DECKS[DECKS.length - 1].count);
   });
 
-  return { open, total: TOTAL_SLIDES, decks: DECKS };
+  return { open, total: ITIL_DECKS.reduce((n,d)=>n+d.count,0), decks: ITIL_DECKS };
 })();

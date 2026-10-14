@@ -1,0 +1,19 @@
+{
+  "accessed": "2026-10-09",
+  "sources": [
+    "https://static.tenable.com/ps/DS_VM_Specialist_Cert.pdf",
+    "https://static.tenable.com/ps/DS_VM_Specialist_Course.pdf"
+  ],
+  "files": [
+    {
+      "file": "DS_VM_Specialist_Cert_20261009.pdf",
+      "pages": 1,
+      "sha256": "d9afffb2bceeda4df6b4b13fe1520926eb256455cf0251c457123565f9f1d13a"
+    },
+    {
+      "file": "DS_VM_Specialist_Course_20261009.pdf",
+      "pages": 2,
+      "sha256": "bc41a4c06aaff1d074cedd09653a0c21fa14d31afd5f235e59e115b56f2ad67c"
+    }
+  ]
+}

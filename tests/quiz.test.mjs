@@ -23,6 +23,7 @@ const context = vm.createContext({
   requestAnimationFrame: callback => callback(),
   AuthGate: { initialize() {}, isAuthenticated: () => true },
   SlidesModule: { total: 233 }, VideosModule: { total: 32 },
+  TenableStudy: { slideCount: 73, uniqueCount: () => 160 },
   localStorage: {
     getItem: key => storage.get(key) ?? null,
     setItem: (key, value) => storage.set(key, String(value)),

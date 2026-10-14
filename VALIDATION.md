@@ -50,3 +50,21 @@ node tests/quiz.test.mjs
 Esse teste usa apenas módulos nativos do Node.js e cobre 180 sessões embaralhadas, gabaritos, os 394 comentários AI-901 e suas referências, ausência de repetições nos seis bancos, feedback de respostas certas/erradas, compatibilidade do progresso antigo do ITIL, os três formatos de resposta, retomada, resultado, armazenamento indisponível e referências locais do HTML. Nesta sessão, ele foi executado no runtime Node disponível à ferramenta, com adaptação somente da entrada dos imports e do diretório raiz.
 
 Os relatórios HTML/JSON e capturas utilizados na validação de navegador estão na pasta local `.qa`, ignorada pelo Git.
+
+## Integração Tenable — 14/10/2026
+
+- Os testes anteriores passaram: 295 questões, comentários AI-901, 180 sessões embaralhadas, progresso legado, três formatos, retomada e resultado.
+- O novo teste preserva os 260 enunciados, alternativas, gabaritos e explicações; confere 13 opções locais e 12 sem o banco pessoal, A/B sem sobreposição, verdadeiro/falso com duas opções, 65 sessões embaralhadas, correção, resultado e retomada do conjunto aleatório de 60 itens.
+- Os nove PPTX revisados e 73 PNG estão acessíveis. Foram preservadas também as versões originais e incorporadas notas e fontes ao visualizador.
+- No navegador, uma fixture de QA independente foi usada para testar o conteúdo sem alterar ou resolver a autenticação real. Foram conferidos o terceiro curso, os 13 cards de simulado, o visualizador, a navegação até o slide 73, zoom, notas, fontes, links de PPTX, a correção em inglês do Banco complementar e sua retomada após uma resposta.
+- A biblioteca exibe nove links de apresentações e 29 links Markdown. A tela real de login foi conferida, com os três cursos no texto e campos originais. Não foi realizado login com credenciais reais.
+- O menu e o visualizador não têm rolagem horizontal em viewport de 390 px. Foi corrigida a largura mínima da barra de miniaturas que expandia o layout móvel. O desktop foi conferido em 1280 px, com os três cursos na mesma linha.
+- O botão de tela cheia existente foi acionado, e a árvore de acessibilidade passou a exibir apenas o visualizador. Não houve teste de download; os arquivos e destinos dos links foram conferidos estruturalmente.
+- O Banco complementar é uma cópia pessoal: pasta, JSON combinado e HTML combinado ignorados pelo Git. Seu carregamento ocorre somente em arquivo local ou loopback. Não foi executada publicação.
+
+Reexecutar: `node tests/quiz.test.mjs` e `node tests/tenable.test.mjs`.
+
+
+## Correção comentada por alternativa — 14/10/2026
+
+As 260 questões recebem 976 justificativas individuais em inglês, usando o mesmo painel de alternativas corretas/incorretas dos demais cursos. As justificativas acompanham suas opções durante o embaralhamento e aparecem tanto após responder quanto na revisão final e nos gabaritos para download. Os 32 itens verdadeiro/falso recebem duas justificativas cada. Os enunciados, opções e respostas da base permanecem iguais; notas técnicas identificam itens complementares ambíguos ou imprecisos sem alterar silenciosamente sua pontuação. O nome do banco complementar foi padronizado nos menus, arquivos e materiais. A restrição de uso pessoal e a exclusão do banco complementar da publicação permanecem.

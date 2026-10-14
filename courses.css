@@ -50,3 +50,19 @@
   .question-code { padding: 12px; font-size: 12px; }
   .topic-results th, .topic-results td { padding: 12px; }
 }
+
+/* Biblioteca Tenable: os mesmos componentes e cores dos demais cursos. */
+.course-cards {grid-template-columns:repeat(3,minmax(0,1fr));}
+@media(max-width:900px) {.course-cards {grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:760px) {.course-cards {grid-template-columns:minmax(0,1fr);}}
+.sim-card .meta {gap:8px 16px;flex-wrap:wrap;}
+.slides-sidebar {min-width:0;}
+.material-links {list-style:none;padding:0;margin:20px 0 0;display:grid;gap:14px;}
+.material-links a,.slide-download a,.slide-notes a,.source-note a {color:var(--teal);text-underline-offset:3px;overflow-wrap:anywhere;}
+.source-note {color:var(--muted);line-height:1.7;font-size:14px;margin-top:22px;}
+.slide-download {margin:12px 0 18px;font-size:14px;}
+.slide-notes {background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;color:var(--muted);line-height:1.7;}
+.slide-notes summary {cursor:pointer;color:var(--teal);font-weight:700;}
+.slide-notes p {white-space:pre-wrap;}
+.slide-notes h3 {color:var(--ink);}
+.tenable-materials {min-width:0;}

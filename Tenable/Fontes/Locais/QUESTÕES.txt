@@ -1,0 +1,321 @@
+QUESTÕES 
+1. Qual produto da Tenable é usado principalmente para gerenciamento de vulnerabilidades em ambientes em nuvem, locais (on-premises) e híbridos? 
+A. Tenable.ad
+B. Tenable.ot 
+C. Tenable Vulnerability Management 
+D. Tenable.cs
+C. Tenable Vulnerability Management (Correta): É a solução SaaS da Tenable desenvolvida especificamente para oferecer cobertura contínua e gerenciamento de vulnerabilidades em ativos de TI tradicionais (on-premises), recursos em nuvem e ambientes híbridos.
+A. Tenable.ad: É uma solução direcionada exclusivamente à segurança e à análise de misconfigurations e vulnerabilidades no Active Directory (AD).
+B. Tenable.ot: Voltada para a proteção de ambientes de Tecnologia Operacional (OT), redes industriais e sistemas SCADA/ICS.
+D. Tenable.cs: Focada em segurança de Infraestrutura como Código (IaC) e postura de segurança na nuvem (CSPM/CNAPP), não cobrindo o gerenciamento amplo de vulnerabilidades de sistemas de TI tradicionais e híbridos.
+2. Que tipo de escaneamento o Tenable Vulnerability Management realiza principalmente? 
+A. Análise de código 
+B. Captura de pacotes 
+C. Escaneamento de vulnerabilidades em rede e hosts 
+D. Teste de invasão (Pentest)
+A. Análise de código: Refere-se a ferramentas de SAST/DAST/SCA (análise de código-fonte estático ou dinâmico), função atendida por outras soluções focadas em desenvolvimento (como o Tenable.cs para IaC), não pelo escaneamento primário de rede/host.
+B. Captura de pacotes: Trata-se de inspeção profunda de tráfego de rede (DPI/NTA), comum em ferramentas de detecção de intrusão (IDS/NSM).
+C. Escaneamento de vulnerabilidades em rede e hosts (Correta): O Tenable Vulnerability Management realiza varreduras ativas (network-based) e locais (agent-based) para mapear ativos, identificar portas abertas, serviços expostos, falhas de segurança e erros de configuração no sistema operacional e aplicações.
+D. Teste de invasão (Pentest): Consiste na exploração ativa e invasiva de vulnerabilidades para obter acesso não autorizado aos sistemas, enquanto o Tenable foca no mapeamento e gestão passiva/auditada dessas falhas.
+
+
+3. Qual é uma vantagem do escaneamento baseado em agentes no Tenable? 
+A. Reduz o uso de CPU nos endpoints 
+B. Permite escaneamento offline quando os hosts não estão na rede 
+C. Fornece apenas alertas em tempo real 
+D. Elimina requisitos de aplicação de patches
+A. Reduz o uso de CPU nos endpoints: Incorreta. O processamento da varredura do agente ocorre diretamente na máquina do usuário, o que consome ciclos de CPU/RAM locais (embora o impacto seja otimizado).
+B. Permite escaneamento offline quando os hosts não estão na rede (Correta): Como o Tenable Nessus Agent é instalado diretamente no dispositivo (endpoint), ele executa a verificação localmente utilizando seus próprios recursos. Ele não depende de uma conexão ativa com a rede corporativa ou com o console da Tenable no momento da varredura — os dados da auditoria ficam armazenados e são sincronizados assim que a conexão é restabelecida (ideal para notebooks de usuários remotos ou viajantes).
+C. Fornece apenas alertas em tempo real: Incorreta. O foco do agente é a auditoria periódica e detalhada de postura de segurança e vulnerabilidades, não atuar apenas como um sistema de alertas pontuais de runtime/EDR.
+D. Elimina requisitos de aplicação de patches: Incorreta. O agente apenas identifica as falhas existentes; a correção e aplicação de patches de segurança continuam sendo obrigatórias para mitigar os riscos.
+4. Qual protocolo é necessário para escaneamentos credenciados em ambientes Windows? 
+A. SSH 
+B. SMB 
+C. SNMP 
+D. RDP
+A. SSH: É o padrão utilizado para escaneamentos credenciados em sistemas baseados em Linux, Unix e dispositivos de rede.
+B. SMB (Server Message Block - Correta): O scanner da Tenable precisa do SMB para se conectar aos compartilhamentos administrativos do Windows (como ADMIN$ e C$). Isso permite acessar o Registro do Windows, inspecionar o sistema de arquivos, verificar DLLs e validar se os patches de segurança estão realmente aplicados.
+C. SNMP: Utilizado principalmente para inventário e monitoramento passivo de dispositivos de rede (como roteadores e switches), mas não para auditoria profunda de credenciais no Windows.
+D. RDP: É o protocolo de área de trabalho remota para acesso gráfico de usuários; não é utilizado pelos motores do Nessus para autenticação e execução de scripts de auditoria.
+
+
+5. No Tenable, o que significa a sigla CVSS? 
+A. Common Vulnerability Software System 
+B. Computer Vulnerability Scanning Score 
+C. Common Vulnerability Scoring System 
+D. Cyber Vulnerability Severity Scale
+C. Common Vulnerability Scoring System (Correta): O CVSS é um padrão aberto mantido pelo FIRST (Forum of Incident Response and Security Teams) e adotado globalmente pela indústria de cibersegurança, inclusive pela Tenable, para atribuir uma pontuação numérica (de 0.0 a 10.0) à gravidade das vulnerabilidades de software.
+A, B e D: São combinações incorretas criadas para confundir os termos da sigla
+
+6. Qual modelo de implantação da Tenable não requer infraestrutura local? 
+A. VM On-premises 
+B. Nuvem (SaaS) 
+C. Implantação híbrida 
+D. Scanner em contêiner (Containerized scanner)
+A. VM On-premises: Exige o provisionamento e manutenção de máquinas virtuais no ambiente local da organização (como no Tenable Security Center / Nessus Manager).
+B. Nuvem (SaaS - Correta): No modelo de Software como Serviço (SaaS), como o Tenable Vulnerability Management (antigo Tenable.io), toda a infraestrutura de gerenciamento, bancos de dados e consoles roda diretamente na nuvem da própria Tenable. O cliente acessa tudo via navegador sem precisar instalar ou manter servidores locais.
+C. Implantação híbrida: Combina componentes na nuvem e no ambiente local, demandando ainda alguma infraestrutura própria.
+D. Scanner em contêiner (Containerized scanner): Requer uma infraestrutura local de orquestração/execução de contêineres (como Docker ou Kubernetes) para rodar o motor do scanner.
+
+
+
+
+
+
+
+7. Qual é a função de um scanner Nessus no Tenable Vulnerability Management? 
+A. Apenas relatórios 
+B. Descoberta e avaliação de vulnerabilidades nos alvos 
+C. Atribuição de chamados/tickets
+B. Descoberta e avaliação de vulnerabilidades nos alvos (Correta): O Nessus atua como o motor de varredura (scanning engine). Sua função prática é realizar o mapeamento dos alvos na rede, identificar portas abertas, detectar serviços rodando e avaliar ativamente ou de forma credenciada as vulnerabilidades e falhas de configuração presentes nesses ativos.
+A. Apenas relatórios: Incorreta. A agregação, correlação de dados e geração de relatórios consolidados são feitas pelo console central na nuvem (Tenable Vulnerability Management), enquanto o Nessus é focado na execução e coleta técnica da varredura.
+C. Atribuição de chamados/tickets: Incorreta. A gestão de chamados para remediação normalmente é realizada por integrações com plataformas ITSM (como ServiceNow ou Jira), não sendo a função primária do scanner Nessus.
+8. Verdadeiro ou Falso: O Tenable Security Center fornece recálculo/redefinição automática de risco baseada em regras definidas pelo usuário.
+Verdadeiro ( X )
+Falso ( )
+Tenable Security Center permite criar regras de Risk Recasting (Recálculo de Risco) ou Accept Risk (Aceite de Risco). Se uma regra for configurada para alterar a severidade de uma vulnerabilidade específica (por exemplo, de "Crítica" para "Média" devido a um controle compensatório), a plataforma reaplica essa regra automaticamente a todas as novas varreduras.
+9. Verdadeiro ou Falso: O Tenable Security Center consolida dados de vulnerabilidade de toda a infraestrutura de TI.
+Verdadeiro ( X )
+Falso ( )
+Como console de gerenciamento on-premises, ele é projetado justamente para agregar e centralizar informações coletadas por múltiplos scanners Nessus, agentes, escaneamentos passivos (NNM) e integrações em toda a rede corporativa.
+
+
+
+
+10. Qual tipo de ativo pode ser rastreado no Tenable Security Center?
+A. Baseado em IP
+B. Baseado em UUID
+C. Baseado em Domínio
+D. Todas as alternativas anteriores
+A plataforma rastreia e identifica ativos de forma flexível utilizando endereços IP (v4/v6), identificadores únicos do agente (UUIDs do Nessus Agent) e nomes de domínio/FQDN para garantir inventário preciso de ativos em ambientes híbridos e dinâmicos.
+11. Qual formato de relatório NÃO é suportado pelo Tenable Security Center?
+A. PDF
+B. CSV
+C. JSON
+D. DOCX
+O Tenable Security Center suporta nativamente a exportação de dados e relatórios estruturados nos formatos PDF, CSV, JSON e XML/ARF. O formato nativo do Microsoft Word (.docx) não é um padrão de saída nativo gerado pelo motor de relatórios.
+12.  Verdadeiro ou Falso: Ativos dinâmicos (Dynamic assets) são atualizados automaticamente com base nos dados de escaneamento.
+Verdadeiro ( X )
+Falso ( )
+Diferente das listas estáticas, os Dynamic Asset Lists funcionam através de filtros de consulta (ex: "sistemas operacionais Windows Server 2019 com porta 445 aberta"). Conforme novos escaneamentos são concluídos, o Tenable insere ou remove ativos dessa lista automaticamente.
+
+13. Qual método de autenticação de API é suportado no Tenable Security Center?
+A. OAuth
+B. API Key
+C. Kerberos
+D. Nenhum
+A API REST do Tenable Security Center utiliza chaves de API (Access Key e Secret Key) geradas no perfil do usuário para autenticar requisições automatizadas, scripts e integrações com terceiros de forma segura.
+
+14. O que o Passive Vulnerability Scanner (PVS) da Tenable fornece? 
+A. Apenas verificações com credenciais 
+B. Monitoramento contínuo do tráfego de rede para identificar vulnerabilidades 
+C. Varreduras manuais sob demanda 
+D. Instalação de patches
+A. Apenas verificações com credenciais: Incorreta. O PVS é totalmente não invasivo e não realiza login ou autenticação nos hosts; ele apenas "escuta" o tráfego da rede.
+B. Monitoramento contínuo do tráfego de rede para identificar vulnerabilidades (Correta): O PVS (atualmente chamado de Tenable Nessus Network Monitor - NNM) funciona de maneira passiva via porta SPAN/TAP. Ele analisa continuamente o tráfego de rede para descobrir novos ativos, portas ativas e serviços em execução, além de detectar vulnerabilidades em tempo real sem enviar um único pacote para o alvo (o que impede qualquer risco de instabilidade em sistemas sensíveis ou Legados/OT).
+C. Varreduras manuais sob demanda: Incorreta. Ao contrário do Nessus tradicional (que roda sob agendamento ou demanda), o PVS atua de forma ininterrupta e passiva.
+D. Instalação de patches: Incorreta. O PVS atua exclusivamente na visibilidade e detecção, não realizando alterações ou correções nos sistemas operacionais.
+15. Qual tipo de escaneamento oferece a detecção de vulnerabilidades mais precisa?
+A. Escaneamento sem credenciais 
+B. Escaneamento baseado em agente 
+C. Escaneamento credenciado 
+D. Escaneamento passivo
+A. Escaneamento sem credenciais: Avalia o alvo apenas do ponto de vista do atacante externo, limitando-se a portas abertas, banners de serviços e versões de software expostas na rede. É propenso a mais falsos positivos/negativos.
+B. Escaneamento baseado em agente: Embora traga um nível alto de precisão por rodar localmente no host, o escaneamento credenciado via rede é considerado a resposta padrão na maioria das avaliações formais do ecossistema Tenable por cobrir a checagem completa do ativo, incluindo o comportamento das portas/serviços expostos na rede.
+C. Escaneamento credenciado (Correta): Ao fornecer credenciais válidas de acesso (como Administrador no Windows ou root/sudo no Linux), o scanner consegue realizar um login direto no sistema. Isso permite inspecionar o Registro do sistema, verificar permissões de arquivos, checar bibliotecas locais (DLLs) e validar se as atualizações de segurança estão realmente instaladas. Essa visibilidade profunda elimina falsos positivos e garante o resultado mais preciso.
+D. Escaneamento passivo: Apenas analisa pacotes que passam pela rede (SPAN/TAP). É excelente para visibilidade contínua sem impacto, mas oferece o menor nível de profundidade e precisão técnica detalhada em comparação ao escaneamento credenciado.
+
+16. Qual componente atualiza o Tenable Vulnerability Management com as verificações de vulnerabilidade mais recentes? 
+A. Atualizações de firmware 
+B. Plugins do Nessus 
+C. Painéis (Dashboards) 
+D. Políticas (Policies)
+A. Atualizações de firmware: Dizem respeito a atualizações do software básico de dispositivos físicos (como roteadores, switches ou equipamentos de rede), não tendo relação com os feeds de inteligência de vulnerabilidade da plataforma.
+B. Plugins do Nessus (Correta): Os plugins são pequenos programas e scripts desenvolvidos na linguagem NASL (Nessus Attack Scripting Language). Cada plugin contém o código e a lógica necessária para testar, identificar e validar uma vulnerabilidade específica ou falha de configuração. A Tenable publica novas atualizações de plugins diariamente para manter as plataformas de gestão atualizadas contra as vulnerabilidades mais recentes do mercado.
+C. Painéis (Dashboards): São componentes de interface gráfica utilizados para visualizar e analisar os dados já coletados, e não para fornecer definições de segurança ou novas assinaturas.
+D. Políticas (Policies): São as definições configuradas pelo administrador sobre como o escaneamento deve ser realizado (quais portas testar, quais credenciais utilizar, quais grupos de plugins habilitar), e não as atualizações em si.
+17. Qual padrão de conformidade (compliance) é suportado nativamente pelo Tenable para auditoria? 
+A. Apenas HIPAA 
+B. CIS Benchmarks, PCI DSS, NIST e outros 
+C. ISO 9001 D. 
+Apenas GDPR
+A. HIPAA only: Incorreta. A palavra "apenas" (only) invalida a opção, pois o Tenable cobre diversos outros frameworks além do HIPAA.
+B. CIS Benchmarks, PCI DSS, NIST, e outros (Correta): A Tenable oferece suporte nativo e uma vasta biblioteca de arquivos de auditoria (audit files) para múltiplos frameworks de segurança e conformidade amplamente reconhecidos, incluindo CIS Benchmarks, PCI DSS, padrões NIST (como SP 800-53 e Cybersecurity Framework), HIPAA, ISO 27001, entre outros.
+C. ISO 9001: Incorreta. O ISO 9001 é um padrão internacional voltado para a Gestão da Qualidade genérica em empresas, não para segurança da informação, auditoria técnica ou configuração de sistemas de TI.
+D. GDPR only: Incorreta. Da mesma forma, limita incorretamente a solução ao GDPR, ignorando a ampla cobertura de conformidade técnica fornecida pela plataforma.
+
+18. Com que frequência os plugins do Nessus costumam ser atualizados? 
+A. Semanalmente 
+B. Diariamente 
+C. Mensalmente 
+D. Trimestralmente
+A. Weekly / Semanalmente: Incorreta. Aguardar uma semana para atualizar assinaturas deixaria os sistemas expostos a vulnerabilidades recém-descobertas durante dias.
+B. Daily / Diariamente (Correta): A equipe de pesquisa da Tenable (Tenable Research) lança atualizações do feed de plugins do Nessus diariamente (às vezes até várias vezes ao dia em casos de vulnerabilidades de alto impacto ou Zero-Days), garantindo detecção imediata contra ameaças emergentes.
+C. Monthly / Mensalmente: Incorreta. Esse intervalo é longo demais para o gerenciamento ativo de vulnerabilidades e não reflete a frequência do feed oficial.
+D. Quarterly / Trimestralmente: Incorreta. Atualizações trimestrais costumam ser associadas a revisões de auditoria ou lançamentos maiores do produto/software, não ao feed de assinaturas e plugins.
+
+19. Qual é o papel de uma política de escaneamento (scan policy) no Tenable? 
+A. Autenticação de usuário 
+B. Define configurações de escaneamento, alvos e credenciais 
+C. Atribuição de tags 
+D. Roteamento de chamados (tickets)
+A. User authentication: Incorreta. A autenticação do usuário no console é gerenciada pelo controle de acesso da plataforma (IAM/Role-Based Access Control) ou integração com provedores de identidade (IdP/SSO/SAML), não por políticas de escaneamento.
+B. Defines scan settings, targets, and credentials (Correta): A Scan Policy é o modelo configurável que estabelece as regras e parâmetros técnicos da varredura. Ela determina quais portas serão verificadas, o nível de agressividade do teste, quais plugins/famílias estarão ativos, as credenciais de autenticação a serem utilizadas e as faixas de IP/alvos cobertos.
+C. Tag assignment: Incorreta. A atribuição de tags e agrupamento de ativos é tratada por regras de etiquetagem (Asset Tagging), e não pelas configurações de execução de uma varredura.
+D. Ticket routing: Incorreta. O roteamento de chamados é gerenciado por regras de automação de fluxo de trabalho (workflows) ou integrações externas com ferramentas ITSM (como Jira ou ServiceNow).
+
+
+20. Qual é o objetivo principal do Tenable Vulnerability Management?
+a. Fornecer uma plataforma para solução geral de problemas de TI
+b. Substituir todas as ferramentas de cibersegurança em uma organização
+c. Monitorar a atividade dos funcionários em busca de potenciais ameaças internas
+d. Identificar, avaliar e gerenciar vulnerabilidades em ambientes digitais
+a. To provide a platform for general IT troubleshooting: Incorreta. Ferramentas de suporte de TI (como Helpdesk ou APM) tratam da operação do sistema, não do gerenciamento de exposição a vulnerabilidades.
+b. To replace all cybersecurity tools in an organization: Incorreta. O produto complementa a arquitetura de segurança (integra-se com SIEM, EDR, Firewalls), mas não substitui outras categorias de solução.
+c. To monitor employee activity for potential insider threats: Incorreta. O monitoramento de comportamento de usuários (UEBA/DLP) é responsabilidade de outras ferramentas focadas em identidade e proteção de dados.
+d. Esta é a definição central da plataforma. O Tenable Vulnerability Management foi desenhado especificamente para mapear ativos, descobrir falhas de segurança e ajudar equipes a priorizar e remediar riscos na infraestrutura.
+
+21. Qual das seguintes opções melhor descreve a principal diferença entre a gestão de exposição (exposure management) e a gestão de vulnerabilidades tradicional? 
+a. A gestão de exposição foca no risco do negócio, enquanto a gestão de vulnerabilidades tradicional foca na contagem de vulnerabilidades. 
+b. A gestão de exposição ignora vulnerabilidades, enquanto a gestão de vulnerabilidades tradicional as aborda. 
+c. A gestão de vulnerabilidades tradicional usa pontuação preditiva, enquanto a gestão de exposição não usa. 
+d. A gestão de exposição preocupa-se apenas com conformidade (compliance), enquanto a gestão de vulnerabilidades tradicional não.
+a. Exposure management focuses on business risk... (Correta): A gestão de vulnerabilidades tradicional costuma focar no volume de falhas encontradas (Métricas CVSS, contagem bruta de relatórios), o que sobrecarrega as equipes. Já a gestão de exposição (Exposure Management, como o Tenable One/CTEM) conecta as vulnerabilidades ao contexto de negócios, vetores de ataque, identidades e criticidade do ativo, priorizando o risco real da organização.
+b. Exposure management ignores vulnerabilities... (Incorreta): A gestão de exposição não ignora vulnerabilidades; pelo contrário, ela utiliza os dados de vulnerabilidade como um dos seus principais pilares, agregando contexto adicional de superfície de ataque e identidades.
+c. Traditional vulnerability management uses predictive scoring... (Incorreta): O cenário é o inverso. A gestão de exposição e ferramentas modernas usam algoritmos de pontuação preditiva (como o VPR e a análise de caminhos de ataque), enquanto o modelo tradicional baseia-se prioritariamente na severidade estática do CVSS.
+d. Exposure management is only concerned with compliance... (Incorreta): A gestão de exposição vai muito além da conformidade técnica e regulatória, focando na resiliência e na redução proativa do risco de invasão ao analisar a superfície de ataque externa e interna.
+
+22. Qual recurso do Tenable ajuda a priorizar os hosts descobertos com base em sua criticidade e exposição?
+A) Priorização de ativos baseada em risco (Risk-based Asset Prioritization)
+B) Correção automatizada (Automated Patching)
+C) Controles de acesso do usuário (User Access Controls)
+D) Gerenciamento de criptografia (Encryption Management)
+A) Correta: O Risk-based Asset Prioritization (como o ACR - Asset Criticality Rating) avalia a criticidade do ativo para o negócio e o nível de exposição para classificar e priorizar a remediação.
+B) Incorreta: O Tenable identifica vulnerabilidades, mas não executa a aplicação de correções (patching) de forma direta e automatizada.
+C) Incorreta: Trata-se de permissões de acesso ao sistema (RBAC), não da análise de relevância de ativos.
+D) Incorreta: Refere-se à gestão de chaves e algoritmos criptográficos, sem relação com priorização de risco.
+23. Como o Tenable se integra a sistemas de inventário de rede para melhorar a precisão da descoberta de hosts?
+A) Substituindo os dados do inventário
+B) Cruzando referências dos hosts descobertos com os registros do inventário
+C) Ignorando os dados do inventário
+D) Exportando dados do inventário para sistemas externos
+A) Incorreta: A integração complementa e valida os dados existentes; ela não apaga ou substitui a fonte do inventário.
+B) Correta: Ao cruzar dados de varredura com CMDBs/inventários (ex: ServiceNow), a ferramenta identifica shadow IT, ativos não gerenciados ou divergências de dados.
+C) Incorreta: O objetivo da integração é justamente aproveitar esses dados, não ignorá-los.
+D) Incorreta: Embora a exportação seja possível, a melhoria da precisão na descoberta ocorre na comparação e reconciliação dos registros.
+
+24. Qual é a importância de definir faixas de rede (network ranges) corretamente durante as varreduras de descoberta de hosts nas ferramentas Tenable?
+A) Acelera o processo de varredura
+B) Garante que todos os hosts relevantes sejam descobertos e evita a varredura de IPs irrelevantes
+C) Reduz o custo da varredura
+D) Melhora os relatórios gráficos
+A) Incorreta: O ganho de velocidade é apenas uma consequência secundária do escopo reduzido, não o propósito principal.
+B) Correta: Definir o escopo exato (ex: CIDR correto) impede que alvos legítimos fiquem de fora e evita desperdício de tráfego/tempo em endereços não utilizados ou fora de escopo.
+C) Incorreta: O licenciamento do Tenable geralmente é por ativo descoberto/gerenciado, não um custo direto por requisição de rede.
+D) Incorreta: O escopo define quais dados são coletados; a estética ou layout dos relatórios permanece a mesma.
+25. Qual ferramenta Tenable fornece uma plataforma centralizada para gerenciar múltiplos scanners Nessus e seus processos de descoberta de hosts?
+A) Tenable.ot
+B) Tenable.sc
+C) Tenable.ad
+D) Tenable.io
+A) Incorreta: Voltado para segurança de Tecnologia Operacional (OT) e sistemas industriais (ICS/SCADA).
+B) Correta: O Tenable.sc (SecurityCenter) é a solução on-premises focada no gerenciamento centralizado de múltiplos Nessus Scanners distribuídos pela rede. (Nota: O Tenable.io desempenha função similar na nuvem, mas o Tenable.sc é a resposta padrão em certificações acadêmicas/históricas da marca).
+C) Incorreta: Voltado exclusivamente para segurança e auditoria de cenários do Active Directory (atualmente Tenable Identity Exposure).
+D) Incorreta: É o gerenciador baseado em nuvem (agora Tenable Vulnerability Management).
+26. Qual é a finalidade de usar técnicas de port knocking durante a descoberta de hosts?
+A) Aumentar a velocidade de varredura
+B) Ocultar portas abertas de varreduras não autorizadas
+C) Detectar hosts ativos
+D) Priorizar hosts com base no uso de portas
+A) Incorreta: O envio de sequências específicas de pacotes adiciona latência, reduzindo a velocidade da varredura.
+B) Correta: Port knocking é um método defensivo no qual portas administrativas permanecem fechadas até que uma sequência pré-determinada de tentativas de conexão ("batidas") seja recebida, escondendo o serviço de scanners não autorizados.
+C) Incorreta: O knocking é um mecanismo de autenticação/defesa na camada de transporte, não um método padrão de recon/descoberta de ativos ativos.
+D) Incorreta: A priorização depende da criticidade do serviço e do risco, não do uso do mecanismo de porta em si.
+27. Como a integração do Tenable com o Active Directory melhora a descoberta de hosts?
+A) Automatizando a redefinição de senhas de usuários
+B) Permitindo varreduras com base em diretivas de grupo (Group Policies) ou objetos do Active Directory
+C) Fornecendo logs de atividade do usuário
+D) Desativando contas inativas
+A) Incorreta: O Tenable é uma plataforma de gestão de vulnerabilidades e exposição, não uma ferramenta de IAM (Identity and Access Management) para redefinir senhas.
+B) Correta: Ao integrar-se ao AD, a ferramenta importa a estrutura de computadores, Unidades Organizacionais (OUs) e políticas para direcionar varreduras exatamente aos ativos registrados no domínio.
+C) Incorreta: A análise de logs de auditoria de usuários é função de sistemas SIEM ou UEBA, não do mecanismo de descoberta de hosts.
+D) Incorreta: O Tenable identifica vulnerabilidades e contas, mas a desativação de contas inativas é uma ação administrativa executada no próprio AD ou via SOAR.
+28. Qual recurso do Tenable permite que administradores acompanhem o status de correção das vulnerabilidades?
+A) Grupos de ativos (Asset Groups)
+B) Acompanhamento de correção (Remediation Tracking)
+C) Funções de usuário (User Roles)
+D) Agendamento de varredura (Scan Scheduling)
+A) Incorreta: Serve para organizar ativos logicamente (ex: por localização ou SO), não para monitorar o ciclo de vida das correções.
+B) Correta: O Remediation Tracking monitora o progresso da mitigação de vulnerabilidades (ex: Novo, Ativo, Reaberto ou Remediado) ao longo de varreduras sucessivas.
+C) Incorreta: Controla permissões e níveis de acesso dentro da plataforma.
+D) Incorreta: Define apenas a periodicidade em que as varreduras são executadas.
+
+29. Como a integração do Tenable com sistemas SIEM melhora a descoberta de hosts?
+A) Automatizando correções de vulnerabilidades
+B) Correlacionando eventos de segurança para melhor identificação de hosts
+C) Gerenciando contas de usuário
+D) Criptografando canais de comunicação
+A) Incorreta: SIEMs e ferramentas de varredura identificam e analisam ameaças, mas não aplicam patches diretamente.
+B) Correta: A correlação de eventos de rede e logs em tempo real do SIEM com as descobertas do Tenable permite identificar novos ativos ativos rapidamente e reduzir falsos positivos.
+C) Incorreta: A gestão de contas é responsabilidade de diretórios de identidade (IAM/AD), não de SIEM.
+D) Incorreta: A criptografia de canais utiliza protocolos como TLS/SSH, independentemente da integração com o SIEM.
+30. Qual papel a enumeração de DNS desempenha no processo de descoberta de hosts do Tenable?
+A) Criptografa consultas DNS
+B) Identifica hosts ativos resolvendo nomes de domínio para endereços IP
+C) Realiza avaliações de vulnerabilidades
+D) Gerencia registros DNS
+A) Incorreta: A enumeração mapeia e consulta nomes de host, não trata da criptografia de tráfego DNS (como DoH/DoT).
+B) Correta: O scanner consulta servidores DNS e realiza resoluções diretas/reversas para mapear nomes de domínio a endereços IP e identificar ativos na rede.
+C) Incorreta: A enumeração DNS é uma etapa de reconhecimento (discovery/recon), anterior à análise de vulnerabilidades em si.
+D) Incorreta: O Tenable apenas lê registros DNS para descoberta; ele não gerencia nem edita as zonas DNS.
+31. Qual ferramenta Tenable é mais adequada para descobrir hosts em ambientes de Internet das Coisas (IoT)?
+A) Tenable.io
+B) Nessus
+C) Tenable.ot
+D) Tenable.sc
+A) Incorreta: Plataforma cloud focada no gerenciamento de vulnerabilidades em TI tradicional, cloud e contêineres.
+B) Incorreta: Scanner genérico de TI; pode derrubar ou instabilizar dispositivos IoT/OT sensíveis se usado em modo ativo tradicional.
+C) Correta: Projetado especificamente para ambientes industriais e IoT/IIoT, utilizando captura passiva de tráfego e protocolos proprietários de baixa rotatividade para não interromper os dispositivos.
+D) Incorreta: Plataforma on-premises focada no gerenciamento de redes corporativas padrão de TI.
+32. Como o uso de sub-redes (subnetting) pode impactar a eficiência das varreduras de descoberta de hosts nas ferramentas Tenable?
+A) Pode tornar as varreduras mais abrangentes
+B) Não tem impacto
+C) Pode reduzir o tempo de varredura ao limitar o escopo
+D) Aumenta o número de hosts descobertos
+A) Incorreta: O detalhamento do escopo foca a varredura, não aumentando necessariamente a profundidade de testes por host.
+B) Incorreta: O endereçamento e o tamanho do bloco IP afetam diretamente o volume de pacotes enviados.
+C) Correta: Segmentar a rede por sub-redes (ex: /24 em vez de um /16 inteiro) limita o número de IPs mortos a serem testados, otimizando o tempo de execução.
+D) Incorreta: Reduzir o escopo não cria novos ativos; apenas evita varrer endereços vagos.
+33. Qual é a vantagem de usar a API do Tenable para automatizar tarefas de descoberta de hosts?
+A) Elimina a necessidade de varredura
+B) Permite a integração com outras ferramentas e a automação de tarefas repetitivas
+C) Aumenta a precisão da varredura
+D) Fornece relatórios gráficos
+A) Incorreta: A API automatiza o disparo e a gestão do scanner, mas a varredura de rede continua sendo necessária.
+B) Correta: Permite orquestração (SOAR), agendamento dinâmico via scripts (Python/REST) e integração nativa com inventários (CMDBs).
+C) Incorreta: A precisão dos resultados depende dos plugins e credenciais de varredura, não do meio usado para dispará-la.
+D) Incorreta: A API retorna dados brutos (JSON); a geração gráfica é feita pela interface Web/GUI ou ferramentas de BI externas.
+
+
+
+
+RÍSCO CIBERNÉTICO
+O risco cibernético refere-se ao potencial de perda ou dano a uma organização decorrente de ameaças cibernéticas. Essas ameaças exploram vulnerabilidades em sistemas, processos ou tecnologias. Ameaças cibernéticas podem levar a vazamentos de dados, prejuízos financeiros ou danos à reputação. Compreender o risco cibernético é essencial para que as organizações implementem medidas de segurança eficazes e mitiguem impactos potenciais. Ao identificar e tratar esses riscos, as empresas podem proteger melhor seus ativos e manter a resiliência operacional.
+  
+GESTÃO TRADICIONAL DE VULNERABILIDADE
+A gestão tradicional de vulnerabilidades concentra-se principalmente na identificação e no tratamento de vulnerabilidades com base em sua gravidade. Essa abordagem frequentemente foca em aspectos técnicos, sem considerar plenamente o contexto mais amplo do negócio. Embora eficaz no enfrentamento de ameaças imediatas, esse método pode deixar passar vulnerabilidades críticas que representam riscos significativos para as operações do negócio. A incorporação do contexto de negócios pode aprimorar o processo de priorização e remediação.
+  
+GESTÃO DE EXPOSIÇÃO
+A gestão de exposição é uma abordagem abrangente que avalia vulnerabilidades, a importância dos ativos e a inteligência de ameaças. Esse método prioriza ações com base no risco geral para o negócio, em vez de se basear apenas na gravidade técnica. Ao considerar a natureza interconectada de ativos e ameaças, a gestão de exposição permite que as organizações aloquem recursos de forma mais eficaz. Essa estratégia holística apoia a mitigação proativa de riscos e aprimora os processos de tomada de decisão.
+ 
+Risco de negócio
+O risco de negócio engloba a probabilidade e o impacto de eventos que possam afetar negativamente os objetivos de uma organização. Ele inclui riscos decorrentes de ameaças cibernéticas, desafios financeiros ou interrupções operacionais. Avaliar o risco de negócio exige uma compreensão aprofundada das vulnerabilidades potenciais e de suas implicações. Ao alinhar as estratégias de gestão de riscos aos objetivos organizacionais, as empresas podem se preparar melhor para eventos adversos e responder a eles de forma mais eficaz.
+
+
+
+
+
+
+
+
+
