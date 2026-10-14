@@ -1,0 +1,3538 @@
+{
+  "meta": {
+    "date": "2026-10-14",
+    "language": "en",
+    "origin": "Banco complementar",
+    "license": "Section 4: personal, non-commercial educational use",
+    "timerNote": "200 minutos de treino, definidos neste material; não é a duração oficial da certificação",
+    "optionExplanationLanguage": "en",
+    "optionExplanationDate": "2026-10-14"
+  },
+  "modules": [
+    {
+      "id": "BC1",
+      "name": "Banco complementar: Asset Management"
+    },
+    {
+      "id": "BC2",
+      "name": "Banco complementar: Nessus Scanning"
+    },
+    {
+      "id": "BC3",
+      "name": "Banco complementar: Remediation Workflows"
+    },
+    {
+      "id": "BC4",
+      "name": "Banco complementar: Reporting Compliance"
+    },
+    {
+      "id": "BC5",
+      "name": "Banco complementar: Vulnerability Prioritization"
+    }
+  ],
+  "sources": [
+    {
+      "id": "EN-risk",
+      "title": "Risk — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/Content/Explore/Findings/RiskMetrics.htm"
+    },
+    {
+      "id": "EN-scoring",
+      "title": "Scoring — official documentation",
+      "url": "https://docs.tenable.com/quick-reference/scoring-explained/Content/VM.htm"
+    },
+    {
+      "id": "EN-checks",
+      "title": "Checks — official documentation",
+      "url": "https://docs.tenable.com/nessus/Content/NessusCredentialedChecks.htm"
+    },
+    {
+      "id": "EN-recast",
+      "title": "Recast — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/Content/recast/add-recast-rules.htm"
+    },
+    {
+      "id": "EN-templates",
+      "title": "Templates — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/Content/Scans/Templates.htm"
+    },
+    {
+      "id": "EN-snow",
+      "title": "Snow — official documentation",
+      "url": "https://docs.tenable.com/integrations/ServiceNow/Content/snow6/config-tvm.htm"
+    },
+    {
+      "id": "EN-aging",
+      "title": "Aging — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/Content/Settings/Sensors/manage-networks.htm"
+    },
+    {
+      "id": "EN-networks",
+      "title": "Networks — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/Content/Settings/Sensors/Networks.htm"
+    },
+    {
+      "id": "EN-general",
+      "title": "General — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/Content/Settings/General/General.htm"
+    },
+    {
+      "id": "EN-plugin",
+      "title": "Plugin — official documentation",
+      "url": "https://www.tenable.com/plugins/nessus/10397"
+    },
+    {
+      "id": "EN-roles",
+      "title": "Roles — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/Content/Settings/access-control/TenableRolePrivileges.htm"
+    },
+    {
+      "id": "EN-rbac",
+      "title": "Rbac — official documentation",
+      "url": "https://docs.tenable.com/vulnerability-management/best-practices/RBAC/Content/best-practices.htm"
+    },
+    {
+      "id": "EN-jira",
+      "title": "Jira — official documentation",
+      "url": "https://docs.tenable.com/integrations/Atlassian/Jira/Content/configure_tio_addon.htm"
+    },
+    {
+      "id": "EN-cvss",
+      "title": "Cvss — official documentation",
+      "url": "https://www.first.org/cvss/v3.1/specification-document"
+    }
+  ],
+  "questions": [
+    {
+      "answer": 3,
+      "category": "Category: Vulnerability Prioritization • Topics: Vpr, Predictive Prioritization, Cvss",
+      "explanation": "The imported key selects VPR because it incorporates vulnerability characteristics and threat intelligence. However, VPR does not itself encode asset-specific business criticality; the question's asset-context wording needs qualification.",
+      "options": [
+        "ACR (Asset Criticality Rating)",
+        "CVSS v3 Base Score",
+        "AES (Asset Exposure Score)",
+        "VPR (Vulnerability Priority Rating)"
+      ],
+      "sourceId": "tenable-certified-vm-q-001",
+      "stem": "Which Tenable.io metric combines CVSS severity with threat intelligence and asset context to produce a risk-based prioritization score?",
+      "captureOrder": 41,
+      "id": "BC-Q001",
+      "number": 1,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk",
+        "EN-scoring"
+      ],
+      "x": [
+        "ACR rates business criticality of an asset; it is not the vulnerability's dynamic threat-priority score.",
+        "CVSS v3 Base describes technical severity and does not incorporate current threat intelligence into a dynamic priority score.",
+        "AES combines vulnerability exposure with asset criticality, so the phrase 'asset context' makes this option plausible. It is not the imported key's answer; the wording is ambiguous.",
+        "The imported key selects VPR because it incorporates vulnerability characteristics and threat intelligence. However, VPR does not itself encode asset-specific business criticality; the question's asset-context wording needs qualification."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "The wording conflates vulnerability priority with asset-specific exposure. The imported key is retained; AES and ACR should be distinguished from the global VPR calculation."
+    },
+    {
+      "answer": 1,
+      "category": "Category: Vulnerability Prioritization • Topics: Vpr, Scoring",
+      "explanation": "VPR runs from 0.1 to 10.0, with higher values indicating greater vulnerability priority.",
+      "options": [
+        "1 to 5",
+        "0.1 to 10.0",
+        "0 to 100",
+        "0 to 1000"
+      ],
+      "sourceId": "tenable-certified-vm-q-002",
+      "stem": "What is the range of the VPR (Vulnerability Priority Rating) score in Tenable?",
+      "captureOrder": 89,
+      "id": "BC-Q002",
+      "number": 2,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "A five-point scale does not match Tenable's documented VPR range.",
+        "VPR runs from 0.1 to 10.0, with higher values indicating greater vulnerability priority.",
+        "A 0-100 scale is not the VPR score range used for vulnerability prioritization.",
+        "The 0-1000 scale applies to exposure scoring such as AES, not the VPR score."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Nessus Scanning • Topics: Plugin 19506, Credentialed Scanning, Scan Metadata",
+      "explanation": "Plugin 19506 reports scan execution metadata and credential-related information when present. Do not assume its appearance in every scan or treat accepted credentials alone as proof of complete local collection.",
+      "options": [
+        "Operating system fingerprint of the scanned host",
+        "CVSS scores for all vulnerabilities found in the scan",
+        "List of all open ports found on the target host",
+        "Scan metadata including scanner IP, scan duration, and whether credentials were accepted"
+      ],
+      "sourceId": "tenable-certified-vm-q-003",
+      "stem": "Nessus plugin 19506 appears in every Tenable scan. What information does it provide?",
+      "captureOrder": 79,
+      "id": "BC-Q003",
+      "number": 3,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-checks"
+      ],
+      "x": [
+        "OS fingerprinting is a different discovery function; plugin 19506 primarily reports information about the scan execution.",
+        "Plugin 19506 is not a consolidated catalog of all detected vulnerabilities' CVSS scores.",
+        "Port enumeration belongs to discovery plugins rather than the primary function of Nessus Scan Information.",
+        "Plugin 19506 reports scan execution metadata and credential-related information when present. Do not assume its appearance in every scan or treat accepted credentials alone as proof of complete local collection."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Plugin availability and successful authenticated inventory collection must be checked. Neither universal plugin presence nor complete collection follows from the opening sentence."
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Credentialed Scanning, Local Checks, Patch Detection",
+      "explanation": "Authenticated host access enables local checks of software, patches and configuration that remote unauthenticated probing may not expose.",
+      "options": [
+        "It enables local check plugins to detect missing patches and misconfigurations invisible to network-based checks",
+        "It runs faster because fewer probe packets are required",
+        "It does not require network access to the target host",
+        "It generates a higher VPR score for all discovered vulnerabilities"
+      ],
+      "sourceId": "tenable-certified-vm-q-004",
+      "stem": "What is the primary advantage of a credentialed Nessus scan over an uncredentialed scan?",
+      "captureOrder": 95,
+      "id": "BC-Q004",
+      "number": 4,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Authenticated host access enables local checks of software, patches and configuration that remote unauthenticated probing may not expose.",
+        "Credentialed checks can require additional work; universally faster execution is not their primary advantage.",
+        "A network-based credentialed scan still needs a communication path to the target host.",
+        "Authentication improves collection evidence; it does not automatically raise every detected vulnerability's VPR."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Vulnerability Prioritization • Topics: Acr, Asset Management, Aes",
+      "explanation": "ACR uses a 1-10 scale for asset business criticality and can be adjusted to reflect organizational context under the applicable licensing.",
+      "options": [
+        "The CVSS score of the most critical vulnerability on the asset",
+        "A dynamic score from 0–1000 representing overall asset vulnerability exposure",
+        "The number of critical vulnerabilities found on the asset during the last scan",
+        "A 1–10 score reflecting the business importance of an asset, configured by the security team"
+      ],
+      "sourceId": "tenable-certified-vm-q-005",
+      "stem": "In Tenable.io, what does ACR (Asset Criticality Rating) represent?",
+      "captureOrder": 61,
+      "id": "BC-Q005",
+      "number": 5,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "The maximum CVSS severity on a host describes a vulnerability, not the asset's business importance.",
+        "The 0-1000 exposure scale describes AES rather than ACR.",
+        "A count of critical findings measures detected weaknesses and is not an asset's criticality rating.",
+        "ACR uses a 1-10 scale for asset business criticality and can be adjusted to reflect organizational context under the applicable licensing."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Vulnerability Prioritization • Topics: Aes, Acr, Vpr",
+      "explanation": "AES weighs the asset's active weakness exposure, including VPR-related risk, together with its ACR business criticality.",
+      "options": [
+        "The vulnerabilities present on the asset and the asset's ACR (Asset Criticality Rating)",
+        "The CVSS scores of all vulnerabilities and the asset's IP address subnet",
+        "The number of scans performed on the asset and the last scan date",
+        "The VPR scores of all vulnerabilities and the number of open ports"
+      ],
+      "sourceId": "tenable-certified-vm-q-006",
+      "stem": "AES (Asset Exposure Score) in Tenable.io ranges from 0 to 1000. What two factors primarily determine an asset's AES?",
+      "captureOrder": 84,
+      "id": "BC-Q006",
+      "number": 6,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "AES weighs the asset's active weakness exposure, including VPR-related risk, together with its ACR business criticality.",
+        "A subnet address is not a substitute for the business-criticality input needed in the described asset exposure calculation.",
+        "Scan frequency and recency affect evidence freshness but are not the two primary exposure/criticality factors requested.",
+        "VPR contributes vulnerability exposure, but open-port count does not replace the ACR input in the documented combination."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Remediation Workflows • Topics: Remediation Campaigns, Snapshot, Sla",
+      "explanation": "This is the answer for the snapshot-based campaign described by the imported key. Verify the actual product and workflow: current Exposure Response initiatives have their own documented selection and update behavior.",
+      "options": [
+        "They are automatically added to the campaign if they have the same CVE",
+        "They are NOT automatically added to the campaign; the campaign uses a snapshot of vulnerability data at creation time",
+        "They are added to the campaign only if they have a VPR score above 7.0",
+        "They replace the existing campaign data if they affect the same assets"
+      ],
+      "sourceId": "tenable-certified-vm-q-007",
+      "stem": "A Tenable.io remediation campaign is created against a specific set of vulnerabilities. New vulnerabilities discovered after the campaign is created — what happens to them?",
+      "captureOrder": 9,
+      "id": "BC-Q007",
+      "number": 7,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "The imported campaign model does not automatically expand membership merely because a later finding has the same CVE.",
+        "This is the answer for the snapshot-based campaign described by the imported key. Verify the actual product and workflow: current Exposure Response initiatives have their own documented selection and update behavior.",
+        "A VPR threshold alone does not establish that newly discovered records are automatically added to the snapshot campaign.",
+        "New findings do not simply replace historical campaign evidence because the same assets are affected."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "The imported snapshot-campaign model is product/workflow-specific. Do not assume current initiatives have identical membership and update behavior."
+    },
+    {
+      "answer": 2,
+      "category": "Category: Nessus Scanning • Topics: Scan Templates, Patch Audit, Windows Scanning",
+      "explanation": "Credentialed Patch Audit is specifically designed to collect local patch evidence and enumerate missing updates using suitable credentials.",
+      "options": [
+        "Discovery Scan",
+        "Web Application Tests",
+        "Credentialed Patch Audit",
+        "Basic Network Scan"
+      ],
+      "sourceId": "tenable-certified-vm-q-008",
+      "stem": "Which Tenable.io scan template is most appropriate for detecting missing Windows patches on domain-joined workstations?",
+      "captureOrder": 69,
+      "id": "BC-Q008",
+      "number": 8,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Discovery identifies hosts and available inventory; it is not the focused authenticated missing-patch audit.",
+        "Web application testing assesses application issues rather than Windows workstation update inventory.",
+        "Credentialed Patch Audit is specifically designed to collect local patch evidence and enumerate missing updates using suitable credentials.",
+        "Basic Network Scan can assess many exposures, but the focused patch-audit template best matches this missing-update objective."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Asset Management • Topics: Asset Tags, Asset Organization, Filtering",
+      "explanation": "Tags create logical asset sets used in filtering, access scope and targeted operational workflows.",
+      "options": [
+        "To exclude assets from compliance benchmark checks",
+        "To assign VPR scores to specific groups of assets",
+        "To organize assets into logical groups for filtering, access control, and targeted scanning",
+        "To automatically remediate vulnerabilities on tagged assets"
+      ],
+      "sourceId": "tenable-certified-vm-q-009",
+      "stem": "In Tenable.io, what is the purpose of tagging assets?",
+      "captureOrder": 30,
+      "id": "BC-Q009",
+      "number": 9,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "A tag does not inherently exclude its assets from compliance checks; exclusions or scan configuration govern that behavior.",
+        "Tags group assets and do not directly assign or rewrite calculated VPR scores.",
+        "Tags create logical asset sets used in filtering, access scope and targeted operational workflows.",
+        "Tagging organizes scope; it does not itself install patches or automatically remediate the tagged assets."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Vulnerability Prioritization • Topics: Cvss V3, Scoring Metrics",
+      "explanation": "User Interaction explicitly records whether exploitation needs an action by a human user.",
+      "options": [
+        "User Interaction (UI)",
+        "Attack Vector (AV)",
+        "Privileges Required (PR)",
+        "Confidentiality Impact (C)"
+      ],
+      "sourceId": "tenable-certified-vm-q-010",
+      "stem": "Which CVSS metric most directly captures whether a vulnerability requires user interaction to be exploited?",
+      "id": "BC-Q010",
+      "number": 10,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-cvss"
+      ],
+      "x": [
+        "User Interaction explicitly records whether exploitation needs an action by a human user.",
+        "Attack Vector describes the attacker's required access path rather than whether a victim must interact.",
+        "Privileges Required describes the attacker's existing privileges, not victim user participation.",
+        "Confidentiality Impact measures the information disclosure consequence rather than the interaction prerequisite."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Asset Management • Topics: Nessus Agents, Agent Scanning, Remote Assets",
+      "explanation": "Agents can assess locally when endpoints lack scanner reachability. They still need an appropriate manager communication path to obtain updates and deliver results; permanent isolation requires a separately supported workflow.",
+      "options": [
+        "To monitor network traffic for intrusion detection",
+        "To replace the Tenable.io console for on-premises deployments",
+        "To perform web application penetration testing",
+        "To scan assets that are offline, behind firewalls, or lacking persistent network connectivity to the scanner"
+      ],
+      "sourceId": "tenable-certified-vm-q-011",
+      "stem": "What is the purpose of Nessus Agents in Tenable.io?",
+      "captureOrder": 35,
+      "id": "BC-Q011",
+      "number": 11,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Agents perform host-local assessments; passive traffic analysis and intrusion detection are different functions.",
+        "An installed agent remains a sensor and does not replace the VM management console.",
+        "Host agent checks are not a replacement for dedicated web application penetration testing.",
+        "Agents can assess locally when endpoints lack scanner reachability. They still need an appropriate manager communication path to obtain updates and deliver results; permanent isolation requires a separately supported workflow."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Local collection and delivery are separate. Agents still need a supported update/reporting path; permanently isolated operation is not established by this answer."
+    },
+    {
+      "answer": 2,
+      "category": "Category: Vulnerability Prioritization • Topics: Vpr, Exploit Intelligence, Filtering",
+      "explanation": "This is the imported key's best available choice for high threat priority. VPR 9+ does not prove known exploitation; use explicit exploitation intelligence or CISA KEV-related filters for the strict 'only exploited' requirement.",
+      "options": [
+        "Filter by plugin family 'General'",
+        "Filter by scan template type",
+        "VPR filter for vulnerabilities with VPR score 9.0 and above",
+        "CVSS v3 filter for scores above 9.0"
+      ],
+      "sourceId": "tenable-certified-vm-q-012",
+      "stem": "A security analyst wants to filter vulnerabilities in Tenable.io to focus only on those with active known exploits in the wild. Which feature should they use?",
+      "captureOrder": 63,
+      "id": "BC-Q012",
+      "number": 12,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "The General family is a check grouping, not a filter proving exploitation in the wild.",
+        "A scan template describes collection configuration and does not identify which CVEs have known active exploitation.",
+        "This is the imported key's best available choice for high threat priority. VPR 9+ does not prove known exploitation; use explicit exploitation intelligence or CISA KEV-related filters for the strict 'only exploited' requirement.",
+        "A high CVSS score describes technical severity and does not establish that a vulnerability is actively exploited."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "A critical VPR is not proof of exploitation in the wild. The strict requirement calls for explicit exploitation intelligence rather than a score-only filter."
+    },
+    {
+      "answer": 2,
+      "category": "Category: Reporting Compliance • Topics: Cis Benchmarks, Disa Stig, Compliance Scanning",
+      "explanation": "Tenable provides audit content for CIS Benchmarks and DISA STIGs to test supported system hardening requirements.",
+      "options": [
+        "HIPAA and FERPA only",
+        "NIST SP 800-53 and CMMC",
+        "CIS Benchmarks and DISA STIGs",
+        "SOC 2 Type II and ISO 27001"
+      ],
+      "sourceId": "tenable-certified-vm-q-013",
+      "stem": "Which compliance benchmarks are natively supported in Tenable.io for configuration auditing?",
+      "captureOrder": 58,
+      "id": "BC-Q013",
+      "number": 13,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "The 'only' claim excludes widely used supported hardening audits such as CIS and STIG content.",
+        "Framework control mappings can be relevant, but they are not the benchmark audit pair identified by this question.",
+        "Tenable provides audit content for CIS Benchmarks and DISA STIGs to test supported system hardening requirements.",
+        "Management-system and assurance frameworks are not interchangeable with the specific system configuration benchmark audits requested."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Remediation Workflows • Topics: Accepted Risk, Exception Management, Risk Workflow",
+      "explanation": "Risk acceptance records a deliberate decision to tolerate a finding within a defined scope and, where configured, a time period; it is not a technical fix.",
+      "options": [
+        "To mark a vulnerability as intentionally accepted, removing it from active remediation tracking for a defined period",
+        "To increase the VPR score of a vulnerability to reflect accepted business risk",
+        "To delete the vulnerability finding from the scan results permanently",
+        "To automatically escalate a vulnerability to a SIEM for incident response"
+      ],
+      "sourceId": "tenable-certified-vm-q-014",
+      "stem": "In Tenable.io, what is the function of the 'Accepted Risk' workflow?",
+      "captureOrder": 62,
+      "id": "BC-Q014",
+      "number": 14,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "Risk acceptance records a deliberate decision to tolerate a finding within a defined scope and, where configured, a time period; it is not a technical fix.",
+        "Accepting risk does not directly edit the calculated VPR value.",
+        "An acceptance rule changes risk treatment rather than permanently deleting all underlying assessment evidence.",
+        "Risk acceptance and SIEM escalation serve different workflows; accepting a finding does not inherently trigger an incident-response escalation."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Plugin Families, Windows Patches, Microsoft Bulletins",
+      "explanation": "Windows: Microsoft Bulletins contains checks for missing Microsoft security updates using relevant Windows host evidence.",
+      "options": [
+        "Windows: Microsoft Bulletins",
+        "Service Detection",
+        "Web Servers",
+        "General"
+      ],
+      "sourceId": "tenable-certified-vm-q-015",
+      "stem": "Which plugin family in Nessus contains checks specifically for detecting missing Windows operating system patches?",
+      "captureOrder": 57,
+      "id": "BC-Q015",
+      "number": 15,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Windows: Microsoft Bulletins contains checks for missing Microsoft security updates using relevant Windows host evidence.",
+        "Service Detection identifies running services rather than being the dedicated Microsoft patch-check family.",
+        "Web Servers focuses on server software exposures and is not the Windows OS update family requested.",
+        "General contains miscellaneous checks and is not the specifically named Microsoft security bulletin family."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Remediation Workflows • Topics: Recast Risk, Severity Override, Risk Management",
+      "explanation": "Recast applies a severity override to matching findings so their displayed classification reflects the approved risk treatment.",
+      "options": [
+        "Reassign ownership of a vulnerability to a different team member",
+        "Move a vulnerability from one remediation campaign to another",
+        "Change the severity of a vulnerability finding to better reflect the organization's actual risk context",
+        "Automatically rescan an asset to confirm whether a vulnerability was remediated"
+      ],
+      "sourceId": "tenable-certified-vm-q-016",
+      "stem": "What does the 'Recast Risk' feature in Tenable.io allow a security analyst to do?",
+      "captureOrder": 55,
+      "id": "BC-Q016",
+      "number": 16,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "Assigning ownership concerns remediation responsibility, not overriding severity.",
+        "Moving campaign membership changes workflow scope rather than the finding's severity classification.",
+        "Recast applies a severity override to matching findings so their displayed classification reflects the approved risk treatment.",
+        "Recasting does not execute a scan; verifying a fix requires a separately performed suitable reassessment."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Nessus Scanning • Topics: Scan Templates, Discovery Scan, Host Discovery",
+      "explanation": "The intended discovery template locates hosts and ports without treating that inventory as a full vulnerability assessment.",
+      "options": [
+        "Advanced Scan",
+        "Malware Scan",
+        "Basic Network Scan",
+        "Discovery Scan"
+      ],
+      "sourceId": "tenable-certified-vm-q-017",
+      "stem": "In Tenable.io, which scan template would you choose to quickly identify live hosts and open ports without performing vulnerability assessment?",
+      "captureOrder": 8,
+      "id": "BC-Q017",
+      "number": 17,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Advanced Scan exposes flexible assessment settings; it is not specifically the discovery-only template requested.",
+        "A malware-focused assessment searches for malicious software rather than limiting the objective to live hosts and ports.",
+        "Basic Network Scan performs vulnerability assessment beyond the initial discovery task.",
+        "The intended discovery template locates hosts and ports without treating that inventory as a full vulnerability assessment."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Reporting Compliance • Topics: Export Formats, Siem Integration, Reporting",
+      "explanation": "Among these choices, CSV provides a structured tabular representation that scripts and SIEM importers can process directly.",
+      "options": [
+        "HTML",
+        "CSV",
+        "PDF",
+        "DOCX"
+      ],
+      "sourceId": "tenable-certified-vm-q-018",
+      "stem": "A Tenable.io user wants to export vulnerability data for integration with a SIEM. Which export format provides the most flexibility for machine processing?",
+      "captureOrder": 27,
+      "id": "BC-Q018",
+      "number": 18,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "HTML is primarily a presentation format; it is less direct than a tabular export for the SIEM ingestion task described.",
+        "Among these choices, CSV provides a structured tabular representation that scripts and SIEM importers can process directly.",
+        "PDF is designed for document presentation rather than direct record-level ingestion.",
+        "DOCX is a document format and is not the most suitable structured export among the listed options."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Vulnerability Prioritization • Topics: Cvss V2, Cvss V3, Scoring Metrics",
+      "explanation": "CVSS v3 explicitly separates user interaction and introduces Scope, improving how prerequisite and security-boundary effects are described.",
+      "options": [
+        "CVSS v3 is calculated by Tenable internally while CVSS v2 comes from the NVD",
+        "CVSS v3 added Scope and User Interaction metrics not present in v2, providing more granular severity assessment",
+        "CVSS v3 only applies to web application vulnerabilities",
+        "CVSS v3 uses a 0–100 scale while CVSS v2 uses 0–10"
+      ],
+      "sourceId": "tenable-certified-vm-q-019",
+      "stem": "What is the key difference between CVSS v2 and CVSS v3 in Tenable vulnerability reporting?",
+      "captureOrder": 50,
+      "id": "BC-Q019",
+      "number": 19,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-cvss"
+      ],
+      "x": [
+        "The difference is in the scoring model, not a universal rule that Tenable calculates one version internally while obtaining the other from NVD.",
+        "CVSS v3 explicitly separates user interaction and introduces Scope, improving how prerequisite and security-boundary effects are described.",
+        "CVSS v3 can score vulnerabilities in many technologies, not only web applications.",
+        "Both versions use a 0-10 scoring range; CVSS v3 does not use a 0-100 base scale."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Remediation Workflows • Topics: Servicenow Integration, Connectors, Ticketing",
+      "explanation": "A suitably configured Tenable/ServiceNow integration supports the ticketing workflow. Verify the specific application and module because asset-CMDB and vulnerability/ITSM connectors serve different purposes.",
+      "options": [
+        "Remediation campaigns only",
+        "Accepted Risk workflow",
+        "Nessus scan policies",
+        "Connectors (Tenable.io Integrations)"
+      ],
+      "sourceId": "tenable-certified-vm-q-020",
+      "stem": "Which Tenable.io feature allows integration with ServiceNow to automatically create tickets for detected vulnerabilities?",
+      "captureOrder": 72,
+      "id": "BC-Q020",
+      "number": 20,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-snow"
+      ],
+      "x": [
+        "A remediation campaign alone is not the configured ServiceNow connection that sends or synchronizes ticket-related data.",
+        "Risk acceptance records a treatment decision rather than creating the ServiceNow integration.",
+        "A Nessus policy defines checks; it does not itself configure ServiceNow ticket synchronization.",
+        "A suitably configured Tenable/ServiceNow integration supports the ticketing workflow. Verify the specific application and module because asset-CMDB and vulnerability/ITSM connectors serve different purposes."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Asset Management • Topics: Nessus Agents, Endpoint Scanning, Remote Workers",
+      "explanation": "An installed agent follows the endpoint and reports locally collected results when connectivity is available. Its scans are scheduled or triggered, not a guarantee of continuous real-time vulnerability streaming.",
+      "options": [
+        "Passive Vulnerability Scanner (PVS)",
+        "Cloud Connector",
+        "Nessus Agent",
+        "Virtual Scanner"
+      ],
+      "sourceId": "tenable-certified-vm-q-021",
+      "stem": "In Tenable.io, which asset source provides continuous, real-time vulnerability data for endpoints that frequently move between networks?",
+      "captureOrder": 81,
+      "id": "BC-Q021",
+      "number": 21,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "A passive monitor only sees traffic at its observation point and can miss roaming endpoints outside that view.",
+        "A cloud connector discovers supported provider assets; it is not the general local assessment client for a roaming laptop.",
+        "An installed agent follows the endpoint and reports locally collected results when connectivity is available. Its scans are scheduled or triggered, not a guarantee of continuous real-time vulnerability streaming.",
+        "A virtual network scanner still depends on reaching the mobile endpoint from its own network location."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Agent scans can follow roaming endpoints, but scheduled or triggered collection is not continuous real-time vulnerability streaming."
+    },
+    {
+      "answer": 0,
+      "category": "Category: Vulnerability Prioritization • Topics: Lumin, Cyber Exposure, Benchmarking",
+      "explanation": "Lumin provides exposure scoring and benchmarking capabilities, including asset criticality and exposure context under the applicable licensing.",
+      "options": [
+        "Risk-based vulnerability management including Cyber Exposure score, ACR, AES, and benchmarking against industry peers",
+        "Passive network traffic analysis for threat detection",
+        "Cloud security posture management for AWS and Azure",
+        "Automated penetration testing of discovered vulnerabilities"
+      ],
+      "sourceId": "tenable-certified-vm-q-022",
+      "stem": "What does the Tenable.io 'Lumin' capability provide?",
+      "captureOrder": 93,
+      "id": "BC-Q022",
+      "number": 22,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "Lumin provides exposure scoring and benchmarking capabilities, including asset criticality and exposure context under the applicable licensing.",
+        "Passive network traffic analysis is a sensor function rather than the exposure scoring capability described here.",
+        "Cloud security posture assessment is a separate product capability and does not define Lumin's exposure metrics.",
+        "Exposure scoring prioritizes and measures risk; it is not an automated penetration-test engine."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Asset Management • Topics: Asset Aging, Inactive Assets, Data Retention",
+      "explanation": "This is the imported answer, but its inactive-retention claim is not a universal current rule. Managed status, license aging and configured Asset Age Out are distinct; Asset Age Out can permanently delete an asset and its data.",
+      "options": [
+        "Assets are moved to a quarantine repository requiring manual review",
+        "Assets are permanently deleted from the platform after 30 days without scanning",
+        "Assets are marked as 'inactive' after a configurable period of no scan data and are excluded from active vulnerability counts",
+        "Assets are automatically escalated to Critical severity in all dashboards"
+      ],
+      "sourceId": "tenable-certified-vm-q-023",
+      "stem": "How does Tenable.io handle assets that have not been scanned for an extended period?",
+      "captureOrder": 32,
+      "id": "BC-Q023",
+      "number": 23,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-aging"
+      ],
+      "x": [
+        "The question does not establish a quarantine repository workflow for stale VM assets.",
+        "There is no universal rule here permanently deleting all assets exactly 30 days after their last scan.",
+        "This is the imported answer, but its inactive-retention claim is not a universal current rule. Managed status, license aging and configured Asset Age Out are distinct; Asset Age Out can permanently delete an asset and its data.",
+        "Lack of recent assessment does not automatically set every vulnerability or asset to Critical severity."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Managed asset status, licensing age and automatic deletion are distinct mechanisms. Current Asset Age Out can purge the asset and associated findings rather than always retaining an inactive historical record."
+    },
+    {
+      "answer": 3,
+      "category": "Category: Reporting Compliance • Topics: Dashboards, Sla Tracking, Remediation Progress",
+      "explanation": "Program dashboards with appropriate remediation and SLA widgets provide aggregate progress views; confirm each widget's scope and metric configuration.",
+      "options": [
+        "The raw CSV export sorted by CVSS score",
+        "The plugin family summary report",
+        "The Nessus scan results view filtered by date",
+        "Vulnerability Management dashboard with remediation tracking widgets and SLA metrics"
+      ],
+      "sourceId": "tenable-certified-vm-q-024",
+      "stem": "Which Tenable.io dashboard view is best for tracking remediation progress against a defined SLA across an entire program?",
+      "captureOrder": 78,
+      "id": "BC-Q024",
+      "number": 24,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "A severity-sorted export contains useful data but is not a purpose-built program dashboard tracking deadlines and remediation progress.",
+        "A plugin family summary groups checks and does not inherently show SLA performance across the program.",
+        "A date-filtered individual scan view is narrower than program-level SLA and remediation tracking.",
+        "Program dashboards with appropriate remediation and SLA widgets provide aggregate progress views; confirm each widget's scope and metric configuration."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Asset Management • Topics: Network Objects, Scan Targets, Configuration",
+      "explanation": "The imported key intends reusable named address collections. Confirm the product/version terminology: current VM Networks primarily provide asset identity context and should not be assumed to be reusable CIDR target lists.",
+      "options": [
+        "They configure the communication protocol used between the scanner and Tenable.io cloud",
+        "They define firewall rules that Tenable.io recommends for hardening",
+        "They define named IP address ranges or CIDR blocks that can be reused across multiple scan targets",
+        "They identify network devices like switches and routers for topology mapping"
+      ],
+      "sourceId": "tenable-certified-vm-q-025",
+      "stem": "In Tenable.io, what is the role of 'Network Objects' in scan configuration?",
+      "captureOrder": 13,
+      "id": "BC-Q025",
+      "number": 25,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Cloud communication protocols are sensor connection settings, not the reusable target collections described by the imported key.",
+        "A collection of scan targets does not itself create or recommend firewall hardening rules.",
+        "The imported key intends reusable named address collections. Confirm the product/version terminology: current VM Networks primarily provide asset identity context and should not be assumed to be reusable CIDR target lists.",
+        "Topology mapping of switches and routers is a different purpose from the reusable target-scope concept intended by the question."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Reusable target collections and VM Networks are different concepts. Confirm the product/version before adopting the imported Network Objects terminology."
+    },
+    {
+      "answer": 3,
+      "category": "Category: Vulnerability Prioritization • Topics: Cvss V3, Attack Vector, Privileges Required",
+      "explanation": "AV:Network permits exploitation through the network path and PR:None requires no prior privileges. Other metrics still determine interaction and complexity; network scoring does not guarantee actual internet reachability.",
+      "options": [
+        "The vulnerability can only be exploited by a physical presence at the machine",
+        "The vulnerability requires local network access and an authenticated session",
+        "The vulnerability requires administrative privileges on an adjacent network device",
+        "The vulnerability can be exploited remotely over the network without any prior authentication"
+      ],
+      "sourceId": "tenable-certified-vm-q-026",
+      "stem": "A CVSS v3 vulnerability has an Attack Vector of 'Network' and Privileges Required of 'None'. What does this indicate about the exploitability?",
+      "captureOrder": 45,
+      "id": "BC-Q026",
+      "number": 26,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-cvss"
+      ],
+      "x": [
+        "Physical presence describes a different Attack Vector and conflicts with AV:Network.",
+        "PR:None does not require a prior authenticated session, and AV:Network is not limited to adjacent-network access.",
+        "Administrative privileges contradict PR:None, and adjacency is not the Network vector specified.",
+        "AV:Network permits exploitation through the network path and PR:None requires no prior privileges. Other metrics still determine interaction and complexity; network scoring does not guarantee actual internet reachability."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Asset Management • Topics: Api Keys, Automation, Integration",
+      "explanation": "An access/secret key pair authenticates permitted API operations for automation and integrations using the associated user's privileges.",
+      "options": [
+        "It authenticates programmatic access to Tenable.io for automation, integrations, and third-party tools",
+        "It is used as the password for Nessus scanner login during cloud pairing",
+        "It replaces the Nessus linking key for on-premises scanner registration",
+        "It encrypts scan results stored in the Tenable.io cloud platform"
+      ],
+      "sourceId": "tenable-certified-vm-q-027",
+      "stem": "What best describes the function of the Tenable.io API key?",
+      "captureOrder": 6,
+      "id": "BC-Q027",
+      "number": 27,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "An access/secret key pair authenticates permitted API operations for automation and integrations using the associated user's privileges.",
+        "A user API key is not the password used to log into a scanner's local web interface.",
+        "Sensor registration uses the appropriate linking mechanism; user API credentials do not replace the sensor linking key.",
+        "API authentication credentials are not the mechanism used to encrypt stored scan results."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Nessus Scanning • Topics: Scan Performance, Advanced Scan, Network Impact",
+      "explanation": "Performance settings such as Max Simultaneous Hosts control how many targets the scan assesses concurrently.",
+      "options": [
+        "Asset tagging with a 'slow-scan' tag",
+        "Performance options in the Advanced Scan template (Max Simultaneous Hosts)",
+        "VPR threshold setting in the scan policy",
+        "Scan zone priority configuration"
+      ],
+      "sourceId": "tenable-certified-vm-q-028",
+      "stem": "Which Tenable.io feature allows setting a maximum number of hosts scanned simultaneously to reduce impact on network performance?",
+      "captureOrder": 66,
+      "id": "BC-Q028",
+      "number": 28,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "A descriptive slow-scan tag does not set execution concurrency unless a separate configured workflow interprets it.",
+        "Performance settings such as Max Simultaneous Hosts control how many targets the scan assesses concurrently.",
+        "A VPR threshold filters priority information and does not set the scanner's host concurrency.",
+        "Zone prioritization is not the specific simultaneous-host performance control requested."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Nessus Scanning • Topics: Agent Scanning, Ids Avoidance, Scan Types",
+      "explanation": "An agent performs the checks locally and avoids the remote probe pattern. It still communicates for updates and results, so this is not a guarantee of zero network traffic or zero alerts.",
+      "options": [
+        "Credentialed Patch Audit scan run from the corporate network",
+        "Agent-based scan using Nessus Agents installed on the endpoints",
+        "Basic Network Scan with all plugins enabled",
+        "Discovery scan with SYN scanning enabled"
+      ],
+      "sourceId": "tenable-certified-vm-q-029",
+      "stem": "What type of Tenable.io scan is most appropriate for an environment where network-based scanning would trigger IDS/IPS alerts?",
+      "captureOrder": 15,
+      "id": "BC-Q029",
+      "number": 29,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "A remote credentialed audit still connects to target services and can produce network activity visible to detection controls.",
+        "An agent performs the checks locally and avoids the remote probe pattern. It still communicates for updates and results, so this is not a guarantee of zero network traffic or zero alerts.",
+        "A full network scan with enabled plugins sends remote probes and can trigger the IDS/IPS concern described.",
+        "SYN discovery still sends observable probing traffic even though its assessment objective is narrower."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Agents avoid remote scan probes, but still generate communication for updates and uploads. Zero network traffic or zero IDS/IPS alerts is not guaranteed."
+    },
+    {
+      "answer": 1,
+      "category": "Category: Vulnerability Prioritization • Topics: Cvss Severity, Severity Classification, Filtering",
+      "explanation": "Under CVSS v3 severity mapping, Critical covers scores from 9.0 through 10.0. Verify that the tenant or view actually uses CVSS rather than a different configured metric.",
+      "options": [
+        "Any vulnerability with an active exploit in Metasploit",
+        "CVSS v3 score of 9.0 to 10.0",
+        "CVSS v3 score of 7.0 to 8.9",
+        "CVSS v3 score of 4.0 to 6.9"
+      ],
+      "sourceId": "tenable-certified-vm-q-030",
+      "stem": "In Tenable.io, what does the 'Severity' filter Critical refer to in terms of CVSS score?",
+      "captureOrder": 31,
+      "id": "BC-Q030",
+      "number": 30,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk",
+        "EN-general"
+      ],
+      "x": [
+        "Exploit framework availability is threat intelligence, not the numeric CVSS v3 Critical threshold.",
+        "Under CVSS v3 severity mapping, Critical covers scores from 9.0 through 10.0. Verify that the tenant or view actually uses CVSS rather than a different configured metric.",
+        "CVSS v3 scores from 7.0 through 8.9 are High, not Critical.",
+        "CVSS v3 scores from 4.0 through 6.9 are Medium, not Critical."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "The stated score band applies to CVSS v3. General Settings also supports other severity metrics, so tenant configuration must be checked."
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: False Positives, Credentialed Scanning, Scan Accuracy",
+      "explanation": "Valid credentials, sufficient privileges and successful local patch inventory improve missing-update detection accuracy; confirm collection evidence as well as authentication.",
+      "options": [
+        "Ensuring authentication credentials are valid and the scan uses the Credentialed Patch Audit template",
+        "Increasing the scan frequency to daily",
+        "Adding more target IP addresses to the scan scope",
+        "Disabling the Windows plugin family"
+      ],
+      "sourceId": "tenable-certified-vm-q-031",
+      "stem": "Which scan configuration change would most effectively reduce false positives for missing patch detection in Tenable.io?",
+      "captureOrder": 4,
+      "id": "BC-Q031",
+      "number": 31,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Valid credentials, sufficient privileges and successful local patch inventory improve missing-update detection accuracy; confirm collection evidence as well as authentication.",
+        "Scanning more often repeats the same evidence problem if the credentials or local collection remain broken.",
+        "Adding targets changes scope but does not improve the accuracy of patch inventory on the affected host.",
+        "Disabling the relevant family removes detection coverage instead of correcting the source of inaccurate results."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Asset Management • Topics: Scanner Management, Licensing, Scale",
+      "explanation": "The imported key intends that deployment scale be checked against entitlements and applicable service limits. Do not treat this wording as proof that every account has unlimited scanners or no technical limits.",
+      "options": [
+        "100 scanners across all accounts globally",
+        "Determined by licensing tier; no fixed universal maximum",
+        "10 scanners per account",
+        "1 scanner per subscription"
+      ],
+      "sourceId": "tenable-certified-vm-q-032",
+      "stem": "What is the maximum number of scanners supported in a single Tenable.io account?",
+      "captureOrder": 34,
+      "id": "BC-Q032",
+      "number": 32,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "The stated 100-scanner global limit is not the account-specific sizing principle intended by the imported key.",
+        "The imported key intends that deployment scale be checked against entitlements and applicable service limits. Do not treat this wording as proof that every account has unlimited scanners or no technical limits.",
+        "The imported key does not establish a universal ten-scanner limit; check current account and sensor constraints.",
+        "A one-scanner-only subscription rule does not describe the distributed assessment model intended by the question."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Verify current account entitlements and documented service limits. The imported wording is not evidence of unlimited sensor capacity."
+    },
+    {
+      "answer": 1,
+      "category": "Category: Remediation Workflows • Topics: Vulnerability Status, Fixed Status, Rescan",
+      "explanation": "Fixed indicates that a previously detected issue is no longer found by a qualifying subsequent assessment of the asset.",
+      "options": [
+        "The vulnerability's CVE has been retracted by the NVD",
+        "The vulnerability was detected in a previous scan but was NOT found in the most recent scan of the same asset",
+        "The vulnerability was manually marked as remediated by a security analyst",
+        "The vulnerability's plugin was disabled in the scan policy"
+      ],
+      "sourceId": "tenable-certified-vm-q-033",
+      "stem": "When Tenable.io shows a vulnerability as 'Fixed', what does this status indicate?",
+      "captureOrder": 17,
+      "id": "BC-Q033",
+      "number": 33,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "CVE publication changes are distinct from an asset finding's assessment lifecycle state.",
+        "Fixed indicates that a previously detected issue is no longer found by a qualifying subsequent assessment of the asset.",
+        "A workflow declaration alone is not equivalent to the documented assessment-based verification of mitigation.",
+        "Disabling a plugin removes a check and does not itself provide the comparable evidence needed to establish a fix."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Asset Management • Topics: Rbac, Access Control, Tag Based Access",
+      "explanation": "Permissions scoped using asset tags constrain which resources a user can view or act on, alongside the user's functional role.",
+      "options": [
+        "User permissions with tag-based access control",
+        "Scan zone assignments per user",
+        "VPR thresholds in user profiles",
+        "ACR assignments on individual assets"
+      ],
+      "sourceId": "tenable-certified-vm-q-034",
+      "stem": "Which Tenable.io feature enables role-based access control to restrict which users can view or manage specific assets?",
+      "captureOrder": 65,
+      "id": "BC-Q034",
+      "number": 34,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Permissions scoped using asset tags constrain which resources a user can view or act on, alongside the user's functional role.",
+        "A sensor or zone assignment is not the general tag-based authorization mechanism controlling asset visibility.",
+        "A VPR threshold filters risk information and is not an authorization boundary.",
+        "ACR rates business criticality; assigning it does not grant or restrict a user's access."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Asset Management • Topics: Cloud Connectors, Aws Integration, Cloud Assets",
+      "explanation": "Supported cloud connectors use provider APIs to discover and import cloud asset inventory information.",
+      "options": [
+        "Manual CSV import from the cloud provider billing console",
+        "Cloud Connectors for AWS, Azure, and GCP",
+        "Passive Vulnerability Scanner network tap in the cloud VPC",
+        "Nessus Agent deployment on cloud instances only"
+      ],
+      "sourceId": "tenable-certified-vm-q-035",
+      "stem": "Which Tenable.io integration allows discovered cloud assets (EC2, Azure VMs) to be automatically imported into the asset inventory?",
+      "captureOrder": 25,
+      "id": "BC-Q035",
+      "number": 35,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Manual billing exports are not automatic asset discovery through the provider API.",
+        "Supported cloud connectors use provider APIs to discover and import cloud asset inventory information.",
+        "Passive visibility from a cloud traffic feed does not replace the specified cloud provider API integration.",
+        "Agents supply local assessment evidence, but deploying them is not the connector-based inventory import requested."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Reporting Compliance • Topics: Mttr, Remediation Metrics, Program Kpis",
+      "explanation": "MTTR measures average elapsed time from detection to confirmed remediation under the program's defined timing and verification rules.",
+      "options": [
+        "The average time it takes Nessus to complete a scan of a single host",
+        "The average CVSS score of all vulnerabilities remediated in a reporting period",
+        "The average number of days between when a vulnerability is discovered and when it is confirmed fixed",
+        "The time between plugin updates and detection of new vulnerabilities"
+      ],
+      "sourceId": "tenable-certified-vm-q-036",
+      "stem": "In Tenable vulnerability management terminology, what does 'mean time to remediate' (MTTR) measure?",
+      "captureOrder": 100,
+      "id": "BC-Q036",
+      "number": 36,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Host scan duration measures assessment execution performance rather than time to resolve detected vulnerabilities.",
+        "An average severity score measures the risk mix, not elapsed remediation time.",
+        "MTTR measures average elapsed time from detection to confirmed remediation under the program's defined timing and verification rules.",
+        "The delay between a feed update and detection concerns detection freshness rather than time to remediate a finding."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Nessus Scanning • Topics: Plugin Families, Smb Enumeration, Windows Scanning",
+      "explanation": "The imported key selects the Windows/SMB option, but its share-enumeration description is inaccurate. The official plugin is Microsoft Windows SMB LanMan Pipe Server Listing Disclosure and retrieves a browse list of nearby Windows systems.",
+      "options": [
+        "MySQL database vulnerability",
+        "DNS zone transfer attempt",
+        "SSL/TLS certificate expiration",
+        "Windows file share enumeration (SMB)"
+      ],
+      "sourceId": "tenable-certified-vm-q-037",
+      "stem": "A Nessus scan reports plugin output for plugin 10397. What general category does this plugin typically represent?",
+      "captureOrder": 12,
+      "id": "BC-Q037",
+      "number": 37,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-plugin"
+      ],
+      "x": [
+        "Plugin 10397 is a Windows SMB/LANMAN information-disclosure check, not a MySQL vulnerability check.",
+        "DNS zone transfer is a different protocol and finding type from this Windows SMB plugin.",
+        "Certificate expiration concerns TLS certificates, not the LANMAN pipe information disclosed by plugin 10397.",
+        "The imported key selects the Windows/SMB option, but its share-enumeration description is inaccurate. The official plugin is Microsoft Windows SMB LanMan Pipe Server Listing Disclosure and retrieves a browse list of nearby Windows systems."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "The official plugin 10397 is Microsoft Windows SMB LanMan Pipe Server Listing Disclosure, not SMB file-share enumeration. None of the descriptions precisely names its behavior; the imported key is retained for scoring."
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Scan Exclusions, Scan Targets, Configuration",
+      "explanation": "An active scan exclusion skips matching IP targets even when they are included in the broader network scan scope.",
+      "options": [
+        "To prevent specific IP addresses or ranges from being included in a scan even if they fall within the target range",
+        "To automatically accept risk for vulnerabilities in excluded ranges",
+        "To remove old scan data from the Tenable.io asset database",
+        "To block specific plugin families from running on all scanners"
+      ],
+      "sourceId": "tenable-certified-vm-q-038",
+      "stem": "What is the purpose of the Tenable.io 'Exclusions' feature in scan configuration?",
+      "captureOrder": 26,
+      "id": "BC-Q038",
+      "number": 38,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "An active scan exclusion skips matching IP targets even when they are included in the broader network scan scope.",
+        "Skipping a target is an assessment decision and does not automatically accept the risk of existing findings.",
+        "Exclusion controls assessment participation rather than deleting historical asset results.",
+        "Plugin family selection controls checks; target exclusions are not a universal family-disable setting."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Nessus Scanning • Topics: Advanced Scan, Scan Templates, Compliance Audit",
+      "explanation": "Advanced Scan exposes granular assessment settings for cases where the simpler template lacks the required configuration; verify which options each current template offers.",
+      "options": [
+        "Performing passive traffic analysis instead of active probing",
+        "Scanning web applications with application-layer fuzzing",
+        "Running faster scans with fewer plugins enabled",
+        "Customizing performance settings, enabling specific compliance audits, or adding custom credentials not available in the Basic template"
+      ],
+      "sourceId": "tenable-certified-vm-q-039",
+      "stem": "Which of the following is a valid use case for Tenable.io's 'Advanced Scan' template over the 'Basic Network Scan' template?",
+      "captureOrder": 82,
+      "id": "BC-Q039",
+      "number": 39,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Changing the active scan template does not turn Nessus into a passive traffic monitor.",
+        "Dedicated web application assessment has a different objective; Advanced Network Scan is not inherently an application fuzzing tool.",
+        "Fewer plugins may alter runtime, but speed alone does not define the advantage of the more configurable template.",
+        "Advanced Scan exposes granular assessment settings for cases where the simpler template lacks the required configuration; verify which options each current template offers."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Asset Management • Topics: Linked Scanners, Cloud Scanners, Scanner Management",
+      "explanation": "A linked scanner is customer-managed Nessus infrastructure associated with VM; a cloud scanner is Tenable-managed scanning infrastructure.",
+      "options": [
+        "A Linked Scanner connects to external threat intelligence; a Cloud Scanner handles internal network scanning",
+        "A Linked Scanner is a customer-managed on-premises Nessus instance; a Cloud Scanner is managed by Tenable in their cloud infrastructure",
+        "A Linked Scanner is used only for agent-based scans; a Cloud Scanner handles network scans",
+        "A Linked Scanner requires a dedicated physical appliance; a Cloud Scanner runs as a virtual machine"
+      ],
+      "sourceId": "tenable-certified-vm-q-040",
+      "stem": "In Tenable.io, what is the role of a 'Linked Scanner' compared to a 'Cloud Scanner'?",
+      "captureOrder": 83,
+      "id": "BC-Q040",
+      "number": 40,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "This reverses the deployment distinction and confuses sensor management with external threat intelligence.",
+        "A linked scanner is customer-managed Nessus infrastructure associated with VM; a cloud scanner is Tenable-managed scanning infrastructure.",
+        "Linked Nessus scanners can perform network assessments and are not restricted to agent-based scanning.",
+        "Customer-managed Nessus can run on supported physical or virtual systems; a dedicated physical appliance is not mandatory."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Vulnerability Prioritization • Topics: Cvss V3, Scope Metric, Scoring",
+      "explanation": "Scope describes whether exploitation affects resources beyond the vulnerable component's security authority, distinguishing unchanged and changed scope.",
+      "options": [
+        "The geographic scope of systems affected by the vulnerability",
+        "The number of systems currently vulnerable in the environment",
+        "Whether the vulnerability is applicable to cloud or on-premises systems",
+        "Whether a vulnerability's impact extends beyond the vulnerable component to affect other components"
+      ],
+      "sourceId": "tenable-certified-vm-q-041",
+      "stem": "What does the CVSS v3 'Scope' metric (S) describe?",
+      "captureOrder": 19,
+      "id": "BC-Q041",
+      "number": 41,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-cvss"
+      ],
+      "x": [
+        "Scope is a security-authority boundary concept, not a geographic footprint.",
+        "The number of vulnerable systems does not define the CVSS v3 Scope metric.",
+        "Cloud versus on-premises hosting is not the distinction encoded by Scope.",
+        "Scope describes whether exploitation affects resources beyond the vulnerable component's security authority, distinguishing unchanged and changed scope."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Asset Management • Topics: Nessus Agents, Mobile Assets, Remote Workers",
+      "explanation": "Agents assess on the mobile endpoint and synchronize results when communication is available, reducing dependence on central scanner reachability.",
+      "options": [
+        "Configure VPN-only scanning policies that run when endpoints connect to corporate VPN",
+        "Deploy Nessus Agents on all mobile assets and configure agent scan intervals",
+        "Use a cloud scanner to scan the home ISP ranges of all remote workers",
+        "Schedule daily network scans of all office IP ranges at maximum scan speed"
+      ],
+      "sourceId": "tenable-certified-vm-q-042",
+      "stem": "A security team wants to ensure vulnerability data stays current for a group of assets that move between office and remote networks. What is the optimal Tenable.io configuration?",
+      "captureOrder": 67,
+      "id": "BC-Q042",
+      "number": 42,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "VPN-only collection can miss endpoints that do not connect during the scheduled network assessment.",
+        "Agents assess on the mobile endpoint and synchronize results when communication is available, reducing dependence on central scanner reachability.",
+        "A home ISP range is not a reliable or appropriately scoped substitute for assessing the employee's specific endpoint.",
+        "Office address ranges omit endpoints currently on remote networks, regardless of the scan's speed."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Reporting Compliance • Topics: Executive Reporting, Report Formats, Dashboards",
+      "explanation": "An executive summary emphasizes program risk, trends and remediation progress in a format appropriate for a high-level audience.",
+      "options": [
+        "Executive Summary PDF report with high-level risk metrics and trend charts",
+        "Raw CSV export with all vulnerability fields",
+        "Full detailed vulnerability report with plugin output per host",
+        "Nessus scan results export in .nessus XML format"
+      ],
+      "sourceId": "tenable-certified-vm-q-043",
+      "stem": "Which Tenable.io report format is most appropriate for delivering a vulnerability summary to C-level executives?",
+      "captureOrder": 70,
+      "id": "BC-Q043",
+      "number": 43,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "An executive summary emphasizes program risk, trends and remediation progress in a format appropriate for a high-level audience.",
+        "A raw record export can overwhelm an executive audience without the requested aggregation and context.",
+        "Detailed per-host plugin output is useful to technical remediation teams rather than being the best executive summary.",
+        "Nessus XML is a technical assessment export and is not the most suitable executive communication format."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Remediation Workflows • Topics: Ticketing Integration, Servicenow, Jira",
+      "explanation": "Configured integrations transfer qualifying finding context into tickets and route work through the appropriate remediation process without manual export/import.",
+      "options": [
+        "It replaces the need for a vulnerability management program by handling remediation automatically",
+        "Vulnerabilities are automatically converted to tickets routed to the appropriate remediation team without manual data transfer",
+        "The integration allows ServiceNow to perform vulnerability scans on behalf of Tenable.io",
+        "It encrypts vulnerability data before sending it to ServiceNow for compliance purposes"
+      ],
+      "sourceId": "tenable-certified-vm-q-044",
+      "stem": "What is the main benefit of using Tenable.io's built-in ticketing integrations (e.g., ServiceNow, JIRA) for remediation?",
+      "captureOrder": 80,
+      "id": "BC-Q044",
+      "number": 44,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "Ticket integration coordinates work but does not automatically replace the program, patch systems or validate every fix.",
+        "Configured integrations transfer qualifying finding context into tickets and route work through the appropriate remediation process without manual export/import.",
+        "A ticketing integration does not turn ServiceNow into the Nessus assessment engine.",
+        "Transport security may be relevant, but encryption alone is not the main workflow benefit requested."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Nessus Scanning • Topics: Credential Management, Plugin 19506, Scan Authentication",
+      "explanation": "Update the credential source actually used by the scans and verify successful authenticated collection afterward, including patch inventory rather than relying on plugin 19506 alone.",
+      "options": [
+        "Recreate all scan policies from scratch with the new credentials",
+        "Update the stored credentials in the Tenable.io credential manager and verify plugin 19506 confirms successful authentication on the next scan",
+        "Disable Windows plugin families until the credential issue is resolved",
+        "Increase the VPR threshold to compensate for temporarily uncredentialed scan results"
+      ],
+      "sourceId": "tenable-certified-vm-q-045",
+      "stem": "Which action should a Tenable.io administrator take after rotating Windows service account credentials used for credentialed scans?",
+      "captureOrder": 76,
+      "id": "BC-Q045",
+      "number": 45,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-checks"
+      ],
+      "x": [
+        "Rotating credentials does not ordinarily require rebuilding every assessment policy from scratch.",
+        "Update the credential source actually used by the scans and verify successful authenticated collection afterward, including patch inventory rather than relying on plugin 19506 alone.",
+        "Disabling Windows checks removes evidence and does not restore the rotated account's access.",
+        "Changing priority thresholds cannot compensate for failed authentication or missing local assessment data."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "After rotation, verify local inventory and checks as well as accepted credentials; plugin 19506 alone does not prove full collection."
+    },
+    {
+      "answer": 1,
+      "category": "Category: Vulnerability Prioritization • Topics: Vpr, Predictive Prioritization, Exploit Intelligence",
+      "explanation": "Functional exploit code provides concrete exploitability evidence relevant to VPR prioritization; no single signal guarantees a fixed score increase.",
+      "options": [
+        "The vulnerability affecting a server with ACR of 10",
+        "Availability of functional exploit code in a public exploit framework like Metasploit",
+        "The vulnerability receiving a CVE published by the NVD",
+        "The vulnerability having been discovered more than 12 months ago"
+      ],
+      "sourceId": "tenable-certified-vm-q-046",
+      "stem": "In Tenable.io Predictive Prioritization, which of the following signals most increases a vulnerability's VPR score relative to its base CVSS?",
+      "captureOrder": 92,
+      "id": "BC-Q046",
+      "number": 46,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "ACR is an asset-specific criticality input and does not directly customize the vulnerability's globally calculated VPR.",
+        "Functional exploit code provides concrete exploitability evidence relevant to VPR prioritization; no single signal guarantees a fixed score increase.",
+        "A CVE identifier alone does not supply the same practical exploitation evidence as functional exploit code.",
+        "Age by itself does not establish stronger current exploitation signals or a universally higher VPR."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Reporting Compliance • Topics: Cis Benchmarks, Compliance Results, Hardening",
+      "explanation": "With valid collected evidence, Failed indicates that the tested configuration did not satisfy the selected CIS requirement.",
+      "options": [
+        "The system's configuration does not meet the specific CIS hardening requirement being tested",
+        "The target asset does not have a CIS benchmark applicable to its operating system",
+        "The Nessus scanner lost connectivity to the target during the compliance check",
+        "The compliance plugin requires root/administrator credentials that were not supplied"
+      ],
+      "sourceId": "tenable-certified-vm-q-047",
+      "stem": "A compliance audit in Tenable.io produces a 'FAILED' result for a CIS benchmark check. What does this indicate?",
+      "captureOrder": 40,
+      "id": "BC-Q047",
+      "number": 47,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "With valid collected evidence, Failed indicates that the tested configuration did not satisfy the selected CIS requirement.",
+        "Failure of a particular control does not mean that no applicable operating-system benchmark exists.",
+        "A connection problem can affect evidence collection, but it is not the definition of a validated Failed configuration result.",
+        "Insufficient credentials require collection diagnosis and do not universally define every Failed audit outcome."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Asset Management • Topics: Groups, User Management, Access Control",
+      "explanation": "Groups organize users so appropriate permissions can be assigned consistently to the scans, assets and results they need.",
+      "options": [
+        "To create custom CVSS scoring groups for different business units",
+        "To group similar vulnerabilities for bulk remediation",
+        "To define IP address ranges for scanner assignment",
+        "To organize users and control which scan results and assets they can access"
+      ],
+      "sourceId": "tenable-certified-vm-q-048",
+      "stem": "What is the purpose of Tenable.io's 'Groups' feature?",
+      "captureOrder": 53,
+      "id": "BC-Q048",
+      "number": 48,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "User groups organize access; they do not create separate custom CVSS scoring formulas.",
+        "Grouping vulnerability work for remediation is a different concept from organizing users and their permissions.",
+        "Sensor target ranges and Network associations are not the purpose of user access groups.",
+        "Groups organize users so appropriate permissions can be assigned consistently to the scans, assets and results they need."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Vulnerability Prioritization • Topics: Vulnerability Workbench, Vpr, Triage",
+      "explanation": "A cross-asset findings/workbench view sorted by VPR supports organization-wide vulnerability triage; local business context still needs separate consideration.",
+      "options": [
+        "Vulnerability Workbench filtered and sorted by VPR",
+        "Plugin family summary report",
+        "Asset detail page sorted by last scan date",
+        "Individual scan results view per scanner"
+      ],
+      "sourceId": "tenable-certified-vm-q-049",
+      "stem": "Which Tenable.io feature provides a single prioritized list of vulnerabilities ranked by combined risk across all scanned assets?",
+      "captureOrder": 99,
+      "id": "BC-Q049",
+      "number": 49,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "A cross-asset findings/workbench view sorted by VPR supports organization-wide vulnerability triage; local business context still needs separate consideration.",
+        "A plugin family summary groups checks rather than providing the requested prioritized cross-asset finding list.",
+        "One asset's last-scan date is a freshness view, not a program-wide vulnerability priority ranking.",
+        "An individual scanner's results do not inherently aggregate all relevant findings across the organization."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Asset Management • Topics: User Roles, Permissions, Access Control",
+      "explanation": "The imported key selects Standard for managing its own scans and templates without user administration. Scan Manager can also satisfy the wording, so distinguish own-resource management from broader scan oversight.",
+      "options": [
+        "Scan Manager",
+        "Administrator",
+        "Standard User",
+        "Read-Only User"
+      ],
+      "sourceId": "tenable-certified-vm-q-050",
+      "stem": "In Tenable.io, which user role has the ability to create and manage scan policies but cannot modify user accounts?",
+      "captureOrder": 96,
+      "id": "BC-Q050",
+      "number": 50,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-roles"
+      ],
+      "x": [
+        "Current documentation also gives Scan Manager policy/scan management without user administration, so this option meets the stated condition too. The item is not uniquely answerable as written.",
+        "Administrator includes user management, which conflicts with the stated restriction.",
+        "The imported key selects Standard for managing its own scans and templates without user administration. Scan Manager can also satisfy the wording, so distinguish own-resource management from broader scan oversight.",
+        "Read-Only users can inspect allowed data but cannot create and manage scan policies."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Both Standard and Scan Manager can meet the stated condition in current documentation. The question needs an own-scope versus broader management distinction to have one unique answer; the imported key is retained."
+    },
+    {
+      "answer": 0,
+      "category": "Category: Remediation Workflows • Topics: Recast Risk, Accepted Risk, Severity Management",
+      "explanation": "Recast changes the severity classification of matching findings, whereas risk acceptance records a decision to tolerate the exposure.",
+      "options": [
+        "Change the severity classification of a vulnerability finding permanently or for a defined period",
+        "Remove the vulnerability from all scan results retroactively",
+        "Generate a public disclosure notification to the vendor",
+        "Assign the vulnerability to a different asset automatically"
+      ],
+      "sourceId": "tenable-certified-vm-q-051",
+      "stem": "What does the 'Recast Risk' feature allow a Tenable.io analyst to do that 'Accepted Risk' does not?",
+      "captureOrder": 73,
+      "id": "BC-Q051",
+      "number": 51,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "Recast changes the severity classification of matching findings, whereas risk acceptance records a decision to tolerate the exposure.",
+        "Recasting does not retroactively remove the vulnerability from all historical scan evidence.",
+        "Vendor disclosure is a separate communication workflow, not the effect of a severity recast.",
+        "A severity override does not reassign the technical finding to a different asset."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Port Range, Scan Configuration, Production Safety",
+      "explanation": "A custom port range excluding 1-1023 limits the port-scanning phase to the intended higher-numbered ports. It is not a universal guarantee against every plugin connection; review check-specific access too.",
+      "options": [
+        "Custom port range specification in the scan policy, excluding ports 1–1023",
+        "Applying the Discovery Scan template instead of Basic Network Scan",
+        "Enabling safe checks in the scan policy",
+        "Setting the ACR of production servers to 10"
+      ],
+      "sourceId": "tenable-certified-vm-q-052",
+      "stem": "Which scan configuration ensures that Nessus does not scan ports below 1024 on sensitive production servers?",
+      "captureOrder": 46,
+      "id": "BC-Q052",
+      "number": 52,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "A custom port range excluding 1-1023 limits the port-scanning phase to the intended higher-numbered ports. It is not a universal guarantee against every plugin connection; review check-specific access too.",
+        "Discovery can still probe lower-numbered ports unless its actual port configuration excludes them.",
+        "Safe Checks avoids potentially harmful checks but does not itself define the requested port range.",
+        "Asset criticality affects prioritization and does not control which ports the scanner probes."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "A port-scanner range controls discovery probing, but authenticated or plugin-specific connections can have additional ports. Do not interpret it as a universal traffic guarantee."
+    },
+    {
+      "answer": 1,
+      "category": "Category: Nessus Scanning • Topics: Safe Checks, Scan Policy, Production Safety",
+      "explanation": "Safe Checks avoids checks known to risk adversely affecting the host; overall load and target sensitivity still require assessment.",
+      "options": [
+        "It restricts scans to port 443 for encrypted traffic analysis only",
+        "It disables potentially disruptive plugins that could crash services or cause system instability",
+        "It limits the scan to assets with an ACR below 5",
+        "It automatically applies compensating controls to failing compliance checks"
+      ],
+      "sourceId": "tenable-certified-vm-q-053",
+      "stem": "What is the function of 'Safe Checks' in a Nessus scan policy?",
+      "captureOrder": 21,
+      "id": "BC-Q053",
+      "number": 53,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Safe Checks is not an encrypted-traffic-only scan restricted to TCP 443.",
+        "Safe Checks avoids checks known to risk adversely affecting the host; overall load and target sensitivity still require assessment.",
+        "ACR describes business importance and is not the selection threshold defining Safe Checks.",
+        "Safe Checks does not deploy compensating controls or automatically change failing target configuration."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Reporting Compliance • Topics: Mttr, Executive Reporting, Remediation Progress",
+      "explanation": "An MTTR trend adds evidence about remediation speed over time, complementing the current outstanding critical count.",
+      "options": [
+        "Mean Time to Remediate (MTTR) trend over the last 90 days",
+        "The number of Nessus scanners currently online",
+        "Total number of assets scanned this week",
+        "The CVSS score distribution across all vulnerabilities"
+      ],
+      "sourceId": "tenable-certified-vm-q-054",
+      "stem": "A Tenable.io dashboard widget shows '847 Critical vulnerabilities' across all assets. An executive asks for context. Which additional metric best communicates remediation progress?",
+      "captureOrder": 51,
+      "id": "BC-Q054",
+      "number": 54,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "An MTTR trend adds evidence about remediation speed over time, complementing the current outstanding critical count.",
+        "The number of online sensors measures collection infrastructure, not the rate at which vulnerabilities are resolved.",
+        "Assessment volume adds coverage context but does not directly measure remediation progress.",
+        "A severity distribution describes the risk mix rather than how quickly the organization closes findings."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Nessus Scanning • Topics: Scan Performance, Simultaneous Checks, Scan Tuning",
+      "explanation": "This setting limits concurrent plugin checks against each host, supporting control of scan-induced resource pressure.",
+      "options": [
+        "It defines how many remediation campaigns can reference the same host",
+        "It controls how many users can view a specific host's vulnerability data simultaneously",
+        "It limits the number of plugin checks running concurrently against a single target host to reduce system load on that host",
+        "It sets the maximum number of CVEs a single host can report in one scan"
+      ],
+      "sourceId": "tenable-certified-vm-q-055",
+      "stem": "When configuring a Tenable.io scan, what is the purpose of the 'Max Simultaneous Checks per Host' setting?",
+      "captureOrder": 44,
+      "id": "BC-Q055",
+      "number": 55,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Campaign references are a workflow relationship and not a plugin execution concurrency setting.",
+        "The number of users viewing findings does not determine how many checks run against a target.",
+        "This setting limits concurrent plugin checks against each host, supporting control of scan-induced resource pressure.",
+        "It does not cap the number of CVEs that a host can report; it limits simultaneous assessment work."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Reporting Compliance • Topics: Saved Search, Workbench, Dashboards",
+      "explanation": "A saved search/view or appropriately configured dashboard widget preserves the intended filtering configuration for repeat use.",
+      "options": [
+        "Plugin family suppression rules",
+        "ACR threshold override in user profile settings",
+        "Scheduled scan reports with workbench filter options",
+        "Saved search or custom dashboard widget configured with workbench filters"
+      ],
+      "sourceId": "tenable-certified-vm-q-056",
+      "stem": "Which Tenable.io feature allows creating a persistent saved view of the Vulnerability Workbench with specific filters applied?",
+      "captureOrder": 47,
+      "id": "BC-Q056",
+      "number": 56,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Plugin suppression changes assessment or result scope; it does not save a workbench query and view.",
+        "An ACR override changes asset criticality rather than preserving a set of analyst filters.",
+        "A scheduled report is a generated document workflow, not the saved interactive workbench view requested.",
+        "A saved search/view or appropriately configured dashboard widget preserves the intended filtering configuration for repeat use."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Asset Management • Topics: Cmdb Integration, Servicenow, Asset Sync",
+      "explanation": "The appropriately configured ServiceNow CMDB integration synchronizes asset/CI information; verify which application and supported direction are being used.",
+      "options": [
+        "ServiceNow CMDB connector via the Tenable.io integration framework",
+        "Nessus Agent deployment to all CMDB-tracked assets",
+        "Manual IP range entry in Tenable.io network settings",
+        "Cloud connector configured for on-premises LDAP"
+      ],
+      "sourceId": "tenable-certified-vm-q-057",
+      "stem": "Which Tenable.io integration enables automatic asset synchronization from an enterprise CMDB (Configuration Management Database)?",
+      "captureOrder": 94,
+      "id": "BC-Q057",
+      "number": 57,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-snow"
+      ],
+      "x": [
+        "The appropriately configured ServiceNow CMDB integration synchronizes asset/CI information; verify which application and supported direction are being used.",
+        "Agent deployment collects host evidence but does not by itself synchronize the enterprise CMDB.",
+        "Entering target ranges manually is not automatic record synchronization with the CMDB.",
+        "A cloud-provider connector is not a generic on-premises LDAP-to-CMDB synchronization mechanism."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Remediation Workflows • Topics: False Positives, Recast Risk, Pci Compliance",
+      "explanation": "Investigate and document the detection and use the applicable dispute or approved treatment process. A stopped service is not, by itself, proof of a false positive, and recasting does not automatically satisfy PCI requirements.",
+      "options": [
+        "Delete the asset from Tenable.io to clear the finding",
+        "Accept the risk automatically using the Accepted Risk workflow",
+        "Increase the server's ACR to reflect the higher risk finding",
+        "Submit a false positive dispute or use Recast Risk with evidence documentation that the service is not running"
+      ],
+      "sourceId": "tenable-certified-vm-q-058",
+      "stem": "What is the recommended approach when a Tenable.io scan discovers a vulnerability on a PCI-in-scope server with a CVSS score of 9.8 but the asset team reports the vulnerable service is not running?",
+      "captureOrder": 24,
+      "id": "BC-Q058",
+      "number": 58,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast",
+        "EN-checks"
+      ],
+      "x": [
+        "Deleting the asset hides evidence and does not establish whether the detection or compliance interpretation was wrong.",
+        "Automatic acceptance without investigation omits the required evidence and approved treatment decision.",
+        "ACR is asset business criticality; increasing it does not validate whether the vulnerability was correctly detected.",
+        "Investigate and document the detection and use the applicable dispute or approved treatment process. A stopped service is not, by itself, proof of a false positive, and recasting does not automatically satisfy PCI requirements."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "A stopped service alone does not establish a false positive. Investigate the original detection and applicable PCI validation/dispute requirements before approving a treatment."
+    },
+    {
+      "answer": 1,
+      "category": "Category: Vulnerability Prioritization • Topics: Compensating Controls, Recast Risk, Risk Context",
+      "explanation": "A documented, approved recast can adjust finding severity to reflect a verified compensating control while retaining the underlying evidence.",
+      "options": [
+        "Compliance benchmark override for WAF-protected assets",
+        "Recast Risk with contextual notes documenting the compensating control",
+        "ACR reduction for assets protected by WAF",
+        "VPR automatic adjustment when WAF integration is active"
+      ],
+      "sourceId": "tenable-certified-vm-q-059",
+      "stem": "Which Tenable.io feature enables vulnerability prioritization based on whether the organization has already deployed compensating controls such as a WAF or IPS signature?",
+      "captureOrder": 77,
+      "id": "BC-Q059",
+      "number": 59,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "Changing a compliance result is a different operation from contextual treatment of a vulnerability finding.",
+        "A documented, approved recast can adjust finding severity to reflect a verified compensating control while retaining the underlying evidence.",
+        "Reducing asset business criticality is not a substitute for evaluating the specific vulnerability's compensating control.",
+        "VPR is globally calculated from vulnerability/threat information; it does not automatically incorporate every organization's WAF deployment."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Vulnerability Prioritization • Topics: Vpr, Dynamic Scoring, Threat Intelligence",
+      "explanation": "Daily VPR recalculation incorporates changing threat information rather than relying solely on the original technical score.",
+      "options": [
+        "VPR is fixed at the time the CVE is published and never changes",
+        "VPR updates quarterly on Tenable's plugin feed release schedule",
+        "VPR is recalculated daily as threat intelligence signals change, such as new exploit code being published",
+        "VPR is updated only when the NVD publishes a revised CVSS score"
+      ],
+      "sourceId": "tenable-certified-vm-q-060",
+      "stem": "When does Tenable.io update a vulnerability's VPR score after initial publication?",
+      "captureOrder": 68,
+      "id": "BC-Q060",
+      "number": 60,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "VPR is dynamic rather than permanently fixed at CVE publication.",
+        "The documented VPR update cadence is daily, not a quarterly plugin-feed-only schedule.",
+        "Daily VPR recalculation incorporates changing threat information rather than relying solely on the original technical score.",
+        "Threat developments can change VPR independently of whether NVD revises the CVSS score."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Nessus Scanning • Topics: Host Discovery, Licensing, Scan Templates",
+      "explanation": "Discovery-only assets are excluded from assessment license counting; later vulnerability assessment or other applicable licensed activity must be considered separately.",
+      "options": [
+        "They immediately count as licensed assets as soon as any IP address is discovered",
+        "They count only if the asset is later added to a dashboard widget",
+        "They do not count toward the license until they are assessed by non-discovery vulnerability plugins",
+        "They count only if the discovery scan finds at least one open TCP port"
+      ],
+      "sourceId": "tenable-certified-vm-q-061",
+      "stem": "A team runs a Host Discovery scan before building its quarterly vulnerability scan scope. How do assets found only by this discovery scan affect Tenable Vulnerability Management licensing?",
+      "captureOrder": 64,
+      "id": "BC-Q061",
+      "number": 61,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Discovery alone does not immediately consume the vulnerability-assessment asset license described in the question.",
+        "Adding a widget changes presentation and is not the licensing trigger for a discovered asset.",
+        "Discovery-only assets are excluded from assessment license counting; later vulnerability assessment or other applicable licensed activity must be considered separately.",
+        "An open port discovered in an inventory scan does not, by itself, convert the discovery activity into the relevant vulnerability assessment."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Nessus Scanning • Topics: Scan Results, Private Scans, Vulnerability States",
+      "explanation": "Private results remain directly accessible from the scan but do not update dashboard/workbench findings or their vulnerability lifecycle states.",
+      "options": [
+        "The scan results are automatically deleted after the scanner uploads them",
+        "The scanner runs only discovery plugins and disables all vulnerability plugins",
+        "The scan results are hidden from dashboards, reports, and workbenches and do not update vulnerability states",
+        "The scan still updates dashboard findings, but only administrators can see them"
+      ],
+      "sourceId": "tenable-certified-vm-q-062",
+      "stem": "A scan owner sets Scan Results to 'Keep private' for a sensitive troubleshooting scan. What is the most important operational effect of that setting?",
+      "captureOrder": 28,
+      "id": "BC-Q062",
+      "number": 62,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Keep private controls publication into the common findings views; it does not mean results are immediately deleted after upload.",
+        "The setting concerns result handling, not automatically replacing the selected plugins with discovery-only checks.",
+        "Private results remain directly accessible from the scan but do not update dashboard/workbench findings or their vulnerability lifecycle states.",
+        "The described setting prevents shared finding-state updates rather than merely restricting already published dashboard findings to administrators."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Reporting Compliance • Topics: Pci, Scan Templates, Compliance Scanning",
+      "explanation": "Internal PCI Network Scan is the template specifically intended for an internal PCI DSS network vulnerability assessment.",
+      "options": [
+        "Credential Validation",
+        "Host Discovery",
+        "Legacy Web App Scan",
+        "Internal PCI Network Scan"
+      ],
+      "sourceId": "tenable-certified-vm-q-063",
+      "stem": "Which Tenable Vulnerability Management scan template is intended for an internal PCI DSS vulnerability scan?",
+      "captureOrder": 37,
+      "id": "BC-Q063",
+      "number": 63,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Credential Validation checks authentication rather than performing the requested internal PCI vulnerability assessment.",
+        "Host Discovery establishes inventory and does not replace the required vulnerability assessment.",
+        "A legacy web application template does not provide the internal network PCI scan requested.",
+        "Internal PCI Network Scan is the template specifically intended for an internal PCI DSS network vulnerability assessment."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Nessus Scanning • Topics: Nessus Agents, Outbound Communication, Firewalls",
+      "explanation": "Agents initiate the standard cloud communication outbound on TCP 443, so this purpose does not require inbound access from Tenable to each endpoint.",
+      "options": [
+        "Open inbound UDP 161 so Tenable can poll the agent with SNMP",
+        "Open inbound TCP 8834 from Tenable cloud scanners to every endpoint",
+        "Open inbound SMB and SSH so the agent can receive credentialed checks",
+        "No inbound rule is required because agents initiate outbound TCP 443 communication to Tenable"
+      ],
+      "sourceId": "tenable-certified-vm-q-064",
+      "stem": "A firewall team asks what inbound rule is required so Tenable Agents can communicate with Tenable Vulnerability Management. What should you tell them?",
+      "captureOrder": 87,
+      "id": "BC-Q064",
+      "number": 64,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Agents are not polled through inbound SNMP UDP 161 for this cloud communication workflow.",
+        "TCP 8834 is a Nessus interface port and is not the required inbound connection to every agent endpoint.",
+        "Agents run local checks rather than requiring inbound SMB or SSH from the cloud scanner to execute them.",
+        "Agents initiate the standard cloud communication outbound on TCP 443, so this purpose does not require inbound access from Tenable to each endpoint."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Nessus Agents, Asynchronous Scanning, Remote Workers",
+      "explanation": "Supported asynchronous or catch-up behavior can assess an endpoint after it becomes available; check the actual scan method and configured reporting rules.",
+      "options": [
+        "The agent can be configured to run the scan when it comes back online",
+        "The agent waits for an administrator to manually import a scan file",
+        "The cloud scanner automatically switches to an uncredentialed scan of the laptop's public IP",
+        "The next dashboard refresh marks all findings on the laptop as Fixed"
+      ],
+      "sourceId": "tenable-certified-vm-q-065",
+      "stem": "A remote employee's laptop is offline during the scheduled agent scan window. Which agent behavior helps prevent the endpoint from being missed indefinitely?",
+      "captureOrder": 52,
+      "id": "BC-Q065",
+      "number": 65,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Supported asynchronous or catch-up behavior can assess an endpoint after it becomes available; check the actual scan method and configured reporting rules.",
+        "The normal agent workflow does not inherently require an administrator to import a scan file after every offline interval.",
+        "An offline agent does not automatically cause a cloud scanner to probe its laptop's public address.",
+        "A dashboard refresh cannot supply assessment evidence that every existing finding has been fixed."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Catch-up behavior depends on the configured agent scan method, timing and reporting rules; it is not an automatic guarantee for every missed window."
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Agent Groups, Agent Scanning, Scan Targets",
+      "explanation": "Agent scan target membership is specified through an agent group, which selects the participating endpoints.",
+      "options": [
+        "An agent group",
+        "A scanner group",
+        "An individual linked agent",
+        "A raw CIDR range only"
+      ],
+      "sourceId": "tenable-certified-vm-q-066",
+      "stem": "When configuring an agent scan in Tenable Vulnerability Management, what target type must you select?",
+      "captureOrder": 39,
+      "id": "BC-Q066",
+      "number": 66,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Agent scan target membership is specified through an agent group, which selects the participating endpoints.",
+        "Scanner groups organize network assessment infrastructure rather than the endpoint participants of an agent scan.",
+        "The documented target selection uses groups rather than selecting an individual linked agent directly as the scan target type.",
+        "A raw CIDR range identifies network addresses and is not the participant target type for host-installed agents."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Remediation Workflows • Topics: Vulnerability Mitigation, Credentialed Scanning, Local Checks",
+      "explanation": "A successful authenticated follow-up must collect the local evidence needed to verify mitigation of the credentialed patch finding.",
+      "options": [
+        "Local check findings must be verified by another successfully authenticated scan",
+        "Only Host Discovery scans can verify Windows patch remediation",
+        "The finding must be recast before it can become Fixed",
+        "Windows patch findings never move to Fixed automatically"
+      ],
+      "sourceId": "tenable-certified-vm-q-067",
+      "stem": "A missing Windows patch was found by a credentialed local check. After the server team installs the patch, an uncredentialed network scan does not report the finding. Why might Tenable Vulnerability Management still not move it to Fixed?",
+      "captureOrder": 38,
+      "id": "BC-Q067",
+      "number": 67,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "A successful authenticated follow-up must collect the local evidence needed to verify mitigation of the credentialed patch finding.",
+        "Discovery alone does not inspect the required Windows local patch state.",
+        "Recasting severity is unnecessary for technical mitigation and does not establish that the patch was installed.",
+        "Windows patch findings can transition to Fixed after a qualifying reassessment confirms mitigation."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Remediation Workflows • Topics: Combined Plugins, Vulnerability Mitigation, Authenticated Scans",
+      "explanation": "Combined plugins reported on port 0 or 445 are treated as local for the stated mitigation requirement and need successful authenticated follow-up.",
+      "options": [
+        "Any scan that confirms the remote port is closed",
+        "A successfully authenticated scan",
+        "A dashboard refresh after the next plugin feed update",
+        "A Host Discovery scan with common ports enabled"
+      ],
+      "sourceId": "tenable-certified-vm-q-068",
+      "stem": "A vulnerability was originally reported by a combined plugin on port 445. What type of follow-up scan is required to mitigate it according to Tenable's mitigation requirements?",
+      "captureOrder": 7,
+      "id": "BC-Q068",
+      "number": 68,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "For this local-treatment case, a closed remote port alone does not inspect the underlying host condition that produced the combined-plugin finding.",
+        "Combined plugins reported on port 0 or 445 are treated as local for the stated mitigation requirement and need successful authenticated follow-up.",
+        "A refresh or feed update is not new authenticated evidence of mitigation on the asset.",
+        "Host Discovery identifies hosts/services but does not provide the local evidence required to mitigate this finding."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Remediation Workflows • Topics: Vulnerability States, Resurfaced, Remediation Tracking",
+      "explanation": "Resurfaced records a renewed detection after the same vulnerability had previously been marked Fixed.",
+      "options": [
+        "Tenable previously marked the vulnerability Fixed but detected it again",
+        "An analyst accepted the risk and hid the finding",
+        "Tenable detected the vulnerability for the first time",
+        "Tenable detected the vulnerability more than once without it ever being fixed"
+      ],
+      "sourceId": "tenable-certified-vm-q-069",
+      "stem": "What does the Resurfaced state mean for a vulnerability finding?",
+      "captureOrder": 33,
+      "id": "BC-Q069",
+      "number": 69,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "Resurfaced records a renewed detection after the same vulnerability had previously been marked Fixed.",
+        "Risk acceptance is a treatment decision and is not the resurfaced lifecycle condition.",
+        "An initial first detection is New, not Resurfaced.",
+        "Repeated detection without an intervening Fixed state describes Active rather than Resurfaced."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Reporting Compliance • Topics: Api, Vulnerability States, Integrations",
+      "explanation": "The documented mapping is New and Active to open, Resurfaced to reopened, and Fixed to fixed.",
+      "options": [
+        "All UI states are returned as their exact UI names in the API",
+        "New is created, Active is running, Resurfaced is failed, and Fixed is closed",
+        "New and Active are open, Resurfaced is reopened, and Fixed is fixed",
+        "New and Resurfaced are open, Active is confirmed, and Fixed is deleted"
+      ],
+      "sourceId": "tenable-certified-vm-q-070",
+      "stem": "A developer comparing Tenable Vulnerability Management UI results to API output sees UI states New, Active, Resurfaced, and Fixed. Which API state mapping is correct?",
+      "captureOrder": 3,
+      "id": "BC-Q070",
+      "number": 70,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "UI lifecycle labels are not all returned verbatim by the API.",
+        "These created/running/failed/closed labels describe a different lifecycle vocabulary, not the documented finding mappings.",
+        "The documented mapping is New and Active to open, Resurfaced to reopened, and Fixed to fixed.",
+        "Active is not mapped to confirmed, and Fixed is not equivalent to deleting the finding."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Vulnerability Prioritization • Topics: Findings, Plugin Id, Vulnerability Instances",
+      "explanation": "The plugin ID, port and protocol combination distinguishes a vulnerability instance within the asset's context.",
+      "options": [
+        "The dashboard widget where the finding appears",
+        "The plugin ID, port, and protocol combination",
+        "The scan schedule and scanner group name",
+        "The asset's operating system and business owner"
+      ],
+      "sourceId": "tenable-certified-vm-q-071",
+      "stem": "In Tenable Vulnerability Management, what identifies a single vulnerability finding instance on an asset?",
+      "captureOrder": 42,
+      "id": "BC-Q071",
+      "number": 71,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "Dashboard placement describes presentation and does not identify the service-specific occurrence on the asset.",
+        "The plugin ID, port and protocol combination distinguishes a vulnerability instance within the asset's context.",
+        "Scheduling and scanner group information do not define the individual vulnerability instance.",
+        "Operating system and owner are asset attributes rather than the plugin/service occurrence key."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Reporting Compliance • Topics: Findings, Data Retention, Reporting",
+      "explanation": "The documented findings data retention window is 15 months; this differs from shorter report views and asset handling policies.",
+      "options": [
+        "90 days",
+        "15 months",
+        "Indefinitely, unless the scan is deleted",
+        "30 days"
+      ],
+      "sourceId": "tenable-certified-vm-q-072",
+      "stem": "How long does Tenable Vulnerability Management retain findings data after scans or imported results update it?",
+      "captureOrder": 2,
+      "id": "BC-Q072",
+      "number": 72,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Ninety days is associated with other asset or licensing windows and is not the findings-retention period asked here.",
+        "The documented findings data retention window is 15 months; this differs from shorter report views and asset handling policies.",
+        "Findings retention is not universally indefinite, and deleting a scan is not the only relevant lifecycle consideration.",
+        "Thirty days describes the stated standard report data window rather than the longer findings-retention window."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Reporting Compliance • Topics: Query Builder, Explore, Filtering",
+      "explanation": "Twenty-five conditions exceed the documented maximum of twenty, explaining the Invalid filter error.",
+      "options": [
+        "Only administrators can use AND and OR operators",
+        "Saved Views cannot include any Query Builder filters",
+        "Explore Query Builder supports a maximum of 20 filter conditions",
+        "Tenable Queries disable all custom filtering when selected"
+      ],
+      "sourceId": "tenable-certified-vm-q-073",
+      "stem": "An analyst builds a complex Explore query with 25 filter conditions and receives an Invalid filter error. What is the likely cause?",
+      "captureOrder": 88,
+      "id": "BC-Q073",
+      "number": 73,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "The issue is the query condition limit, not a universal administrator-only restriction on Boolean operators.",
+        "Saved Views can preserve Query Builder filters; they are not prohibited from containing them.",
+        "Twenty-five conditions exceed the documented maximum of twenty, explaining the Invalid filter error.",
+        "Selecting a curated query does not universally disable all subsequent custom filtering."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Reporting Compliance • Topics: Saved Views, Explore, Query Builder",
+      "explanation": "A Saved View preserves the query and supported table customizations, including columns, sorting and grouping.",
+      "options": [
+        "Scanner group",
+        "Scan folder",
+        "Saved View",
+        "Recast rule"
+      ],
+      "sourceId": "tenable-certified-vm-q-074",
+      "stem": "A lead analyst wants a reusable Explore view that preserves both the query and the table layout, including visible columns and grouping. Which feature best fits?",
+      "captureOrder": 97,
+      "id": "BC-Q074",
+      "number": 74,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "A scanner group selects assessment infrastructure rather than saving filters and table layout.",
+        "A scan folder organizes scan definitions and results, not the analyst's Explore workspace layout.",
+        "A Saved View preserves the query and supported table customizations, including columns, sorting and grouping.",
+        "Recast changes severity treatment of matching findings and is not a mechanism for saving a view layout."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Vulnerability Prioritization • Topics: Tenable Queries, Cisa Kev, Threat Intelligence",
+      "explanation": "The CISA KEV-oriented Tenable Query identifies findings associated with CVEs in the Known Exploited Vulnerabilities catalog.",
+      "options": [
+        "Credentialed Scan Failures",
+        "Network Devices",
+        "External Assets",
+        "CISA Known Exploitable Vulnerabilities"
+      ],
+      "sourceId": "tenable-certified-vm-q-075",
+      "stem": "Which Tenable Query should an analyst use to focus on vulnerabilities listed in the CISA Known Exploited Vulnerabilities catalog?",
+      "captureOrder": 86,
+      "id": "BC-Q075",
+      "number": 75,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "Credentialed Scan Failures targets collection problems rather than catalog membership for known exploited CVEs.",
+        "Network Devices segments assets and does not specifically select CISA KEV vulnerabilities.",
+        "External Assets identifies exposure scope, not necessarily known exploitation of the vulnerabilities found there.",
+        "The CISA KEV-oriented Tenable Query identifies findings associated with CVEs in the Known Exploited Vulnerabilities catalog."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Vulnerability Prioritization • Topics: Tenable Queries, Emerging Threats, Threat Intelligence",
+      "explanation": "Emerging Threats focuses on vulnerabilities attracting research attention through discussion, proof-of-concept potential or observed abuse.",
+      "options": [
+        "All vulnerabilities with a CVSS v3 score above 4.0",
+        "Compliance audit checks that changed from Failed to Passed",
+        "Vulnerabilities Tenable Research is monitoring due to public discussion, proof-of-concept activity, or observed large-scale abuse",
+        "Assets that have never been scanned by an authenticated scan"
+      ],
+      "sourceId": "tenable-certified-vm-q-076",
+      "stem": "A security manager asks what the Emerging Threats Tenable Query is meant to identify. Which answer is most accurate?",
+      "captureOrder": 36,
+      "id": "BC-Q076",
+      "number": 76,
+      "theme": "BC5",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-risk"
+      ],
+      "x": [
+        "A simple CVSS threshold does not identify the specific emerging-threat intelligence being monitored by Tenable Research.",
+        "Compliance transitions describe configuration audit outcomes rather than emerging exploitation activity.",
+        "Emerging Threats focuses on vulnerabilities attracting research attention through discussion, proof-of-concept potential or observed abuse.",
+        "Unassessed assets are a coverage issue and are not the vulnerability threat-intelligence category requested."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Remediation Workflows • Topics: Recast Risk, Eventual Consistency, Explore",
+      "explanation": "Recast processing is eventually consistent and Explore can retain a cached view, so immediate unchanged severity is not proof of a failed rule.",
+      "options": [
+        "Only the scan owner can see a recast rule until the next plugin feed update",
+        "Recast rules never apply to findings created before the rule existed",
+        "The finding must first be exported and reimported for the rule to apply",
+        "Recast operates on an eventually consistent model, and Explore may cache the view for up to 60 minutes"
+      ],
+      "sourceId": "tenable-certified-vm-q-077",
+      "stem": "A recast rule was created from Explore, but a matching finding still shows its original severity immediately afterward. What is the best explanation?",
+      "captureOrder": 74,
+      "id": "BC-Q077",
+      "number": 77,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-recast"
+      ],
+      "x": [
+        "The documented delay concerns evaluation and view caching, not an owner-only visibility rule tied to the next plugin update.",
+        "Recast is not universally restricted to findings created after the rule; existing matching findings can also be affected.",
+        "Exporting and reimporting a finding is not the required normal mechanism for applying the rule.",
+        "Recast processing is eventually consistent and Explore can retain a cached view, so immediate unchanged severity is not proof of a failed rule."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Reporting Compliance • Topics: Host Audits, Change Result, Compliance Workflows",
+      "explanation": "Change Result can override matching host-audit outcomes; record the approved exception because the override does not itself fix target configuration.",
+      "options": [
+        "Recast",
+        "Accept",
+        "Target Group",
+        "Change Result"
+      ],
+      "sourceId": "tenable-certified-vm-q-078",
+      "stem": "During a compliance review, a host audit check is known to be satisfied through an approved exception, but the original audit result shows Failed. Which rule type changes the host audit result, for example from Failed to Passed?",
+      "captureOrder": 71,
+      "id": "BC-Q078",
+      "number": 78,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Recast changes vulnerability severity rather than the original host-audit Passed/Failed result.",
+        "Accept records a treatment decision without being the specific operation that changes the displayed audit result value.",
+        "A target group organizes scope and does not override the audit result.",
+        "Change Result can override matching host-audit outcomes; record the approved exception because the override does not itself fix target configuration."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Reporting Compliance • Topics: Reports, Data Window, Monthly Scanning",
+      "explanation": "The documented standard report data window is the last 30 days, which is distinct from the findings-retention window.",
+      "options": [
+        "All retained findings since the account was created",
+        "The last 30 days",
+        "Only the current calendar quarter",
+        "The last 15 months"
+      ],
+      "sourceId": "tenable-certified-vm-q-079",
+      "stem": "A compliance officer relies on Tenable Vulnerability Management reports for monthly status meetings. What data window should they expect standard reports to show?",
+      "captureOrder": 49,
+      "id": "BC-Q079",
+      "number": 79,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Retaining older findings does not mean the standard generated report includes every historical record from account creation.",
+        "The documented standard report data window is the last 30 days, which is distinct from the findings-retention window.",
+        "A calendar quarter is not the standard 30-day window described for these reports.",
+        "Fifteen months is the findings-retention period, not the standard report window requested."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Asset Management • Topics: Permissions, Can View, Access Control",
+      "explanation": "Can View provides visibility to permitted results without granting scan configuration changes; the user's role must also allow the requested reporting actions.",
+      "options": [
+        "Can Use",
+        "Can Edit",
+        "Can Scan",
+        "Can View"
+      ],
+      "sourceId": "tenable-certified-vm-q-080",
+      "stem": "Which permission is most appropriate for an auditor who needs to view scan results and generate reports but must not change scan configurations?",
+      "captureOrder": 56,
+      "id": "BC-Q080",
+      "number": 80,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Can Use concerns applying a reusable object and does not describe the general view-only resource permission requested.",
+        "Can Edit permits modifications and conflicts with the auditor's required restriction.",
+        "Can Scan authorizes assessment activity rather than restricting the auditor to inspection and reporting.",
+        "Can View provides visibility to permitted results without granting scan configuration changes; the user's role must also allow the requested reporting actions."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Asset Management • Topics: Permissions, Scan Owner, Can Scan",
+      "explanation": "Target permission evaluation uses the scan owner's scope, so targets outside that owner's permissions can be skipped despite the launcher's access.",
+      "options": [
+        "The scan can only target assets that the launcher personally tagged",
+        "Tenable evaluates scan target permissions based on the scan owner's permissions, not the launcher",
+        "The launcher must have Can Edit on every report template before a scan can run",
+        "Scan Operators can never launch scans owned by another user"
+      ],
+      "sourceId": "tenable-certified-vm-q-081",
+      "stem": "A Scan Operator launches a scan owned by another user. Some targets are skipped even though the launcher has access to them. What is the most likely permission issue?",
+      "captureOrder": 75,
+      "id": "BC-Q081",
+      "number": 81,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-rbac"
+      ],
+      "x": [
+        "The issue is scan-owner authorization, not a requirement that the launcher personally created each asset tag.",
+        "Target permission evaluation uses the scan owner's scope, so targets outside that owner's permissions can be skipped despite the launcher's access.",
+        "Editing report templates is unrelated to permission to assess a particular target.",
+        "A Scan Operator can launch appropriately permitted shared scans; the problem is not a universal prohibition on scans owned by others."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Asset Management • Topics: Roles, Permissions, Least Privilege",
+      "explanation": "Roles govern the major actions a user can perform, while permissions constrain the resources on which the user may act.",
+      "options": [
+        "Roles are used for reports only; permissions are used for scans only",
+        "Roles apply only to scanners; permissions apply only to agents",
+        "Roles control the major actions a user can perform; permissions control the data those actions can apply to",
+        "Roles are temporary access grants; permissions are permanent administrator accounts"
+      ],
+      "sourceId": "tenable-certified-vm-q-082",
+      "stem": "Which statement best describes the difference between roles and permissions in Tenable Vulnerability Management?",
+      "captureOrder": 14,
+      "id": "BC-Q082",
+      "number": 82,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Roles and permissions apply across multiple product functions and resources, not only reports or only scans.",
+        "The distinction is action versus data scope, not an exclusive scanner-versus-agent division.",
+        "Roles govern the major actions a user can perform, while permissions constrain the resources on which the user may act.",
+        "Roles are not simply temporary grants, and permissions are not synonymous with permanent administrator accounts."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Asset Management • Topics: Can Use, Scan Policies, Access Control",
+      "explanation": "Can Use permits applying a reusable policy or template without granting the right to modify its centrally managed configuration.",
+      "options": [
+        "Can Use",
+        "Can Edit",
+        "Can Scan",
+        "Can View"
+      ],
+      "sourceId": "tenable-certified-vm-q-083",
+      "stem": "Which permission allows a user to apply an existing scan policy or report template without editing that reusable object?",
+      "captureOrder": 90,
+      "id": "BC-Q083",
+      "number": 83,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Can Use permits applying a reusable policy or template without granting the right to modify its centrally managed configuration.",
+        "Can Edit grants modification rights beyond the requested use-only access.",
+        "Can Scan authorizes assessment activity but is not the reusable-object use permission described here.",
+        "Can View permits inspection; applying the reusable object requires the appropriate use permission and functional role."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Nessus Scanning • Topics: Tag Based Targeting, Scan Targets, Scan Configuration",
+      "explanation": "Existing tagged assets only uses current tagged inventory, whereas Targets defined by tags derives addresses or names from supported matching rules.",
+      "options": [
+        "Existing tagged assets only scans fixed findings; Targets defined by tags scans active findings",
+        "Existing tagged assets only requires agents; Targets defined by tags requires cloud scanners",
+        "Existing tagged assets only scans public IPs; Targets defined by tags scans private IPs",
+        "Existing tagged assets only scans assets already tagged; Targets defined by tags scans assets whose IP or DNS matches the tag rules"
+      ],
+      "sourceId": "tenable-certified-vm-q-084",
+      "stem": "A scan uses a tag with an IPv4 range rule. What is the difference between 'Existing tagged assets only' and 'Targets defined by tags'?",
+      "captureOrder": 98,
+      "id": "BC-Q084",
+      "number": 84,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "The target selection modes do not distinguish Fixed versus Active finding states.",
+        "Both modes can be relevant to scanner templates; they are not a universal agent-versus-cloud-scanner split.",
+        "The distinction is existing membership versus rule-derived targets, not public versus private addressing.",
+        "Existing tagged assets only uses current tagged inventory, whereas Targets defined by tags derives addresses or names from supported matching rules."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Nessus Scanning • Topics: Tag Rules, Match All, Target Resolution",
+      "explanation": "In this target-resolution context, Match All supports one rule; multiple supported address/name rules require the documented Match Any arrangement.",
+      "options": [
+        "Tag-based scans cannot use IPv4 tag rules",
+        "Match All can have only one tag rule in this context; use Match Any for multiple supported rules",
+        "The scan must be converted to an agent scan before tag rules work",
+        "Targets defined by tags only works for assets that already completed a credentialed scan"
+      ],
+      "sourceId": "tenable-certified-vm-q-085",
+      "stem": "A tag-based scanner configuration uses 'Targets defined by tags' with multiple IPv4 and DNS tag rules. The administrator selects Match All and the scan resolves no targets. What should they understand?",
+      "captureOrder": 48,
+      "id": "BC-Q085",
+      "number": 85,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Supported IPv4 rules can be used; the issue is the combination mode rather than an absolute prohibition.",
+        "In this target-resolution context, Match All supports one rule; multiple supported address/name rules require the documented Match Any arrangement.",
+        "Converting to an agent scan is not the fix for an incorrectly combined scanner target rule set.",
+        "Rule-derived targets are not universally restricted to assets already assessed with credentials."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Nessus Scanning • Topics: Target Files, Scan Targets, Scan Configuration",
+      "explanation": "Use the documented ASCII representation with one target per line and without trailing spaces or extra final lines. Pure ASCII bytes are also valid UTF-8, so distinguish actual byte content from an encoding label.",
+      "options": [
+        "The file must be a JSON array with CIDR targets only",
+        "The file must be UTF-16 with one target per comma-separated row",
+        "The file must include the scanner UUID before every target",
+        "The file must be ASCII, one target per line, with no trailing spaces or extra lines after the last target"
+      ],
+      "sourceId": "tenable-certified-vm-q-086",
+      "stem": "An administrator uploads a target file to a scan and the import fails. Which file requirement should they check first?",
+      "captureOrder": 22,
+      "id": "BC-Q086",
+      "number": 86,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "The documented upload format is not a JSON array restricted to CIDR entries.",
+        "UTF-16 and comma-separated rows do not match the required ASCII-compatible, one-target-per-line representation.",
+        "A scanner UUID before every target is not part of the documented target-file format.",
+        "Use the documented ASCII representation with one target per line and without trailing spaces or extra final lines. Pure ASCII bytes are also valid UTF-8, so distinguish actual byte content from an encoding label."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "Pure ASCII is byte-compatible with UTF-8. Check actual target-file content, BOM and formatting rather than treating every UTF-8 label as automatically invalid."
+    },
+    {
+      "answer": 1,
+      "category": "Category: Nessus Scanning • Topics: Triggered Agent Scans, Scan Results, Dashboards",
+      "explanation": "Show in dashboard is always enabled for triggered scans in the documented Basic settings, so they are not private troubleshooting scans through that choice.",
+      "options": [
+        "Triggered scans report only Info severity findings",
+        "Show in dashboard is always enabled for triggered scans",
+        "Triggered scans never update vulnerability states",
+        "Triggered scans can only be kept private"
+      ],
+      "sourceId": "tenable-certified-vm-q-087",
+      "stem": "A triggered agent scan is configured for a group of laptops. Which statement about Scan Results is true?",
+      "captureOrder": 54,
+      "id": "BC-Q087",
+      "number": 87,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Triggered scans are not inherently limited to informational findings; the configured checks determine what they detect.",
+        "Show in dashboard is always enabled for triggered scans in the documented Basic settings, so they are not private troubleshooting scans through that choice.",
+        "Triggered scans can contribute vulnerability lifecycle updates when they supply qualifying assessment evidence.",
+        "The documented result setting is the opposite: triggered scans cannot be restricted to Keep private through this option."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Asset Management • Topics: Acr, Asset Criticality, Asset Management",
+      "explanation": "A saved manual ACR override can take up to 24 hours to appear in the UI, reflecting eventual processing of the changed asset context.",
+      "options": [
+        "Only after the asset is deleted and rediscovered",
+        "Exactly 15 minutes",
+        "Up to 24 hours",
+        "Only after the next quarterly plugin feed update"
+      ],
+      "sourceId": "tenable-certified-vm-q-088",
+      "stem": "An analyst manually overrides a host asset's ACR to reflect business criticality. How long can it take for the new ACR to appear in the Tenable Vulnerability Management UI?",
+      "captureOrder": 11,
+      "id": "BC-Q088",
+      "number": 88,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-scoring"
+      ],
+      "x": [
+        "The documented manual override does not require deleting and rediscovering the asset.",
+        "The guide allows a delay up to 24 hours rather than guaranteeing exactly fifteen minutes.",
+        "A saved manual ACR override can take up to 24 hours to appear in the UI, reflecting eventual processing of the changed asset context.",
+        "A quarterly feed event is not the prerequisite or timing interval documented for this manual criticality change."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Asset Management • Topics: Networks, Duplicate Assets, Scanner Placement",
+      "explanation": "Moving assets after scans and leaving the sensor in the old Network can create duplicate or recreated records, so coordinate asset and scanner movement.",
+      "options": [
+        "Tenable automatically merges all assets with the same private IP across networks",
+        "Tenable may create duplicate asset records that count against licensing, and the scanner may recreate the same asset if it is not moved too",
+        "The assets are converted to Web Application assets and stop appearing under Hosts",
+        "The next scan permanently deletes the moved assets from all dashboards"
+      ],
+      "sourceId": "tenable-certified-vm-q-089",
+      "stem": "A company has two branch offices that both use 192.168.1.0/24. An administrator moves duplicate-looking assets into separate networks after scans have already run, but leaves the scanner in the old network. What is the key risk?",
+      "captureOrder": 5,
+      "id": "BC-Q089",
+      "number": 89,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Separate Networks disambiguate overlapping addresses; the scenario does not establish automatic merging of all matching private IPs.",
+        "Moving assets after scans and leaving the sensor in the old Network can create duplicate or recreated records, so coordinate asset and scanner movement.",
+        "Changing Network context does not convert host assets into web application assets.",
+        "A later scan does not universally and permanently delete all assets moved to another Network."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 3,
+      "category": "Category: Asset Management • Topics: Delete Assets, Findings, License Count",
+      "explanation": "Deleting the host removes its asset record and associated finding data and stops matching results to that deleted identity; licensing reclamation follows its own documented timing.",
+      "options": [
+        "Only the asset name is hidden; findings remain active forever",
+        "The next scan automatically restores the original asset ID and all deleted findings",
+        "The asset is placed in a temporary quarantine folder for 15 months",
+        "The asset is removed from the assets view, associated findings are deleted, and Tenable stops matching scan results to it"
+      ],
+      "sourceId": "tenable-certified-vm-q-090",
+      "stem": "What happens when a host asset is deleted from Tenable Vulnerability Management?",
+      "captureOrder": 18,
+      "id": "BC-Q090",
+      "number": 90,
+      "theme": "BC1",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-networks"
+      ],
+      "x": [
+        "Deletion removes the asset and associated findings rather than merely hiding its display name indefinitely.",
+        "A subsequent detection need not recover the deleted identity and all historical evidence automatically.",
+        "The documented operation is permanent deletion, not a fifteen-month quarantine folder.",
+        "Deleting the host removes its asset record and associated finding data and stops matching results to that deleted identity; licensing reclamation follows its own documented timing."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Reporting Compliance • Topics: Dashboards, Indexing, Scan Results",
+      "explanation": "Assessment results can require indexing before dashboard values refresh, so a short delay alone does not establish scan failure.",
+      "options": [
+        "Dashboard data updates after scans, but there may be a delay while Tenable indexes the data",
+        "Dashboards update only once per calendar quarter",
+        "Dashboard widgets show only Fixed vulnerabilities",
+        "Dashboards never use scan data from linked scanners"
+      ],
+      "sourceId": "tenable-certified-vm-q-091",
+      "stem": "An executive dashboard appears unchanged immediately after a large scan finishes. What is the best explanation before assuming the scan failed?",
+      "captureOrder": 43,
+      "id": "BC-Q091",
+      "number": 91,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Assessment results can require indexing before dashboard values refresh, so a short delay alone does not establish scan failure.",
+        "The program dashboard is not restricted to quarterly updates.",
+        "Dashboard widgets can summarize open and other finding states; they do not only display Fixed vulnerabilities.",
+        "Linked-scanner results can contribute to dashboards when configured for shared findings publication."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Reporting Compliance • Topics: Reports, Report Results, Permissions",
+      "explanation": "Report definitions/templates and generated report results are distinct; the documented result ownership restriction can explain visibility limited to the user's own outputs.",
+      "options": [
+        "Report results are user-specific; users can only view their own Tenable Vulnerability Management report results",
+        "Report templates and report results are the same object",
+        "Report results become visible only after 15 months",
+        "Reports cannot be viewed by managers under any role"
+      ],
+      "sourceId": "tenable-certified-vm-q-092",
+      "stem": "A manager asks why they cannot open another user's report result even though they can see report templates. What is the correct explanation?",
+      "captureOrder": 10,
+      "id": "BC-Q092",
+      "number": 92,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Report definitions/templates and generated report results are distinct; the documented result ownership restriction can explain visibility limited to the user's own outputs.",
+        "A reusable report template and its generated result are different objects with different access behavior.",
+        "Fifteen-month findings retention is unrelated to a waiting period for report-result access.",
+        "Manager status is not a universal prohibition on viewing reports the user is otherwise permitted to generate or access."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Remediation Workflows • Topics: Servicenow, Integrations, Vulnerability Data",
+      "explanation": "Pull Vulnerabilities is the ITSM job type for retrieving VM vulnerability data into the ServiceNow integration.",
+      "options": [
+        "Pull Vulnerabilities",
+        "Recast Findings",
+        "Push Assets",
+        "Pull Assets"
+      ],
+      "sourceId": "tenable-certified-vm-q-093",
+      "stem": "In the Tenable for ServiceNow integration, which Tenable Job Type should be selected under the ITSM module to bring vulnerability data into ServiceNow?",
+      "captureOrder": 60,
+      "id": "BC-Q093",
+      "number": 93,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-snow"
+      ],
+      "x": [
+        "Pull Vulnerabilities is the ITSM job type for retrieving VM vulnerability data into the ServiceNow integration.",
+        "Recasting is a finding treatment operation and not the documented ITSM data-pull job name.",
+        "Push Assets belongs to asset synchronization rather than importing vulnerability records into the ITSM module.",
+        "Pull Assets imports inventory/CI information under the Asset module rather than the requested vulnerability data."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Remediation Workflows • Topics: Jira, Api Keys, Integrations",
+      "explanation": "A distinct key per installed integration instance isolates that integration's API credential lifecycle and matches the cited Jira plugin guidance.",
+      "options": [
+        "Reuse the same API key for all third-party integrations to simplify rotation",
+        "Generate a unique Tenable Vulnerability Management API key for each installed Jira integration instance",
+        "Do not record the API token because Jira can retrieve it automatically after reset",
+        "Use only a read-only API key because Jira never collects vulnerability data"
+      ],
+      "sourceId": "tenable-certified-vm-q-094",
+      "stem": "When configuring the Tenable Plugin for Jira, what is Tenable's recommendation for the API key used by the integration?",
+      "captureOrder": 23,
+      "id": "BC-Q094",
+      "number": 94,
+      "theme": "BC3",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-jira"
+      ],
+      "x": [
+        "Sharing one key across integrations couples their access and rotation; the cited plugin guidance recommends a separate key per instance.",
+        "A distinct key per installed integration instance isolates that integration's API credential lifecycle and matches the cited Jira plugin guidance.",
+        "A required token/key must be recorded securely; the integration cannot be assumed to recover a secret after reset.",
+        "The required privilege scope depends on the documented integration operations; this statement also incorrectly claims the integration never collects vulnerability data."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Collect Inventory, Agent Scanning, Software Inventory",
+      "explanation": "Collect Inventory gathers host/software inventory with a lower footprint for supported downstream missing-patch analysis.",
+      "options": [
+        "Collect Inventory",
+        "Host Discovery",
+        "Credential Validation",
+        "Legacy Web App Scan"
+      ],
+      "sourceId": "tenable-certified-vm-q-095",
+      "stem": "A team wants faster, lower-footprint agent results for software inventory so Tenable can analyze missing patches as coverage is released. Which agent template is designed for that purpose?",
+      "captureOrder": 59,
+      "id": "BC-Q095",
+      "number": 95,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Collect Inventory gathers host/software inventory with a lower footprint for supported downstream missing-patch analysis.",
+        "Host Discovery is a network inventory workflow and is not the agent software-inventory template requested.",
+        "Credential Validation tests authentication rather than performing the specified lower-footprint agent inventory collection.",
+        "A legacy web application template assesses a different target and does not collect the agent's local software inventory."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Nessus Scanning • Topics: Collect Inventory, Coverage Limitations, Patch Assessment",
+      "explanation": "The cited template guidance documents these third-party Windows application and Microsoft product update gaps. Verify current coverage before replacing broader local assessment with inventory-only scans.",
+      "options": [
+        "Collect Inventory can run only on Linux agents and cannot report Windows information",
+        "Collect Inventory does not currently cover third-party Windows applications or Microsoft product Patch Tuesday updates such as Exchange or SharePoint",
+        "Collect Inventory supports only malware checks and disables all software inventory",
+        "Collect Inventory requires every plugin family to be manually selected before the scan can launch"
+      ],
+      "sourceId": "tenable-certified-vm-q-096",
+      "stem": "A Windows endpoint team uses Collect Inventory scans and expects coverage for Google Chrome and Microsoft Exchange Patch Tuesday updates. What is the issue with that expectation?",
+      "captureOrder": 85,
+      "id": "BC-Q096",
+      "number": 96,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Collect Inventory can collect Windows information; the limitation concerns particular application and update coverage rather than an absolute Linux-only rule.",
+        "The cited template guidance documents these third-party Windows application and Microsoft product update gaps. Verify current coverage before replacing broader local assessment with inventory-only scans.",
+        "The template's purpose is host/software inventory, not malware-only checks with all inventory disabled.",
+        "Manual selection of every family is not the explanation for the specific documented coverage exclusions."
+      ],
+      "explanationLanguage": "en",
+      "reviewNote": "The listed inventory-template coverage exclusions are version-dependent; check the current template guidance before using inventory collection as a full assessment replacement."
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Advanced Agent Scan, Triggered Scans, Plugin Selection",
+      "explanation": "Advanced Agent Scan is a customizable agent template supporting the documented Window and Triggered methods, with plugin selection requiring careful configuration.",
+      "options": [
+        "It is an agent scan without recommendations that can use Scan Window or Triggered Scan methods",
+        "It automatically selects every plugin and prevents plugin customization",
+        "It is used only for external PCI ASV scans",
+        "It is the only template that performs Host Discovery for network scanners"
+      ],
+      "sourceId": "tenable-certified-vm-q-097",
+      "stem": "Which statement about the Advanced Agent Scan template is correct?",
+      "captureOrder": 16,
+      "id": "BC-Q097",
+      "number": 97,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Advanced Agent Scan is a customizable agent template supporting the documented Window and Triggered methods, with plugin selection requiring careful configuration.",
+        "The template allows check customization; it does not universally enable every plugin and prohibit edits.",
+        "External PCI ASV assessment is a different scan objective from this customizable host-agent template.",
+        "Host Discovery belongs to network discovery and does not define the Advanced Agent Scan template."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 0,
+      "category": "Category: Nessus Scanning • Topics: Ping Only Discovery, Host Discovery, Scan Templates",
+      "explanation": "Ping-Only Discovery is the lightweight reachability-oriented template described; nonresponse still does not conclusively prove host absence.",
+      "options": [
+        "Ping-Only Discovery",
+        "SCAP and OVAL Auditing",
+        "Audit Cloud Infrastructure",
+        "Policy Compliance Auditing"
+      ],
+      "sourceId": "tenable-certified-vm-q-098",
+      "stem": "Which scan template is a simple way to discover live hosts with minimal network traffic?",
+      "captureOrder": 91,
+      "id": "BC-Q098",
+      "number": 98,
+      "theme": "BC2",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Ping-Only Discovery is the lightweight reachability-oriented template described; nonresponse still does not conclusively prove host absence.",
+        "SCAP/OVAL auditing evaluates structured configuration or vulnerability content rather than being the minimal host-ping discovery method.",
+        "Cloud infrastructure auditing assesses cloud configuration instead of simply pinging live hosts.",
+        "Policy Compliance Auditing compares configuration requirements and is broader than lightweight reachability discovery."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 2,
+      "category": "Category: Reporting Compliance • Topics: Policy Compliance Auditing, Configuration Scans, Windows Baselines",
+      "explanation": "Policy Compliance Auditing assesses configured benchmark requirements such as Windows password complexity and registry settings.",
+      "options": [
+        "Inventory collection using Collect Inventory",
+        "Tactical scan using Malware Scan",
+        "Configuration scan using Policy Compliance Auditing",
+        "Vulnerability scan using Host Discovery"
+      ],
+      "sourceId": "tenable-certified-vm-q-099",
+      "stem": "A Windows security baseline team wants to audit password complexity and registry-based settings against a known baseline. Which Tenable scan template category best matches this need?",
+      "captureOrder": 20,
+      "id": "BC-Q099",
+      "number": 99,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-general"
+      ],
+      "x": [
+        "Collect Inventory supplies software/host information and is not the baseline configuration audit workflow requested.",
+        "Malware assessment searches for malicious software rather than auditing registry and password policy requirements.",
+        "Policy Compliance Auditing assesses configured benchmark requirements such as Windows password complexity and registry settings.",
+        "Host Discovery identifies hosts and services; it does not provide the required baseline configuration audit."
+      ],
+      "explanationLanguage": "en"
+    },
+    {
+      "answer": 1,
+      "category": "Category: Reporting Compliance • Topics: Pci, Agent Scanning, Network Service Scanning",
+      "explanation": "Internal network scanning remains necessary for the network-service perspective and systems without agents; agent checks complement that coverage rather than replace it.",
+      "options": [
+        "Agent-based internal PCI scanning replaces all network scanning requirements",
+        "Internal uncredentialed network scans are still required to cover vulnerabilities related to network services by port scans",
+        "Tenable assessors review internal PCI agent findings for compensating controls before they appear",
+        "The PCI Internal Nessus Agent template is only for external ASV attestation"
+      ],
+      "sourceId": "tenable-certified-vm-q-100",
+      "stem": "A PCI team wants to rely only on the PCI Internal Nessus Agent template for all internal PCI vulnerability coverage. What should you advise?",
+      "captureOrder": 29,
+      "id": "BC-Q100",
+      "number": 100,
+      "theme": "BC4",
+      "type": "mc",
+      "origin": "complementar",
+      "captured": "2026-10-14",
+      "language": "en",
+      "answerAuthority": "Gabarito exibido pelo Banco complementar",
+      "officiallyReviewed": false,
+      "refs": [
+        "EN-templates"
+      ],
+      "x": [
+        "Agents provide local evidence but do not eliminate the applicable need to assess remotely exposed network services.",
+        "Internal network scanning remains necessary for the network-service perspective and systems without agents; agent checks complement that coverage rather than replace it.",
+        "Internal PCI findings are not automatically reviewed by Tenable assessors as an external ASV workflow before appearing.",
+        "The internal agent template supports internal assessment; it is not solely an external ASV attestation mechanism."
+      ],
+      "explanationLanguage": "en"
+    }
+  ],
+  "exams": [
+    {
+      "id": "complementar100",
+      "title": "Banco complementar — 100 questions (English)",
+      "minutes": 200,
+      "ids": [
+        "BC-Q001",
+        "BC-Q002",
+        "BC-Q003",
+        "BC-Q004",
+        "BC-Q005",
+        "BC-Q006",
+        "BC-Q007",
+        "BC-Q008",
+        "BC-Q009",
+        "BC-Q010",
+        "BC-Q011",
+        "BC-Q012",
+        "BC-Q013",
+        "BC-Q014",
+        "BC-Q015",
+        "BC-Q016",
+        "BC-Q017",
+        "BC-Q018",
+        "BC-Q019",
+        "BC-Q020",
+        "BC-Q021",
+        "BC-Q022",
+        "BC-Q023",
+        "BC-Q024",
+        "BC-Q025",
+        "BC-Q026",
+        "BC-Q027",
+        "BC-Q028",
+        "BC-Q029",
+        "BC-Q030",
+        "BC-Q031",
+        "BC-Q032",
+        "BC-Q033",
+        "BC-Q034",
+        "BC-Q035",
+        "BC-Q036",
+        "BC-Q037",
+        "BC-Q038",
+        "BC-Q039",
+        "BC-Q040",
+        "BC-Q041",
+        "BC-Q042",
+        "BC-Q043",
+        "BC-Q044",
+        "BC-Q045",
+        "BC-Q046",
+        "BC-Q047",
+        "BC-Q048",
+        "BC-Q049",
+        "BC-Q050",
+        "BC-Q051",
+        "BC-Q052",
+        "BC-Q053",
+        "BC-Q054",
+        "BC-Q055",
+        "BC-Q056",
+        "BC-Q057",
+        "BC-Q058",
+        "BC-Q059",
+        "BC-Q060",
+        "BC-Q061",
+        "BC-Q062",
+        "BC-Q063",
+        "BC-Q064",
+        "BC-Q065",
+        "BC-Q066",
+        "BC-Q067",
+        "BC-Q068",
+        "BC-Q069",
+        "BC-Q070",
+        "BC-Q071",
+        "BC-Q072",
+        "BC-Q073",
+        "BC-Q074",
+        "BC-Q075",
+        "BC-Q076",
+        "BC-Q077",
+        "BC-Q078",
+        "BC-Q079",
+        "BC-Q080",
+        "BC-Q081",
+        "BC-Q082",
+        "BC-Q083",
+        "BC-Q084",
+        "BC-Q085",
+        "BC-Q086",
+        "BC-Q087",
+        "BC-Q088",
+        "BC-Q089",
+        "BC-Q090",
+        "BC-Q091",
+        "BC-Q092",
+        "BC-Q093",
+        "BC-Q094",
+        "BC-Q095",
+        "BC-Q096",
+        "BC-Q097",
+        "BC-Q098",
+        "BC-Q099",
+        "BC-Q100"
+      ],
+      "origin": "Banco complementar"
+    }
+  ]
+}

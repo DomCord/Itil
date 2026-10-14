@@ -1,7 +1,6 @@
 /.qa/
 
-# Material Banco complementar: cópia educacional pessoal, excluída da publicação.
-/Tenable/Simulados/Banco_complementar/
+# Arquivos combinados e anotações locais fora da integração padrão.
 /Tenable/Simulados/banco_combinado_260.json
 /Tenable/Simulados/simulador.html
 /Tenable/LEIA-ME-material.md
