@@ -1,0 +1,914 @@
+/* Traduções de apoio ao estudo em português do Brasil.
+ * Enunciados e alternativas originais, gabaritos e justificativas em inglês preservados.
+ * Fonte editável: traducoes_pt_br.json. Sem chamadas a serviços de tradução.
+ */
+(() => {
+  const translations = {
+  "BC-Q001": {
+    "q": "Qual métrica do Tenable.io combina a severidade CVSS com inteligência de ameaças e contexto do ativo para produzir uma pontuação de priorização baseada em risco?",
+    "o": [
+      "ACR (Asset Criticality Rating — classificação de criticidade do ativo)",
+      "Pontuação base do CVSS v3",
+      "AES (Asset Exposure Score — pontuação de exposição do ativo)",
+      "VPR (Vulnerability Priority Rating — classificação de prioridade da vulnerabilidade)"
+    ]
+  },
+  "BC-Q002": {
+    "q": "Qual é a faixa de pontuação do VPR (Vulnerability Priority Rating) no Tenable?",
+    "o": [
+      "De 1 a 5",
+      "De 0,1 a 10,0",
+      "De 0 a 100",
+      "De 0 a 1000"
+    ]
+  },
+  "BC-Q003": {
+    "q": "O plugin 19506 do Nessus aparece em todas as varreduras do Tenable. Quais informações ele fornece?",
+    "o": [
+      "Identificação do sistema operacional do host examinado",
+      "Pontuações CVSS de todas as vulnerabilidades encontradas na varredura",
+      "Lista de todas as portas abertas encontradas no host de destino",
+      "Metadados da varredura, incluindo o IP do scanner, a duração da varredura e se as credenciais foram aceitas"
+    ]
+  },
+  "BC-Q004": {
+    "q": "Qual é a principal vantagem de uma varredura autenticada do Nessus em comparação com uma varredura não autenticada?",
+    "o": [
+      "Ela permite que plugins de verificações locais detectem patches ausentes e configurações incorretas que não são visíveis em verificações pela rede",
+      "Ela é executada mais rapidamente porque exige menos pacotes de sondagem",
+      "Ela não exige acesso de rede ao host de destino",
+      "Ela gera uma pontuação VPR mais alta para todas as vulnerabilidades descobertas"
+    ]
+  },
+  "BC-Q005": {
+    "q": "No Tenable.io, o que representa o ACR (Asset Criticality Rating)?",
+    "o": [
+      "A pontuação CVSS da vulnerabilidade mais crítica do ativo",
+      "Uma pontuação dinâmica de 0 a 1000 que representa a exposição geral do ativo a vulnerabilidades",
+      "O número de vulnerabilidades críticas encontradas no ativo durante a última varredura",
+      "Uma pontuação de 1 a 10 que reflete a importância do ativo para o negócio, configurada pela equipe de segurança"
+    ]
+  },
+  "BC-Q006": {
+    "q": "O AES (Asset Exposure Score) do Tenable.io varia de 0 a 1000. Quais são os dois fatores que determinam principalmente o AES de um ativo?",
+    "o": [
+      "As vulnerabilidades presentes no ativo e o ACR (Asset Criticality Rating) do ativo",
+      "As pontuações CVSS de todas as vulnerabilidades e a sub-rede do endereço IP do ativo",
+      "O número de varreduras realizadas no ativo e a data da última varredura",
+      "As pontuações VPR de todas as vulnerabilidades e o número de portas abertas"
+    ]
+  },
+  "BC-Q007": {
+    "q": "Uma campanha de remediação do Tenable.io é criada para um conjunto específico de vulnerabilidades. O que acontece com novas vulnerabilidades descobertas depois da criação da campanha?",
+    "o": [
+      "Elas são adicionadas automaticamente à campanha se tiverem o mesmo CVE",
+      "Elas NÃO são adicionadas automaticamente à campanha; a campanha usa um retrato dos dados de vulnerabilidade no momento de sua criação",
+      "Elas são adicionadas à campanha somente se tiverem uma pontuação VPR acima de 7,0",
+      "Elas substituem os dados existentes da campanha se afetarem os mesmos ativos"
+    ]
+  },
+  "BC-Q008": {
+    "q": "Qual modelo de varredura do Tenable.io é mais adequado para detectar patches ausentes do Windows em estações de trabalho ingressadas em um domínio?",
+    "o": [
+      "Discovery Scan (varredura de descoberta)",
+      "Web Application Tests (testes de aplicações web)",
+      "Credentialed Patch Audit (auditoria autenticada de patches)",
+      "Basic Network Scan (varredura básica de rede)"
+    ]
+  },
+  "BC-Q009": {
+    "q": "No Tenable.io, qual é a finalidade de atribuir tags aos ativos?",
+    "o": [
+      "Excluir ativos das verificações de benchmarks de conformidade",
+      "Atribuir pontuações VPR a grupos específicos de ativos",
+      "Organizar ativos em grupos lógicos para filtragem, controle de acesso e varreduras direcionadas",
+      "Remediar automaticamente as vulnerabilidades dos ativos com tags"
+    ]
+  },
+  "BC-Q010": {
+    "q": "Qual métrica CVSS indica mais diretamente se uma vulnerabilidade exige interação do usuário para ser explorada?",
+    "o": [
+      "User Interaction (UI — interação do usuário)",
+      "Attack Vector (AV — vetor de ataque)",
+      "Privileges Required (PR — privilégios necessários)",
+      "Confidentiality Impact (C — impacto na confidencialidade)"
+    ]
+  },
+  "BC-Q011": {
+    "q": "Qual é a finalidade dos Nessus Agents no Tenable.io?",
+    "o": [
+      "Monitorar o tráfego de rede para detecção de intrusões",
+      "Substituir o console do Tenable.io em implantações locais",
+      "Realizar testes de invasão em aplicações web",
+      "Examinar ativos que estão offline, atrás de firewalls ou sem conectividade de rede persistente com o scanner"
+    ]
+  },
+  "BC-Q012": {
+    "q": "Um analista de segurança deseja filtrar as vulnerabilidades no Tenable.io para se concentrar apenas naquelas com exploração ativa conhecida em ataques reais. Qual recurso ele deve usar?",
+    "o": [
+      "Filtrar pela família de plugins 'General'",
+      "Filtrar pelo tipo de modelo de varredura",
+      "Usar um filtro VPR para vulnerabilidades com pontuação VPR de 9,0 ou superior",
+      "Usar um filtro CVSS v3 para pontuações acima de 9,0"
+    ]
+  },
+  "BC-Q013": {
+    "q": "Quais benchmarks de conformidade são suportados nativamente no Tenable.io para auditoria de configuração?",
+    "o": [
+      "Somente HIPAA e FERPA",
+      "NIST SP 800-53 e CMMC",
+      "CIS Benchmarks e DISA STIGs",
+      "SOC 2 Type II e ISO 27001"
+    ]
+  },
+  "BC-Q014": {
+    "q": "No Tenable.io, qual é a função do fluxo de trabalho 'Accepted Risk' (risco aceito)?",
+    "o": [
+      "Marcar uma vulnerabilidade como intencionalmente aceita, retirando-a do acompanhamento ativo de remediação por um período definido",
+      "Aumentar a pontuação VPR de uma vulnerabilidade para refletir o risco de negócio aceito",
+      "Excluir permanentemente o achado de vulnerabilidade dos resultados da varredura",
+      "Escalar automaticamente uma vulnerabilidade para um SIEM para resposta a incidentes"
+    ]
+  },
+  "BC-Q015": {
+    "q": "Qual família de plugins do Nessus contém verificações específicas para detectar patches ausentes do sistema operacional Windows?",
+    "o": [
+      "Windows: Microsoft Bulletins",
+      "Service Detection (detecção de serviços)",
+      "Web Servers (servidores web)",
+      "General (geral)"
+    ]
+  },
+  "BC-Q016": {
+    "q": "O que o recurso 'Recast Risk' do Tenable.io permite que um analista de segurança faça?",
+    "o": [
+      "Reatribuir a responsabilidade por uma vulnerabilidade a outro membro da equipe",
+      "Mover uma vulnerabilidade de uma campanha de remediação para outra",
+      "Alterar a severidade de um achado de vulnerabilidade para refletir melhor o contexto real de risco da organização",
+      "Executar automaticamente uma nova varredura do ativo para confirmar se uma vulnerabilidade foi remediada"
+    ]
+  },
+  "BC-Q017": {
+    "q": "No Tenable.io, qual modelo de varredura você escolheria para identificar rapidamente hosts ativos e portas abertas sem realizar uma avaliação de vulnerabilidades?",
+    "o": [
+      "Advanced Scan (varredura avançada)",
+      "Malware Scan (varredura de malware)",
+      "Basic Network Scan (varredura básica de rede)",
+      "Discovery Scan (varredura de descoberta)"
+    ]
+  },
+  "BC-Q018": {
+    "q": "Um usuário do Tenable.io deseja exportar dados de vulnerabilidades para integração com um SIEM. Qual formato de exportação oferece maior flexibilidade para processamento automatizado?",
+    "o": [
+      "HTML",
+      "CSV",
+      "PDF",
+      "DOCX"
+    ]
+  },
+  "BC-Q019": {
+    "q": "Qual é a principal diferença entre CVSS v2 e CVSS v3 nos relatórios de vulnerabilidades do Tenable?",
+    "o": [
+      "O CVSS v3 é calculado internamente pelo Tenable, enquanto o CVSS v2 vem do NVD",
+      "O CVSS v3 adicionou as métricas Scope e User Interaction, ausentes na versão 2, permitindo uma avaliação de severidade mais detalhada",
+      "O CVSS v3 se aplica somente a vulnerabilidades de aplicações web",
+      "O CVSS v3 usa uma escala de 0 a 100, enquanto o CVSS v2 usa uma escala de 0 a 10"
+    ]
+  },
+  "BC-Q020": {
+    "q": "Qual recurso do Tenable.io permite a integração com o ServiceNow para criar automaticamente chamados para vulnerabilidades detectadas?",
+    "o": [
+      "Somente campanhas de remediação",
+      "Fluxo de trabalho Accepted Risk",
+      "Políticas de varredura do Nessus",
+      "Connectors (Tenable.io Integrations — conectores de integração)"
+    ]
+  },
+  "BC-Q021": {
+    "q": "No Tenable.io, qual fonte de ativos fornece dados contínuos de vulnerabilidades, em tempo real, para endpoints que se deslocam frequentemente entre redes?",
+    "o": [
+      "Passive Vulnerability Scanner (PVS — scanner passivo de vulnerabilidades)",
+      "Cloud Connector (conector de nuvem)",
+      "Nessus Agent",
+      "Virtual Scanner (scanner virtual)"
+    ]
+  },
+  "BC-Q022": {
+    "q": "O que o recurso 'Lumin' do Tenable.io oferece?",
+    "o": [
+      "Gerenciamento de vulnerabilidades baseado em risco, incluindo pontuação de Cyber Exposure, ACR, AES e comparação com outras organizações do mesmo setor",
+      "Análise passiva de tráfego de rede para detecção de ameaças",
+      "Gerenciamento da postura de segurança na nuvem para AWS e Azure",
+      "Testes de invasão automatizados para vulnerabilidades descobertas"
+    ]
+  },
+  "BC-Q023": {
+    "q": "Como o Tenable.io trata ativos que não foram examinados por um período prolongado?",
+    "o": [
+      "Os ativos são movidos para um repositório de quarentena que exige revisão manual",
+      "Os ativos são excluídos permanentemente da plataforma após 30 dias sem varreduras",
+      "Os ativos são marcados como 'inativos' após um período configurável sem dados de varredura e são excluídos das contagens de vulnerabilidades ativas",
+      "Os ativos são escalados automaticamente para severidade Crítica em todos os dashboards"
+    ]
+  },
+  "BC-Q024": {
+    "q": "Qual visualização de dashboard do Tenable.io é mais adequada para acompanhar o progresso da remediação em relação a um SLA definido em todo um programa?",
+    "o": [
+      "A exportação CSV bruta ordenada pela pontuação CVSS",
+      "O relatório de resumo por família de plugins",
+      "A visualização dos resultados de varredura do Nessus filtrada por data",
+      "O dashboard de Vulnerability Management com widgets de acompanhamento da remediação e métricas de SLA"
+    ]
+  },
+  "BC-Q025": {
+    "q": "No Tenable.io, qual é a função dos 'Network Objects' (objetos de rede) na configuração de varreduras?",
+    "o": [
+      "Eles configuram o protocolo de comunicação usado entre o scanner e a nuvem do Tenable.io",
+      "Eles definem regras de firewall que o Tenable.io recomenda para fortalecimento da segurança",
+      "Eles definem intervalos de endereços IP ou blocos CIDR com nomes, que podem ser reutilizados em vários destinos de varredura",
+      "Eles identificam dispositivos de rede, como switches e roteadores, para mapeamento da topologia"
+    ]
+  },
+  "BC-Q026": {
+    "q": "Uma vulnerabilidade CVSS v3 tem Attack Vector definido como 'Network' e Privileges Required como 'None'. O que isso indica sobre sua possibilidade de exploração?",
+    "o": [
+      "A vulnerabilidade só pode ser explorada com presença física junto à máquina",
+      "A vulnerabilidade exige acesso à rede local e uma sessão autenticada",
+      "A vulnerabilidade exige privilégios administrativos em um dispositivo de rede adjacente",
+      "A vulnerabilidade pode ser explorada remotamente pela rede sem autenticação prévia"
+    ]
+  },
+  "BC-Q027": {
+    "q": "Qual alternativa descreve melhor a função da chave de API do Tenable.io?",
+    "o": [
+      "Ela autentica o acesso programático ao Tenable.io para automações, integrações e ferramentas de terceiros",
+      "Ela é usada como senha de login do scanner Nessus durante a vinculação à nuvem",
+      "Ela substitui a chave de vinculação do Nessus no registro de scanners locais",
+      "Ela criptografa os resultados de varredura armazenados na plataforma de nuvem do Tenable.io"
+    ]
+  },
+  "BC-Q028": {
+    "q": "Qual recurso do Tenable.io permite definir o número máximo de hosts examinados simultaneamente para reduzir o impacto no desempenho da rede?",
+    "o": [
+      "Atribuição de uma tag 'slow-scan' aos ativos",
+      "Opções de desempenho no modelo Advanced Scan, em Max Simultaneous Hosts",
+      "Definição do limite VPR na política de varredura",
+      "Configuração da prioridade da zona de varredura"
+    ]
+  },
+  "BC-Q029": {
+    "q": "Qual tipo de varredura do Tenable.io é mais adequado para um ambiente no qual varreduras pela rede acionariam alertas de IDS/IPS?",
+    "o": [
+      "Varredura Credentialed Patch Audit executada a partir da rede corporativa",
+      "Varredura por agentes usando Nessus Agents instalados nos endpoints",
+      "Basic Network Scan com todos os plugins habilitados",
+      "Varredura de descoberta com varredura SYN habilitada"
+    ]
+  },
+  "BC-Q030": {
+    "q": "No Tenable.io, a que corresponde o filtro de severidade 'Critical' em termos de pontuação CVSS?",
+    "o": [
+      "Qualquer vulnerabilidade com um exploit ativo no Metasploit",
+      "Pontuação CVSS v3 de 9,0 a 10,0",
+      "Pontuação CVSS v3 de 7,0 a 8,9",
+      "Pontuação CVSS v3 de 4,0 a 6,9"
+    ]
+  },
+  "BC-Q031": {
+    "q": "Qual alteração na configuração de varredura reduziria mais eficazmente os falsos positivos na detecção de patches ausentes no Tenable.io?",
+    "o": [
+      "Garantir que as credenciais de autenticação sejam válidas e que a varredura use o modelo Credentialed Patch Audit",
+      "Aumentar a frequência das varreduras para diária",
+      "Adicionar mais endereços IP de destino ao escopo da varredura",
+      "Desabilitar a família de plugins Windows"
+    ]
+  },
+  "BC-Q032": {
+    "q": "Qual é o número máximo de scanners suportados em uma única conta do Tenable.io?",
+    "o": [
+      "100 scanners no total de todas as contas, globalmente",
+      "É determinado pelo nível de licenciamento; não há um máximo universal fixo",
+      "10 scanners por conta",
+      "1 scanner por assinatura"
+    ]
+  },
+  "BC-Q033": {
+    "q": "Quando o Tenable.io mostra uma vulnerabilidade como 'Fixed' (corrigida), o que esse status indica?",
+    "o": [
+      "O CVE da vulnerabilidade foi retirado pelo NVD",
+      "A vulnerabilidade foi detectada em uma varredura anterior, mas NÃO foi encontrada na varredura mais recente do mesmo ativo",
+      "A vulnerabilidade foi marcada manualmente como remediada por um analista de segurança",
+      "O plugin da vulnerabilidade foi desabilitado na política de varredura"
+    ]
+  },
+  "BC-Q034": {
+    "q": "Qual recurso do Tenable.io permite controle de acesso baseado em funções para restringir quais usuários podem visualizar ou gerenciar ativos específicos?",
+    "o": [
+      "Permissões de usuário com controle de acesso baseado em tags",
+      "Atribuições de zonas de varredura por usuário",
+      "Limites VPR nos perfis dos usuários",
+      "Atribuições de ACR a ativos individuais"
+    ]
+  },
+  "BC-Q035": {
+    "q": "Qual integração do Tenable.io permite importar automaticamente ativos de nuvem descobertos, como EC2 e VMs do Azure, para o inventário de ativos?",
+    "o": [
+      "Importação manual de CSV a partir do console de faturamento do provedor de nuvem",
+      "Cloud Connectors para AWS, Azure e GCP",
+      "Um ponto de captura de rede do Passive Vulnerability Scanner na VPC da nuvem",
+      "Somente a implantação de Nessus Agents nas instâncias de nuvem"
+    ]
+  },
+  "BC-Q036": {
+    "q": "Na terminologia de gerenciamento de vulnerabilidades do Tenable, o que mede o 'mean time to remediate' (MTTR — tempo médio para remediação)?",
+    "o": [
+      "O tempo médio que o Nessus leva para concluir a varredura de um único host",
+      "A pontuação CVSS média de todas as vulnerabilidades remediadas em um período de relatório",
+      "O número médio de dias entre a descoberta de uma vulnerabilidade e a confirmação de sua correção",
+      "O tempo entre as atualizações de plugins e a detecção de novas vulnerabilidades"
+    ]
+  },
+  "BC-Q037": {
+    "q": "Uma varredura do Nessus apresenta a saída do plugin 10397. Qual categoria geral esse plugin normalmente representa?",
+    "o": [
+      "Vulnerabilidade de banco de dados MySQL",
+      "Tentativa de transferência de zona DNS",
+      "Expiração de certificado SSL/TLS",
+      "Enumeração de compartilhamentos de arquivos Windows (SMB)"
+    ]
+  },
+  "BC-Q038": {
+    "q": "Qual é a finalidade do recurso 'Exclusions' (exclusões) do Tenable.io na configuração de varreduras?",
+    "o": [
+      "Impedir que endereços IP ou intervalos específicos sejam incluídos em uma varredura, mesmo que estejam dentro do intervalo de destinos",
+      "Aceitar automaticamente o risco de vulnerabilidades nos intervalos excluídos",
+      "Remover dados antigos de varredura do banco de ativos do Tenable.io",
+      "Impedir a execução de famílias específicas de plugins em todos os scanners"
+    ]
+  },
+  "BC-Q039": {
+    "q": "Qual das opções é um caso de uso válido para escolher o modelo 'Advanced Scan' do Tenable.io em vez do modelo 'Basic Network Scan'?",
+    "o": [
+      "Realizar análise passiva de tráfego em vez de sondagem ativa",
+      "Examinar aplicações web com fuzzing na camada de aplicação",
+      "Executar varreduras mais rápidas com menos plugins habilitados",
+      "Personalizar as configurações de desempenho, habilitar auditorias específicas de conformidade ou adicionar credenciais personalizadas não disponíveis no modelo Basic"
+    ]
+  },
+  "BC-Q040": {
+    "q": "No Tenable.io, qual é a função de um 'Linked Scanner' em comparação com um 'Cloud Scanner'?",
+    "o": [
+      "Um Linked Scanner se conecta a fontes externas de inteligência de ameaças; um Cloud Scanner realiza varreduras da rede interna",
+      "Um Linked Scanner é uma instância local do Nessus gerenciada pelo cliente; um Cloud Scanner é gerenciado pelo Tenable em sua infraestrutura de nuvem",
+      "Um Linked Scanner é usado somente para varreduras por agentes; um Cloud Scanner realiza varreduras de rede",
+      "Um Linked Scanner exige um appliance físico dedicado; um Cloud Scanner é executado como máquina virtual"
+    ]
+  },
+  "BC-Q041": {
+    "q": "O que descreve a métrica 'Scope' (S — escopo) do CVSS v3?",
+    "o": [
+      "O alcance geográfico dos sistemas afetados pela vulnerabilidade",
+      "O número de sistemas atualmente vulneráveis no ambiente",
+      "Se a vulnerabilidade se aplica a sistemas na nuvem ou locais",
+      "Se o impacto de uma vulnerabilidade ultrapassa o componente vulnerável e afeta outros componentes"
+    ]
+  },
+  "BC-Q042": {
+    "q": "Uma equipe de segurança deseja manter atualizados os dados de vulnerabilidades de um grupo de ativos que alterna entre redes do escritório e redes remotas. Qual é a configuração ideal do Tenable.io?",
+    "o": [
+      "Configurar políticas de varredura exclusivas por VPN, executadas quando os endpoints se conectarem à VPN corporativa",
+      "Implantar Nessus Agents em todos os ativos móveis e configurar os intervalos das varreduras por agentes",
+      "Usar um scanner de nuvem para examinar os intervalos dos provedores de internet residenciais de todos os trabalhadores remotos",
+      "Agendar varreduras diárias de rede em todos os intervalos IP do escritório na velocidade máxima"
+    ]
+  },
+  "BC-Q043": {
+    "q": "Qual formato de relatório do Tenable.io é mais adequado para apresentar um resumo de vulnerabilidades à alta direção?",
+    "o": [
+      "Relatório Executive Summary em PDF, com métricas gerais de risco e gráficos de tendências",
+      "Exportação CSV bruta com todos os campos de vulnerabilidades",
+      "Relatório completo e detalhado de vulnerabilidades, com a saída dos plugins por host",
+      "Exportação dos resultados de varredura do Nessus no formato XML .nessus"
+    ]
+  },
+  "BC-Q044": {
+    "q": "Qual é o principal benefício de usar as integrações de chamados do Tenable.io, como ServiceNow e JIRA, para remediação?",
+    "o": [
+      "Elas substituem a necessidade de um programa de gerenciamento de vulnerabilidades ao realizar a remediação automaticamente",
+      "As vulnerabilidades são convertidas automaticamente em chamados direcionados à equipe de remediação adequada, sem transferência manual de dados",
+      "A integração permite que o ServiceNow realize varreduras de vulnerabilidades em nome do Tenable.io",
+      "Ela criptografa os dados de vulnerabilidades antes de enviá-los ao ServiceNow para fins de conformidade"
+    ]
+  },
+  "BC-Q045": {
+    "q": "Qual ação um administrador do Tenable.io deve executar após trocar as credenciais de uma conta de serviço Windows usada em varreduras autenticadas?",
+    "o": [
+      "Recriar todas as políticas de varredura do zero com as novas credenciais",
+      "Atualizar as credenciais armazenadas no gerenciador de credenciais do Tenable.io e verificar se o plugin 19506 confirma uma autenticação bem-sucedida na próxima varredura",
+      "Desabilitar as famílias de plugins Windows até que o problema de credenciais seja resolvido",
+      "Aumentar o limite VPR para compensar temporariamente os resultados de varreduras não autenticadas"
+    ]
+  },
+  "BC-Q046": {
+    "q": "No Predictive Prioritization do Tenable.io, qual dos sinais abaixo mais aumenta a pontuação VPR de uma vulnerabilidade em relação à sua pontuação CVSS base?",
+    "o": [
+      "A vulnerabilidade afetar um servidor com ACR igual a 10",
+      "A disponibilidade de código de exploração funcional em uma ferramenta pública como o Metasploit",
+      "A vulnerabilidade receber um CVE publicado pelo NVD",
+      "A vulnerabilidade ter sido descoberta há mais de 12 meses"
+    ]
+  },
+  "BC-Q047": {
+    "q": "Uma auditoria de conformidade no Tenable.io produz um resultado 'FAILED' para uma verificação de benchmark CIS. O que isso indica?",
+    "o": [
+      "A configuração do sistema não atende ao requisito específico de fortalecimento da segurança do CIS que está sendo verificado",
+      "O ativo de destino não possui um benchmark CIS aplicável ao seu sistema operacional",
+      "O scanner Nessus perdeu a conectividade com o destino durante a verificação de conformidade",
+      "O plugin de conformidade exige credenciais de root/administrador que não foram fornecidas"
+    ]
+  },
+  "BC-Q048": {
+    "q": "Qual é a finalidade do recurso 'Groups' (grupos) do Tenable.io?",
+    "o": [
+      "Criar grupos personalizados de pontuação CVSS para diferentes unidades de negócio",
+      "Agrupar vulnerabilidades semelhantes para remediação em lote",
+      "Definir intervalos de endereços IP para atribuição de scanners",
+      "Organizar usuários e controlar quais resultados de varredura e ativos eles podem acessar"
+    ]
+  },
+  "BC-Q049": {
+    "q": "Qual recurso do Tenable.io fornece uma lista única e priorizada de vulnerabilidades, ordenadas pelo risco combinado em todos os ativos examinados?",
+    "o": [
+      "Vulnerability Workbench filtrado e ordenado por VPR",
+      "Relatório de resumo por família de plugins",
+      "Página de detalhes do ativo ordenada pela data da última varredura",
+      "Visualização individual dos resultados de varredura por scanner"
+    ]
+  },
+  "BC-Q050": {
+    "q": "No Tenable.io, qual função de usuário permite criar e gerenciar políticas de varredura, mas não permite modificar contas de usuários?",
+    "o": [
+      "Scan Manager (gerente de varreduras)",
+      "Administrator (administrador)",
+      "Standard User (usuário padrão)",
+      "Read-Only User (usuário somente de leitura)"
+    ]
+  },
+  "BC-Q051": {
+    "q": "O que o recurso 'Recast Risk' permite que um analista do Tenable.io faça e que o 'Accepted Risk' não permite?",
+    "o": [
+      "Alterar a classificação de severidade de um achado de vulnerabilidade permanentemente ou por um período definido",
+      "Remover retroativamente a vulnerabilidade de todos os resultados de varredura",
+      "Gerar uma notificação de divulgação pública para o fornecedor",
+      "Atribuir automaticamente a vulnerabilidade a outro ativo"
+    ]
+  },
+  "BC-Q052": {
+    "q": "Qual configuração de varredura garante que o Nessus não examine portas abaixo de 1024 em servidores de produção sensíveis?",
+    "o": [
+      "Especificar um intervalo personalizado de portas na política de varredura, excluindo as portas de 1 a 1023",
+      "Aplicar o modelo Discovery Scan em vez do Basic Network Scan",
+      "Habilitar Safe Checks na política de varredura",
+      "Definir o ACR dos servidores de produção como 10"
+    ]
+  },
+  "BC-Q053": {
+    "q": "Qual é a função de 'Safe Checks' (verificações seguras) em uma política de varredura do Nessus?",
+    "o": [
+      "Restringir as varreduras à porta 443, somente para análise de tráfego criptografado",
+      "Desabilitar plugins potencialmente disruptivos que poderiam interromper serviços ou causar instabilidade no sistema",
+      "Limitar a varredura a ativos com ACR abaixo de 5",
+      "Aplicar automaticamente controles compensatórios a verificações de conformidade com falha"
+    ]
+  },
+  "BC-Q054": {
+    "q": "Um widget do dashboard do Tenable.io mostra '847 vulnerabilidades críticas' em todos os ativos. Um executivo pede contexto. Qual métrica adicional comunica melhor o progresso da remediação?",
+    "o": [
+      "A tendência do Mean Time to Remediate (MTTR — tempo médio para remediação) nos últimos 90 dias",
+      "O número de scanners Nessus atualmente online",
+      "O número total de ativos examinados nesta semana",
+      "A distribuição das pontuações CVSS em todas as vulnerabilidades"
+    ]
+  },
+  "BC-Q055": {
+    "q": "Ao configurar uma varredura do Tenable.io, qual é a finalidade da opção 'Max Simultaneous Checks per Host'?",
+    "o": [
+      "Definir quantas campanhas de remediação podem fazer referência ao mesmo host",
+      "Controlar quantos usuários podem visualizar simultaneamente os dados de vulnerabilidades de um host específico",
+      "Limitar o número de verificações de plugins executadas simultaneamente em um único host de destino, para reduzir a carga nesse host",
+      "Definir o número máximo de CVEs que um único host pode informar em uma varredura"
+    ]
+  },
+  "BC-Q056": {
+    "q": "Qual recurso do Tenable.io permite criar uma visualização salva e persistente do Vulnerability Workbench com filtros específicos aplicados?",
+    "o": [
+      "Regras de supressão de famílias de plugins",
+      "Substituição do limite ACR nas configurações do perfil do usuário",
+      "Relatórios de varredura agendados com opções de filtros do Workbench",
+      "Uma pesquisa salva ou um widget de dashboard personalizado configurado com filtros do Workbench"
+    ]
+  },
+  "BC-Q057": {
+    "q": "Qual integração do Tenable.io permite sincronizar automaticamente ativos de uma CMDB corporativa (Configuration Management Database — banco de dados de gerenciamento de configuração)?",
+    "o": [
+      "Conector da CMDB do ServiceNow por meio da estrutura de integração do Tenable.io",
+      "Implantação de Nessus Agents em todos os ativos acompanhados pela CMDB",
+      "Inclusão manual de intervalos IP nas configurações de rede do Tenable.io",
+      "Conector de nuvem configurado para LDAP local"
+    ]
+  },
+  "BC-Q058": {
+    "q": "Qual é a abordagem recomendada quando uma varredura do Tenable.io descobre uma vulnerabilidade com pontuação CVSS de 9,8 em um servidor dentro do escopo PCI, mas a equipe responsável pelo ativo informa que o serviço vulnerável não está em execução?",
+    "o": [
+      "Excluir o ativo do Tenable.io para remover o achado",
+      "Aceitar automaticamente o risco pelo fluxo de trabalho Accepted Risk",
+      "Aumentar o ACR do servidor para refletir o achado de maior risco",
+      "Enviar uma contestação de falso positivo ou usar Recast Risk, documentando evidências de que o serviço não está em execução"
+    ]
+  },
+  "BC-Q059": {
+    "q": "Qual recurso do Tenable.io permite priorizar vulnerabilidades considerando se a organização já implantou controles compensatórios, como um WAF ou uma assinatura de IPS?",
+    "o": [
+      "Substituição do benchmark de conformidade para ativos protegidos por WAF",
+      "Recast Risk com notas de contexto que documentem o controle compensatório",
+      "Redução do ACR de ativos protegidos por WAF",
+      "Ajuste automático do VPR quando a integração com o WAF está ativa"
+    ]
+  },
+  "BC-Q060": {
+    "q": "Quando o Tenable.io atualiza a pontuação VPR de uma vulnerabilidade após sua publicação inicial?",
+    "o": [
+      "O VPR é fixado no momento da publicação do CVE e nunca muda",
+      "O VPR é atualizado trimestralmente, conforme o calendário de lançamento do feed de plugins do Tenable",
+      "O VPR é recalculado diariamente à medida que os sinais de inteligência de ameaças mudam, como na publicação de novo código de exploração",
+      "O VPR é atualizado somente quando o NVD publica uma pontuação CVSS revisada"
+    ]
+  },
+  "BC-Q061": {
+    "q": "Uma equipe executa uma varredura Host Discovery antes de definir o escopo trimestral de varreduras de vulnerabilidades. Como os ativos encontrados somente por essa varredura de descoberta afetam o licenciamento do Tenable Vulnerability Management?",
+    "o": [
+      "Eles passam imediatamente a contar como ativos licenciados assim que qualquer endereço IP é descoberto",
+      "Eles contam somente se o ativo for adicionado posteriormente a um widget de dashboard",
+      "Eles não contam para a licença até serem avaliados por plugins de vulnerabilidade que não sejam de descoberta",
+      "Eles contam somente se a varredura de descoberta encontrar pelo menos uma porta TCP aberta"
+    ]
+  },
+  "BC-Q062": {
+    "q": "O proprietário de uma varredura define Scan Results como 'Keep private' para uma varredura sensível de diagnóstico. Qual é o efeito operacional mais importante dessa configuração?",
+    "o": [
+      "Os resultados da varredura são excluídos automaticamente depois que o scanner os envia",
+      "O scanner executa somente plugins de descoberta e desabilita todos os plugins de vulnerabilidade",
+      "Os resultados da varredura ficam ocultos em dashboards, relatórios e Workbenches e não atualizam os estados das vulnerabilidades",
+      "A varredura continua atualizando os achados dos dashboards, mas somente administradores podem vê-los"
+    ]
+  },
+  "BC-Q063": {
+    "q": "Qual modelo de varredura do Tenable Vulnerability Management é destinado a uma varredura interna de vulnerabilidades PCI DSS?",
+    "o": [
+      "Credential Validation (validação de credenciais)",
+      "Host Discovery (descoberta de hosts)",
+      "Legacy Web App Scan (varredura legada de aplicações web)",
+      "Internal PCI Network Scan (varredura interna de rede PCI)"
+    ]
+  },
+  "BC-Q064": {
+    "q": "A equipe de firewall pergunta qual regra de entrada é necessária para que os Tenable Agents se comuniquem com o Tenable Vulnerability Management. O que você deve informar?",
+    "o": [
+      "Liberar UDP 161 de entrada para que o Tenable consulte o agente por SNMP",
+      "Liberar TCP 8834 de entrada dos scanners de nuvem do Tenable para todos os endpoints",
+      "Liberar SMB e SSH de entrada para que o agente receba verificações autenticadas",
+      "Nenhuma regra de entrada é necessária, pois os agentes iniciam a comunicação de saída com o Tenable pela porta TCP 443"
+    ]
+  },
+  "BC-Q065": {
+    "q": "O notebook de um funcionário remoto está offline durante a janela agendada de varredura por agente. Qual comportamento do agente ajuda a evitar que o endpoint deixe de ser examinado indefinidamente?",
+    "o": [
+      "O agente pode ser configurado para executar a varredura quando voltar a ficar online",
+      "O agente aguarda que um administrador importe manualmente um arquivo de varredura",
+      "O scanner de nuvem muda automaticamente para uma varredura não autenticada do IP público do notebook",
+      "A próxima atualização do dashboard marca todos os achados do notebook como Fixed"
+    ]
+  },
+  "BC-Q066": {
+    "q": "Ao configurar uma varredura por agentes no Tenable Vulnerability Management, qual tipo de destino você deve selecionar?",
+    "o": [
+      "Um grupo de agentes",
+      "Um grupo de scanners",
+      "Um agente individual vinculado",
+      "Somente um intervalo CIDR informado diretamente"
+    ]
+  },
+  "BC-Q067": {
+    "q": "Um patch ausente do Windows foi identificado por uma verificação local autenticada. Depois que a equipe de servidores instala o patch, uma varredura de rede não autenticada não informa o achado. Por que o Tenable Vulnerability Management ainda pode não movê-lo para Fixed?",
+    "o": [
+      "Achados de verificações locais precisam ser verificados por outra varredura com autenticação bem-sucedida",
+      "Somente varreduras Host Discovery podem verificar a remediação de patches do Windows",
+      "O achado precisa ter sua severidade reclassificada antes de passar para Fixed",
+      "Achados de patches do Windows nunca passam automaticamente para Fixed"
+    ]
+  },
+  "BC-Q068": {
+    "q": "Uma vulnerabilidade foi originalmente informada por um plugin combinado na porta 445. Qual tipo de varredura posterior é necessário para mitigá-la, de acordo com os requisitos de mitigação do Tenable?",
+    "o": [
+      "Qualquer varredura que confirme que a porta remota está fechada",
+      "Uma varredura com autenticação bem-sucedida",
+      "Uma atualização do dashboard após a próxima atualização do feed de plugins",
+      "Uma varredura Host Discovery com portas comuns habilitadas"
+    ]
+  },
+  "BC-Q069": {
+    "q": "O que significa o estado Resurfaced para um achado de vulnerabilidade?",
+    "o": [
+      "O Tenable havia marcado a vulnerabilidade como Fixed, mas a detectou novamente",
+      "Um analista aceitou o risco e ocultou o achado",
+      "O Tenable detectou a vulnerabilidade pela primeira vez",
+      "O Tenable detectou a vulnerabilidade mais de uma vez, sem que ela tenha sido corrigida em nenhum momento"
+    ]
+  },
+  "BC-Q070": {
+    "q": "Um desenvolvedor compara os resultados da interface do Tenable Vulnerability Management com a saída da API e vê os estados New, Active, Resurfaced e Fixed na interface. Qual mapeamento para os estados da API está correto?",
+    "o": [
+      "Todos os estados da interface são retornados pela API exatamente com os mesmos nomes",
+      "New corresponde a created, Active a running, Resurfaced a failed e Fixed a closed",
+      "New e Active correspondem a open, Resurfaced a reopened e Fixed a fixed",
+      "New e Resurfaced correspondem a open, Active a confirmed e Fixed a deleted"
+    ]
+  },
+  "BC-Q071": {
+    "q": "No Tenable Vulnerability Management, o que identifica uma única instância de achado de vulnerabilidade em um ativo?",
+    "o": [
+      "O widget do dashboard em que o achado aparece",
+      "A combinação do ID do plugin, da porta e do protocolo",
+      "O agendamento da varredura e o nome do grupo de scanners",
+      "O sistema operacional do ativo e seu responsável de negócio"
+    ]
+  },
+  "BC-Q072": {
+    "q": "Por quanto tempo o Tenable Vulnerability Management retém os dados de achados após sua atualização por varreduras ou resultados importados?",
+    "o": [
+      "90 dias",
+      "15 meses",
+      "Indefinidamente, a menos que a varredura seja excluída",
+      "30 dias"
+    ]
+  },
+  "BC-Q073": {
+    "q": "Um analista cria uma consulta complexa no Explore com 25 condições de filtro e recebe o erro 'Invalid filter'. Qual é a causa provável?",
+    "o": [
+      "Somente administradores podem usar os operadores AND e OR",
+      "Saved Views não podem incluir nenhum filtro do Query Builder",
+      "O Query Builder do Explore suporta no máximo 20 condições de filtro",
+      "Tenable Queries desabilitam toda a filtragem personalizada quando selecionadas"
+    ]
+  },
+  "BC-Q074": {
+    "q": "Um analista líder deseja uma visualização reutilizável do Explore que preserve tanto a consulta quanto a disposição da tabela, incluindo colunas visíveis e agrupamento. Qual recurso é mais adequado?",
+    "o": [
+      "Scanner group (grupo de scanners)",
+      "Scan folder (pasta de varreduras)",
+      "Saved View (visualização salva)",
+      "Recast rule (regra de reclassificação)"
+    ]
+  },
+  "BC-Q075": {
+    "q": "Qual Tenable Query um analista deve usar para se concentrar nas vulnerabilidades listadas no catálogo Known Exploited Vulnerabilities da CISA?",
+    "o": [
+      "Credentialed Scan Failures (falhas de varreduras autenticadas)",
+      "Network Devices (dispositivos de rede)",
+      "External Assets (ativos externos)",
+      "CISA Known Exploitable Vulnerabilities (vulnerabilidades conhecidas como exploráveis pela CISA)"
+    ]
+  },
+  "BC-Q076": {
+    "q": "Um gerente de segurança pergunta o que a Tenable Query 'Emerging Threats' busca identificar. Qual resposta é mais precisa?",
+    "o": [
+      "Todas as vulnerabilidades com pontuação CVSS v3 acima de 4,0",
+      "Verificações de auditoria de conformidade que passaram de Failed para Passed",
+      "Vulnerabilidades monitoradas pela Tenable Research devido a discussões públicas, atividades com provas de conceito ou exploração em larga escala observada",
+      "Ativos que nunca foram examinados por uma varredura autenticada"
+    ]
+  },
+  "BC-Q077": {
+    "q": "Uma regra Recast foi criada a partir do Explore, mas um achado correspondente ainda mostra sua severidade original imediatamente depois. Qual é a melhor explicação?",
+    "o": [
+      "Somente o proprietário da varredura pode ver uma regra Recast até a próxima atualização do feed de plugins",
+      "Regras Recast nunca se aplicam a achados criados antes da existência da regra",
+      "O achado precisa primeiro ser exportado e reimportado para que a regra seja aplicada",
+      "Recast opera em um modelo de consistência eventual, e o Explore pode manter a visualização em cache por até 60 minutos"
+    ]
+  },
+  "BC-Q078": {
+    "q": "Durante uma revisão de conformidade, sabe-se que uma verificação de auditoria de host é atendida por meio de uma exceção aprovada, mas o resultado original da auditoria mostra Failed. Qual tipo de regra altera o resultado da auditoria do host, por exemplo, de Failed para Passed?",
+    "o": [
+      "Recast (reclassificar)",
+      "Accept (aceitar)",
+      "Target Group (grupo de destinos)",
+      "Change Result (alterar resultado)"
+    ]
+  },
+  "BC-Q079": {
+    "q": "Um responsável por conformidade usa relatórios do Tenable Vulnerability Management em reuniões mensais de acompanhamento. Qual período de dados ele deve esperar nos relatórios padrão?",
+    "o": [
+      "Todos os achados retidos desde a criação da conta",
+      "Os últimos 30 dias",
+      "Somente o trimestre civil atual",
+      "Os últimos 15 meses"
+    ]
+  },
+  "BC-Q080": {
+    "q": "Qual permissão é mais adequada para um auditor que precisa visualizar resultados de varredura e gerar relatórios, mas não pode alterar configurações de varredura?",
+    "o": [
+      "Can Use (pode usar)",
+      "Can Edit (pode editar)",
+      "Can Scan (pode executar varreduras)",
+      "Can View (pode visualizar)"
+    ]
+  },
+  "BC-Q081": {
+    "q": "Um Scan Operator inicia uma varredura pertencente a outro usuário. Alguns destinos são ignorados, embora o usuário que iniciou a varredura tenha acesso a eles. Qual é o problema de permissão mais provável?",
+    "o": [
+      "A varredura só pode ter como destino ativos aos quais o usuário que a iniciou atribuiu tags pessoalmente",
+      "O Tenable avalia as permissões dos destinos da varredura com base nas permissões do proprietário da varredura, e não nas de quem a iniciou",
+      "O usuário que iniciou a varredura precisa de Can Edit em todos os modelos de relatório antes que uma varredura possa ser executada",
+      "Scan Operators nunca podem iniciar varreduras pertencentes a outros usuários"
+    ]
+  },
+  "BC-Q082": {
+    "q": "Qual afirmação descreve melhor a diferença entre funções e permissões no Tenable Vulnerability Management?",
+    "o": [
+      "Funções são usadas somente para relatórios; permissões são usadas somente para varreduras",
+      "Funções se aplicam somente a scanners; permissões se aplicam somente a agentes",
+      "Funções controlam as principais ações que um usuário pode executar; permissões controlam os dados aos quais essas ações podem se aplicar",
+      "Funções são concessões temporárias de acesso; permissões são contas permanentes de administrador"
+    ]
+  },
+  "BC-Q083": {
+    "q": "Qual permissão permite que um usuário aplique uma política de varredura ou um modelo de relatório existente sem editar esse objeto reutilizável?",
+    "o": [
+      "Can Use (pode usar)",
+      "Can Edit (pode editar)",
+      "Can Scan (pode executar varreduras)",
+      "Can View (pode visualizar)"
+    ]
+  },
+  "BC-Q084": {
+    "q": "Uma varredura usa uma tag com uma regra de intervalo IPv4. Qual é a diferença entre 'Existing tagged assets only' e 'Targets defined by tags'?",
+    "o": [
+      "Existing tagged assets only examina achados corrigidos; Targets defined by tags examina achados ativos",
+      "Existing tagged assets only exige agentes; Targets defined by tags exige scanners de nuvem",
+      "Existing tagged assets only examina IPs públicos; Targets defined by tags examina IPs privados",
+      "Existing tagged assets only examina ativos que já possuem a tag; Targets defined by tags examina ativos cujo IP ou DNS corresponde às regras da tag"
+    ]
+  },
+  "BC-Q085": {
+    "q": "Uma configuração de scanner baseada em tags usa 'Targets defined by tags' com várias regras de tags IPv4 e DNS. O administrador seleciona Match All, e a varredura não resolve nenhum destino. O que ele deve entender?",
+    "o": [
+      "Varreduras baseadas em tags não podem usar regras de tags IPv4",
+      "Nesse contexto, Match All pode ter somente uma regra de tag; use Match Any para várias regras suportadas",
+      "A varredura precisa ser convertida em uma varredura por agentes antes que as regras de tags funcionem",
+      "Targets defined by tags só funciona para ativos que já concluíram uma varredura autenticada"
+    ]
+  },
+  "BC-Q086": {
+    "q": "Um administrador envia um arquivo de destinos para uma varredura, e a importação falha. Qual requisito do arquivo ele deve verificar primeiro?",
+    "o": [
+      "O arquivo precisa ser um array JSON contendo somente destinos CIDR",
+      "O arquivo precisa estar em UTF-16, com um destino por linha separada por vírgulas",
+      "O arquivo precisa incluir o UUID do scanner antes de cada destino",
+      "O arquivo precisa estar em ASCII, com um destino por linha, sem espaços no final ou linhas extras depois do último destino"
+    ]
+  },
+  "BC-Q087": {
+    "q": "Uma varredura por agentes do tipo Triggered Scan é configurada para um grupo de notebooks. Qual afirmação sobre Scan Results é verdadeira?",
+    "o": [
+      "Triggered Scans informam somente achados de severidade Info",
+      "Show in dashboard está sempre habilitado para Triggered Scans",
+      "Triggered Scans nunca atualizam os estados das vulnerabilidades",
+      "Triggered Scans só podem ser mantidas privadas"
+    ]
+  },
+  "BC-Q088": {
+    "q": "Um analista substitui manualmente o ACR de um ativo do tipo host para refletir sua criticidade para o negócio. Quanto tempo pode levar para o novo ACR aparecer na interface do Tenable Vulnerability Management?",
+    "o": [
+      "Somente depois que o ativo for excluído e descoberto novamente",
+      "Exatamente 15 minutos",
+      "Até 24 horas",
+      "Somente depois da próxima atualização trimestral do feed de plugins"
+    ]
+  },
+  "BC-Q089": {
+    "q": "Uma empresa tem duas filiais que usam 192.168.1.0/24. Um administrador move ativos que parecem duplicados para redes separadas depois que as varreduras já foram executadas, mas deixa o scanner na rede antiga. Qual é o principal risco?",
+    "o": [
+      "O Tenable mescla automaticamente todos os ativos com o mesmo IP privado em redes diferentes",
+      "O Tenable pode criar registros de ativos duplicados que contam para o licenciamento, e o scanner pode recriar o mesmo ativo se também não for movido",
+      "Os ativos são convertidos em ativos Web Application e deixam de aparecer em Hosts",
+      "A próxima varredura exclui permanentemente os ativos movidos de todos os dashboards"
+    ]
+  },
+  "BC-Q090": {
+    "q": "O que acontece quando um ativo do tipo host é excluído do Tenable Vulnerability Management?",
+    "o": [
+      "Somente o nome do ativo fica oculto; os achados permanecem ativos para sempre",
+      "A próxima varredura restaura automaticamente o ID original do ativo e todos os achados excluídos",
+      "O ativo é colocado em uma pasta temporária de quarentena por 15 meses",
+      "O ativo é removido da visualização de ativos, os achados associados são excluídos e o Tenable deixa de associar resultados de varredura a ele"
+    ]
+  },
+  "BC-Q091": {
+    "q": "Um dashboard executivo parece não ter mudado imediatamente após a conclusão de uma grande varredura. Qual é a melhor explicação antes de presumir que a varredura falhou?",
+    "o": [
+      "Os dados do dashboard são atualizados após as varreduras, mas pode haver um atraso enquanto o Tenable indexa os dados",
+      "Dashboards são atualizados somente uma vez por trimestre civil",
+      "Widgets de dashboard mostram somente vulnerabilidades Fixed",
+      "Dashboards nunca usam dados de varredura de scanners vinculados"
+    ]
+  },
+  "BC-Q092": {
+    "q": "Um gerente pergunta por que não consegue abrir o resultado de relatório de outro usuário, embora possa ver os modelos de relatório. Qual é a explicação correta?",
+    "o": [
+      "Os resultados de relatórios são específicos de cada usuário; usuários só podem visualizar seus próprios resultados de relatórios do Tenable Vulnerability Management",
+      "Modelos de relatório e resultados de relatórios são o mesmo objeto",
+      "Resultados de relatórios ficam visíveis somente após 15 meses",
+      "Gerentes não podem visualizar relatórios em nenhuma função"
+    ]
+  },
+  "BC-Q093": {
+    "q": "Na integração Tenable for ServiceNow, qual Tenable Job Type deve ser selecionado no módulo ITSM para trazer dados de vulnerabilidades para o ServiceNow?",
+    "o": [
+      "Pull Vulnerabilities (importar vulnerabilidades)",
+      "Recast Findings (reclassificar achados)",
+      "Push Assets (enviar ativos)",
+      "Pull Assets (importar ativos)"
+    ]
+  },
+  "BC-Q094": {
+    "q": "Ao configurar o Tenable Plugin for Jira, qual é a recomendação do Tenable para a chave de API usada pela integração?",
+    "o": [
+      "Reutilizar a mesma chave de API em todas as integrações de terceiros para simplificar sua troca periódica",
+      "Gerar uma chave de API exclusiva do Tenable Vulnerability Management para cada instância instalada da integração com o Jira",
+      "Não registrar o token de API, pois o Jira consegue recuperá-lo automaticamente após uma redefinição",
+      "Usar somente uma chave de API de leitura, pois o Jira nunca coleta dados de vulnerabilidades"
+    ]
+  },
+  "BC-Q095": {
+    "q": "Uma equipe deseja resultados de agentes mais rápidos e com menor consumo de recursos para inventário de software, de modo que o Tenable possa analisar patches ausentes à medida que a cobertura seja disponibilizada. Qual modelo de varredura por agentes foi projetado para essa finalidade?",
+    "o": [
+      "Collect Inventory (coletar inventário)",
+      "Host Discovery (descoberta de hosts)",
+      "Credential Validation (validação de credenciais)",
+      "Legacy Web App Scan (varredura legada de aplicações web)"
+    ]
+  },
+  "BC-Q096": {
+    "q": "Uma equipe de endpoints Windows usa varreduras Collect Inventory e espera cobertura para Google Chrome e atualizações Patch Tuesday do Microsoft Exchange. Qual é o problema com essa expectativa?",
+    "o": [
+      "Collect Inventory só pode ser executado em agentes Linux e não pode informar dados do Windows",
+      "Collect Inventory atualmente não cobre aplicações Windows de terceiros nem atualizações Patch Tuesday de produtos Microsoft, como Exchange ou SharePoint",
+      "Collect Inventory suporta somente verificações de malware e desabilita todo o inventário de software",
+      "Collect Inventory exige a seleção manual de todas as famílias de plugins antes que a varredura possa ser iniciada"
+    ]
+  },
+  "BC-Q097": {
+    "q": "Qual afirmação sobre o modelo Advanced Agent Scan está correta?",
+    "o": [
+      "É uma varredura por agentes sem recomendações que pode usar os métodos Scan Window ou Triggered Scan",
+      "Ele seleciona automaticamente todos os plugins e impede sua personalização",
+      "Ele é usado somente para varreduras externas PCI ASV",
+      "Ele é o único modelo que realiza Host Discovery para scanners de rede"
+    ]
+  },
+  "BC-Q098": {
+    "q": "Qual modelo de varredura é uma maneira simples de descobrir hosts ativos com tráfego mínimo de rede?",
+    "o": [
+      "Ping-Only Discovery (descoberta somente por ping)",
+      "SCAP and OVAL Auditing (auditoria SCAP e OVAL)",
+      "Audit Cloud Infrastructure (auditoria de infraestrutura de nuvem)",
+      "Policy Compliance Auditing (auditoria de conformidade com políticas)"
+    ]
+  },
+  "BC-Q099": {
+    "q": "Uma equipe responsável pela configuração de referência de segurança do Windows deseja auditar a complexidade das senhas e as configurações baseadas no registro em relação a uma referência conhecida. Qual categoria de modelos de varredura do Tenable atende melhor a essa necessidade?",
+    "o": [
+      "Coleta de inventário usando Collect Inventory",
+      "Varredura tática usando Malware Scan",
+      "Varredura de configuração usando Policy Compliance Auditing",
+      "Varredura de vulnerabilidades usando Host Discovery"
+    ]
+  },
+  "BC-Q100": {
+    "q": "Uma equipe PCI deseja usar somente o modelo PCI Internal Nessus Agent para toda a cobertura interna de vulnerabilidades PCI. O que você deve recomendar?",
+    "o": [
+      "A varredura interna PCI por agentes substitui todos os requisitos de varredura de rede",
+      "Varreduras internas de rede não autenticadas continuam sendo necessárias para cobrir vulnerabilidades relacionadas a serviços de rede por meio de varreduras de portas",
+      "Avaliadores do Tenable revisam os achados internos PCI por agentes para controles compensatórios antes que eles apareçam",
+      "O modelo PCI Internal Nessus Agent se destina somente à atestação externa ASV"
+    ]
+  }
+};
+  const exam = SIMULADOS.find(simulado => simulado.id === 'tenable-complementar100');
+  if (!exam) return;
+  for (const question of exam.questions) {
+    const translation = translations[question.id];
+    if (translation && translation.o.length === question.o.length) question.ptBR = translation;
+  }
+})();

@@ -130,6 +130,7 @@ function buildQuizSession(simIndex, layout) {
   const source = SIMULADOS[simIndex];
   return {
     title: source.title,
+    translatedQuestionIds: new Set(),
     layout,
     questions: layout.questionOrder.map(originalIndex => {
       const question = source.questions[originalIndex];
@@ -142,7 +143,8 @@ function buildQuizSession(simIndex, layout) {
         a: type === 'yesno' ? optionOrder.map(optionIndex => question.a[optionIndex])
           : type === 'multi' ? correctLetters.map(letter => 'ABCD'[optionOrder.indexOf('ABCD'.indexOf(letter))]).sort()
           : 'ABCD'[optionOrder.indexOf('ABCD'.indexOf(question.a))],
-        x: Array.isArray(question.x) ? optionOrder.map(optionIndex => question.x[optionIndex]) : question.x
+        x: Array.isArray(question.x) ? optionOrder.map(optionIndex => question.x[optionIndex]) : question.x,
+        ptBR: question.ptBR ? { ...question.ptBR, o: optionOrder.map(optionIndex => question.ptBR.o[optionIndex]) } : undefined
       };
     })
   };
@@ -457,6 +459,39 @@ function feedback(q, chosen) {
   return `<section class="answer-feedback ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}" aria-live="polite"><div class="feedback-heading"><span class="feedback-icon">${isCorrect ? '✓' : '×'}</span><div><strong>${isCorrect ? 'Resposta correta!' : 'Resposta incorreta'}</strong><p>${isCorrect ? 'Muito bem. Confira a correção comentada abaixo.' : `Você marcou ${escapeHTML(answerLabel(q, chosen))}. Gabarito: ${escapeHTML(answerLabel(q, q.a))}. Veja a análise completa.`}</p></div></div>${alternativeAnalysis(q, chosen)}${sourcesMarkup(q)}</section>`;
 }
 
+function translationFor(question) {
+  if (quizFinished || SIMULADOS[active]?.id !== 'tenable-complementar100') return null;
+  const translation = question.ptBR;
+  return translation && typeof translation.q === 'string'
+    && Array.isArray(translation.o) && translation.o.length === question.o.length ? translation : null;
+}
+
+function translationVisible(question) {
+  return Boolean(translationFor(question) && activeQuiz?.translatedQuestionIds.has(question.id));
+}
+
+function translationMarkup(question) {
+  const translation = translationFor(question);
+  if (!translation) return '';
+  const expanded = translationVisible(question);
+  const panelId = 'translation-' + question.id;
+  return `<div class="question-translation-control"><button class="ghost translation-toggle" data-action="toggle-translation" aria-expanded="${expanded}" aria-controls="${escapeHTML(panelId)}">${expanded ? 'Ocultar tradução' : 'Mostrar em Português (Brasil)'}</button><div id="${escapeHTML(panelId)}" class="question-translation-panel" lang="pt-BR" ${expanded ? '' : 'hidden'}><span class="translation-label">Português (Brasil)</span><p>${richText(translation.q)}</p></div></div>`;
+}
+
+function optionTextMarkup(question, option, optionIndex) {
+  if (!translationVisible(question)) return `<span>${richText(option)}</span>`;
+  return `<span class="option-copy"><span lang="en">${richText(option)}</span><span class="option-translation" lang="pt-BR">${richText(question.ptBR.o[optionIndex])}</span></span>`;
+}
+
+function toggleTranslation() {
+  const question = activeQuiz?.questions[index];
+  if (!question || !translationFor(question)) return;
+  if (activeQuiz.translatedQuestionIds.has(question.id)) activeQuiz.translatedQuestionIds.delete(question.id);
+  else activeQuiz.translatedQuestionIds.add(question.id);
+  renderQuestion(false);
+  document.querySelector('[data-action="toggle-translation"]')?.focus?.({ preventScroll: true });
+}
+
 function optionsMarkup(q, chosen, selected) {
   const answered = hasAnswer(chosen);
   if (questionType(q) === 'yesno') {
@@ -469,7 +504,7 @@ function optionsMarkup(q, chosen, selected) {
     const isSelected = multi ? selected?.includes(letter) : selected === letter;
     const wasChosen = multi ? chosen?.includes(letter) : chosen === letter;
     const state = answered ? correct ? 'correct-option' : wasChosen ? 'wrong-option' : 'dimmed-option' : '';
-    return `<button class="option ${isSelected ? 'selected' : ''} ${state}" data-action="choose" data-letter="${letter}" aria-pressed="${Boolean(isSelected)}" ${answered ? 'disabled' : ''}><span class="letter">${letter}</span><span>${richText(option)}</span>${answered && correct ? '<span class="option-result">✓</span>' : answered && wasChosen ? '<span class="option-result">×</span>' : ''}</button>`;
+    return `<button class="option ${isSelected ? 'selected' : ''} ${state}" data-action="choose" data-letter="${letter}" aria-pressed="${Boolean(isSelected)}" ${answered ? 'disabled' : ''}><span class="letter">${letter}</span>${optionTextMarkup(q, option, i)}${answered && correct ? '<span class="option-result">✓</span>' : answered && wasChosen ? '<span class="option-result">×</span>' : ''}</button>`;
   }).join('')}</div>`;
 }
 
@@ -483,7 +518,7 @@ function renderQuestion(scrollToTop = false) {
   const pct = answeredCount / s.questions.length * 100;
   const hint = questionType(q) === 'multi' ? `Selecione ${q.a.length} alternativas (${selected?.length || 0}/${q.a.length}).`
     : questionType(q) === 'yesno' ? 'Responda Sim ou Não em todas as afirmações.' : 'Selecione uma alternativa e clique em Responder.';
-  app.innerHTML = `<section class="quiz-shell"><div class="quiz-head"><div class="quiz-row"><div><span class="quiz-kicker">Simulado em andamento</span><h1>${escapeHTML(s.title)}</h1></div><span class="counter">${answeredCount} de ${s.questions.length} respondidas${activeCourse === 'tenable' ? ` · ${SIMULADOS[active].minutes} min de referência` : ''}</span></div><div class="track"><span></span></div></div><div class="quiz-layout">${navigator(s)}<div class="question-column"><article class="question-card"><span class="qtag">Questão ${String(index + 1).padStart(2, '0')}${q.topic ? ` · ${escapeHTML(q.topic)}` : ''}${q.course === 'tenable' ? ` · ${escapeHTML(q.id)}` : ''}</span><h2${q.course === 'tenable' ? ' lang="en"' : ''}>${richText(q.q)}</h2>${q.code ? `<pre class="question-code"><code>${escapeHTML(q.code)}</code></pre>` : ''}<p class="question-hint">${hint}</p>${optionsMarkup(q, chosen, selected)}${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button>${hasAnswer(chosen) ? '<button class="primary" data-action="next">Próxima →</button>' : `<button class="primary" data-action="answer" ${selectionComplete(q, selected) ? '' : 'disabled'}>Responder</button>`}</div></div></div></section>`;
+  app.innerHTML = `<section class="quiz-shell"><div class="quiz-head"><div class="quiz-row"><div><span class="quiz-kicker">Simulado em andamento</span><h1>${escapeHTML(s.title)}</h1></div><span class="counter">${answeredCount} de ${s.questions.length} respondidas${activeCourse === 'tenable' ? ` · ${SIMULADOS[active].minutes} min de referência` : ''}</span></div><div class="track"><span></span></div></div><div class="quiz-layout">${navigator(s)}<div class="question-column"><article class="question-card"><span class="qtag">Questão ${String(index + 1).padStart(2, '0')}${q.topic ? ` · ${escapeHTML(q.topic)}` : ''}${q.course === 'tenable' ? ` · ${escapeHTML(q.id)}` : ''}</span><h2${q.course === 'tenable' ? ' lang="en"' : ''}>${richText(q.q)}</h2>${translationMarkup(q)}${q.code ? `<pre class="question-code"><code>${escapeHTML(q.code)}</code></pre>` : ''}<p class="question-hint">${hint}</p>${optionsMarkup(q, chosen, selected)}${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button>${hasAnswer(chosen) ? '<button class="primary" data-action="next">Próxima →</button>' : `<button class="primary" data-action="answer" ${selectionComplete(q, selected) ? '' : 'disabled'}>Responder</button>`}</div></div></div></section>`;
   document.querySelector('.track span').style.width = `${pct}%`;
   saveProgress();
   if (scrollToTop) {
@@ -578,6 +613,7 @@ app.addEventListener('click', event => {
     'go-to': () => goTo(Number(control.dataset.index)),
     choose: () => choose(control.dataset.letter),
     'choose-yesno': () => chooseYesNo(Number(control.dataset.statement), control.dataset.value === 'true'),
+    'toggle-translation': toggleTranslation,
     answer,
     prev,
     next,

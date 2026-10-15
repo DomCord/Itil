@@ -16,3 +16,9 @@ As 100 questões do Banco complementar integram o carregamento padrão, inclusiv
 ## Correção comentada por alternativa — 14/10/2026
 
 As 260 questões recebem 976 justificativas individuais em inglês, usando o mesmo painel de alternativas corretas/incorretas dos demais cursos. As justificativas acompanham suas opções durante o embaralhamento e aparecem tanto após responder quanto na revisão final e nos gabaritos para download. Os 32 itens verdadeiro/falso recebem duas justificativas cada. Os enunciados, opções e respostas da base permanecem iguais; notas técnicas identificam itens complementares ambíguos ou imprecisos sem alterar silenciosamente sua pontuação. O nome do banco complementar foi padronizado nos menus, arquivos e materiais. O banco complementar integra o site padrão, com sua origem e seus termos registrados nos materiais.
+
+## Tradução do banco complementar
+
+O simulado Banco complementar — 100 questões oferece o botão **Mostrar em Português (Brasil)**. Ao abrir, mostra o enunciado traduzido e uma tradução abaixo de cada alternativa em inglês. O botão **Ocultar tradução** recolhe esses textos. A tradução acompanha a ordem sorteada das alternativas, inclusive na retomada de uma tentativa.
+
+As 100 traduções estão em `Simulados/Banco_complementar/traducoes_pt_br.json`, com a versão de carregamento local em `traducoes_pt_br.js`. Funcionam sem serviços externos ou conexão de tradução. As perguntas originais, respostas e justificativas em inglês permanecem preservadas. O recurso é exclusivo desse simulado.

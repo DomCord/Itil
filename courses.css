@@ -66,3 +66,19 @@
 .slide-notes p {white-space:pre-wrap;}
 .slide-notes h3 {color:var(--ink);}
 .tenable-materials {min-width:0;}
+
+/* Tradução opcional do banco complementar; mantém o tema do simulado. */
+.question-translation-control { margin: -4px 0 22px; }
+.translation-toggle { max-width: 100%; white-space: normal; text-align: left; font-size: 13px; }
+.translation-toggle[aria-expanded="true"] { color: var(--teal); border-color: var(--teal); }
+.translation-toggle:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.question-translation-panel { margin-top: 14px; padding: 16px 18px; border: 1px solid var(--line); border-left: 3px solid var(--teal); border-radius: 12px; background: var(--surface-soft); }
+.question-translation-panel[hidden] { display: none; }
+.translation-label { display: block; color: var(--teal); font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.question-translation-panel p { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.65; overflow-wrap: anywhere; }
+.option-copy { display: grid; gap: 8px; min-width: 0; flex: 1; }
+.option-translation { display: block; padding-top: 8px; border-top: 1px dashed var(--line); color: var(--muted); font-size: 14px; line-height: 1.55; overflow-wrap: anywhere; }
+@media (max-width: 520px) {
+  .question-translation-panel { padding: 14px; }
+  .question-translation-panel p { font-size: 15px; }
+}
