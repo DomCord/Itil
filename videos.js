@@ -298,6 +298,7 @@ const VideosModule = (() => {
   }
 
   function select(index) {
+    if (typeof AuthGate !== 'undefined' && AuthGate.canAccessCourse && !AuthGate.canAccessCourse(activeLibrary.course)) return;
     if (!Number.isInteger(index) || index < 0 || index >= VIDEOS.length) return;
     activeIndex = index;
 
@@ -315,7 +316,9 @@ const VideosModule = (() => {
 
   function open(course = 'itil') {
     if (!LIBRARIES[course]) return;
+    if (typeof AuthGate !== 'undefined' && AuthGate.canAccessCourse && !AuthGate.canAccessCourse(course)) return;
     activeLibrary = LIBRARIES[course];
+    activeLibrary.course = course;
     VIDEOS = flattenVideos(activeLibrary.folders);
     activeIndex = 0;
     document.querySelector('#homeBtn').classList.remove('hidden');

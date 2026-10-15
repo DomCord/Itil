@@ -55,6 +55,18 @@ function answerLabel(question, value) {
 
 const LAST_LAYOUT_KEY = 'itil-last-quiz-layout-v1-';
 const PROGRESS_KEY = 'itil-quiz-progress-v1-';
+const userStorageKey = key => AuthGate.progressKey?.(key) ?? key;
+
+function allowedCourse(course) {
+  return AuthGate.canAccessCourse?.(course) ?? AuthGate.isAuthenticated();
+}
+
+function requireCourse(course) {
+  if (!AuthGate.isAuthenticated()) return false;
+  if (allowedCourse(course)) return true;
+  home();
+  return false;
+}
 
 function randomIndex(maxExclusive) {
   if (globalThis.crypto?.getRandomValues) {
@@ -119,7 +131,7 @@ function validLayout(layout, questions) {
 
 function readPreviousLayout(simIndex, questions) {
   try {
-    const layout = JSON.parse(localStorage.getItem(`${LAST_LAYOUT_KEY}${simIndex}`));
+    const layout = JSON.parse(localStorage.getItem(userStorageKey(`${LAST_LAYOUT_KEY}${simIndex}`)));
     return validLayout(layout, questions) ? layout : null;
   } catch {
     return null;
@@ -161,7 +173,7 @@ function createQuizSession(simIndex) {
   });
   const layout = { questionOrder, optionOrders };
   try {
-    localStorage.setItem(`${LAST_LAYOUT_KEY}${simIndex}`, JSON.stringify(layout));
+    localStorage.setItem(userStorageKey(`${LAST_LAYOUT_KEY}${simIndex}`), JSON.stringify(layout));
   } catch {
     // O simulado continua funcionando mesmo quando o armazenamento está indisponível.
   }
@@ -185,10 +197,11 @@ function validAnswerList(values, questions, confirmed = false) {
 }
 
 function readProgress(simIndex) {
+  if (typeof TenableStudy !== 'undefined') TenableStudy.restoreAttempt?.(simIndex);
   const questions = SIMULADOS[simIndex].questions;
   const questionCount = questions.length;
   try {
-    const progress = JSON.parse(localStorage.getItem(`${PROGRESS_KEY}${simIndex}`));
+    const progress = JSON.parse(localStorage.getItem(userStorageKey(`${PROGRESS_KEY}${simIndex}`)));
     const validIndex = Number.isInteger(progress?.index) && progress.index >= 0 && progress.index < questionCount;
     if (validLayout(progress?.layout, questions) && validIndex) {
       const sessionQuestions = buildQuizSession(simIndex, progress.layout).questions;
@@ -198,14 +211,14 @@ function readProgress(simIndex) {
   } catch {
     // Um progresso inválido é descartado abaixo.
   }
-  try { localStorage.removeItem(`${PROGRESS_KEY}${simIndex}`); } catch {}
+  try { localStorage.removeItem(userStorageKey(`${PROGRESS_KEY}${simIndex}`)); } catch {}
   return null;
 }
 
 function saveProgress() {
   if (active === null || !activeQuiz || quizFinished) return;
   try {
-    localStorage.setItem(`${PROGRESS_KEY}${active}`, JSON.stringify({
+    localStorage.setItem(userStorageKey(`${PROGRESS_KEY}${active}`), JSON.stringify({
       layout: activeQuiz.layout,
       answers,
       selections,
@@ -218,7 +231,7 @@ function saveProgress() {
 }
 
 function clearProgress(simIndex) {
-  try { localStorage.removeItem(`${PROGRESS_KEY}${simIndex}`); } catch {}
+  try { localStorage.removeItem(userStorageKey(`${PROGRESS_KEY}${simIndex}`)); } catch {}
 }
 
 const conceptDefinitions = [
@@ -286,6 +299,7 @@ function optionExplanation(q, option, letter) {
 }
 
 function home() {
+  if (!AuthGate.isAuthenticated()) return;
   saveProgress();
   activeCourse = null;
   active = null;
@@ -301,15 +315,18 @@ function home() {
     </section>
     <h2 class="choose-title">Escolha seu curso</h2>
     <section class="cards course-cards" aria-label="Cursos disponíveis">
-      <button class="sim-card course-card" data-action="course" data-course="itil"><span class="course-icon" aria-hidden="true">IT</span><h3>ITIL v5</h3><p>Gerenciamento de produtos e serviços digitais.</p><div class="meta"><span>3 simulados</span><span>${SlidesModule.total} slides</span><span>${VideosModule.total} vídeos</span></div><span class="start">Acessar material →</span></button>
-      <button class="sim-card course-card" data-action="course" data-course="ai901"><span class="course-icon" aria-hidden="true">AI</span><h3>AI-901</h3><p>Conceitos de IA e soluções com Microsoft Foundry.</p><div class="meta"><span>${aiSimulations.length} simulados</span><span>${aiQuestionCount} questões</span><span>${aiTopicCount} tópicos</span></div><span class="start">Acessar simulados →</span></button>
-      <button class="sim-card course-card" data-action="course" data-course="tenable"><span class="course-icon" aria-hidden="true">TV</span><h3>Tenable</h3><p>Vulnerability Management Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable').length} simulados</span><span>${TenableStudy.uniqueCount()} questões</span><span>${VideosModule.countFor('tenable')} vídeo</span></div><span class="start">Acessar material →</span></button>
-    </section>`;
+      ${allowedCourse('itil') ? `<button class="sim-card course-card" data-action="course" data-course="itil"><span class="course-icon" aria-hidden="true">IT</span><h3>ITIL v5</h3><p>Gerenciamento de produtos e serviços digitais.</p><div class="meta"><span>3 simulados</span><span>${SlidesModule.total} slides</span><span>${VideosModule.total} vídeos</span></div><span class="start">Acessar material →</span></button>` : ''}
+      ${allowedCourse('ai901') ? `<button class="sim-card course-card" data-action="course" data-course="ai901"><span class="course-icon" aria-hidden="true">AI</span><h3>AI-901</h3><p>Conceitos de IA e soluções com Microsoft Foundry.</p><div class="meta"><span>${aiSimulations.length} simulados</span><span>${aiQuestionCount} questões</span><span>${aiTopicCount} tópicos</span></div><span class="start">Acessar simulados →</span></button>` : ''}
+      ${allowedCourse('tenable') ? `<button class="sim-card course-card" data-action="course" data-course="tenable"><span class="course-icon" aria-hidden="true">TV</span><h3>Tenable</h3><p>Vulnerability Management Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable').length} simulados</span><span>${TenableStudy.uniqueCount()} questões</span><span>${VideosModule.countFor('tenable')} vídeo</span></div><span class="start">Acessar material →</span></button>` : ''}
+    </section>
+    ${Object.keys(COURSES).some(allowedCourse) ? '' : '<p class="course-access-note">Nenhum curso foi liberado para sua conta. Solicite o acesso ao administrador.</p>'}
+    ${AuthGate.currentUser?.()?.expiresOn ? `<p class="course-access-note">Acesso válido até ${escapeHTML(AuthGate.currentUser().expiresOn.split('-').reverse().join('/'))}, às 23h59 de Brasília.</p>` : ''}`;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function courseHome(course = activeCourse) {
   if (!COURSES[course]) return home();
+  if (!requireCourse(course)) return;
   saveProgress();
   activeCourse = course;
   active = null;
@@ -361,6 +378,7 @@ function courseHome(course = activeCourse) {
 
 
 function tenableMaterials() {
+  if (!requireCourse('tenable')) return;
   saveProgress(); active = null; activeQuiz = null;
   const simulations=courseSimulations('tenable').filter(({simulado})=>!simulado.random);
   const sourcePath=id=>id==='complementar100' ? 'Banco_complementar/simulado_100_ingles.md' : id.startsWith('tema') ? 'Por_tema/'+id+'.md' : 'Completos/'+id+'.md';
@@ -376,6 +394,7 @@ function showCourseNavigation() {
 }
 
 function beginNewQuiz(i) {
+  if (!Number.isInteger(i) || !SIMULADOS[i] || !requireCourse(courseFor(i))) return;
   if (courseFor(i) === 'tenable') TenableStudy.prepareAttempt(i);
   activeCourse = courseFor(i);
   quizFinished = false;
@@ -403,6 +422,7 @@ function showResumeChoice(i, progress) {
 
 function start(i) {
   if (!Number.isInteger(i) || !SIMULADOS[i]) return;
+  if (!requireCourse(courseFor(i))) return;
   saveProgress();
   const progress = readProgress(i);
   if (progress?.answers.some(Boolean)) return showResumeChoice(i, progress);
@@ -411,6 +431,7 @@ function start(i) {
 }
 
 function resumeQuiz(i) {
+  if (!Number.isInteger(i) || !SIMULADOS[i] || !requireCourse(courseFor(i))) return;
   const progress = readProgress(i);
   if (!progress) return beginNewQuiz(i);
   active = i;
@@ -425,6 +446,7 @@ function resumeQuiz(i) {
 }
 
 function restartSavedQuiz(i) {
+  if (!Number.isInteger(i) || !SIMULADOS[i] || !requireCourse(courseFor(i))) return;
   clearProgress(i);
   beginNewQuiz(i);
 }
@@ -509,6 +531,7 @@ function optionsMarkup(q, chosen, selected) {
 }
 
 function renderQuestion(scrollToTop = false) {
+  if (!activeQuiz || !requireCourse(activeCourse)) return;
   const previousScroll = window.scrollY;
   const s = activeQuiz;
   const q = s.questions[index];
@@ -535,6 +558,7 @@ function renderQuestion(scrollToTop = false) {
 }
 
 function choose(letter) {
+  if (!activeQuiz || !requireCourse(activeCourse)) return;
   if (hasAnswer(answers[index]) || !'ABCD'.includes(letter)) return;
   const question = activeQuiz.questions[index];
   if (questionType(question) === 'yesno') return;
@@ -547,6 +571,7 @@ function choose(letter) {
 }
 
 function chooseYesNo(statement, value) {
+  if (!activeQuiz || !requireCourse(activeCourse)) return;
   const question = activeQuiz.questions[index];
   if (hasAnswer(answers[index]) || questionType(question) !== 'yesno'
     || !Number.isInteger(statement) || statement < 0 || statement >= question.o.length || typeof value !== 'boolean') return;
@@ -556,18 +581,21 @@ function chooseYesNo(statement, value) {
 }
 
 function answer() {
+  if (!activeQuiz || !requireCourse(activeCourse)) return;
   if (hasAnswer(answers[index]) || !selectionComplete(activeQuiz.questions[index], selections[index])) return;
   answers[index] = Array.isArray(selections[index]) ? selections[index].slice() : selections[index];
   renderQuestion(false);
 }
 
 function goTo(questionIndex, scrollToTop = false) {
+  if (!activeQuiz || !requireCourse(activeCourse)) return;
   if (!Number.isInteger(questionIndex) || questionIndex < 0 || questionIndex >= activeQuiz.questions.length) return;
   index = questionIndex;
   renderQuestion(scrollToTop);
 }
 function prev() { if (index > 0) goTo(index - 1); }
 function next() {
+  if (!activeQuiz || !requireCourse(activeCourse)) return;
   const total = activeQuiz.questions.length;
   if (!answers[index]) return;
   if (index < total - 1) return goTo(index + 1, true);
@@ -577,6 +605,7 @@ function next() {
 }
 
 function result() {
+  if (!requireCourse(activeCourse)) return;
   if (!activeQuiz || !answers.every(hasAnswer)) return;
   const qs = activeQuiz.questions;
   const correct = qs.reduce((total, q, i) => total + isCorrectAnswer(q, answers[i]), 0);
@@ -601,6 +630,7 @@ function result() {
 app.addEventListener('click', event => {
   const control = event.target.closest('[data-action]');
   if (!control || control.disabled || !AuthGate.isAuthenticated()) return;
+  if (activeCourse && !requireCourse(activeCourse)) return;
   const actions = {
     course: () => courseHome(control.dataset.course),
     'course-home': () => courseHome(),
@@ -640,5 +670,11 @@ document.querySelector('#logoutBtn').addEventListener('click', () => {
   activeQuiz = null;
   activeCourse = null;
 });
+document.querySelector('#adminBtn').addEventListener('click', () => {
+  if (!AuthGate.isAdministrator?.()) return;
+  saveProgress();
+  active = null; activeQuiz = null; activeCourse = null;
+  AdminModule.open();
+});
 window.addEventListener('pagehide', saveProgress);
-AuthGate.initialize(home);
+AuthGate.initialize(home, () => { active = null; activeQuiz = null; activeCourse = null; });

@@ -1,5 +1,15 @@
 # Validação — ITIL v5 e AI-901
 
+## Contas e administração local — 15/10/2026
+
+O teste `node tests/accounts.test.mjs` valida as contas iniciais (`admin` e `hasleane`), a preservação da credencial anterior, login com PBKDF2 real, perfis, inclusão/edição/remoção, rejeição de duplicatas e dados inválidos, permissões por curso e isolamento do progresso. Também verifica a validade até 23h59 de Brasília e a expiração a partir da meia-noite, sessões revogadas após troca de senha ou remoção, auditoria preservada, ausência de senhas em texto puro no armazenamento e recusa de sobrescrever dados corrompidos.
+
+No Edge headless, com autenticação real e perfis isolados, passaram **9/9 cenários em desktop** e **9/9 em iframe com viewport real de 390 px**: contas iniciais, cadastro pela interface, auditoria com data/hora/perfil, usuário limitado ao Tenable, bloqueio do painel e de outros cursos, resolução e correção de questões com tradução, vídeo Tenable, edição da validade, recusa de login expirado, renovação com os três cursos e remoção com confirmação e retenção do histórico. Não foram registrados erros JavaScript nem transbordamento horizontal da página. A tela de Usuários também foi inspecionada por captura visual.
+
+As regressões `tests/quiz.test.mjs`, `tests/tenable.test.mjs` e `tests/traducao-tenable.test.mjs` passaram: gabaritos e explicações, embaralhamento, formatos de questão, retomada, tradução e resultados continuam funcionando. Os testes do painel usam apenas dados de QA, sem modificar cadastros de uma origem já publicada.
+
+**Escopo:** esta validação cobre o modo local do portal estático. Os cadastros e registros ficam no navegador; não há backend ou sincronização de usuários e auditoria entre dispositivos. A senha antiga de `hasleane` foi preservada por comparação dos parâmetros e do hash, sem precisar conhecê-la ou alterá-la.
+
 Data: 2 de outubro de 2026.
 
 ## Resultado

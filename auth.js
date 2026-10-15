@@ -1,9 +1,4 @@
 const AuthGate = (() => {
-  const USER_HASH = '27a28afba96d9fef54dd94a71c8e7b50b221c54d81fcd92ee5d0986a20f7d158';
-  const PASSWORD_HASH = '6e1580212d470eef17740bc5950c8413592a4d5d9e76546776bc53a4e1a7afb9';
-  const PASSWORD_SALT = 'itil-study-v1-2026';
-  const PASSWORD_ITERATIONS = 210000;
-  const SESSION_KEY = 'itil-authenticated';
   const ATTEMPTS_KEY = 'itil-login-attempts';
   const LOCK_KEY = 'itil-login-locked-until';
   const LOCK_SECONDS = 30;
@@ -12,28 +7,36 @@ const AuthGate = (() => {
   let captchaAnswer = 0;
   let countdown = null;
   let onAuthenticated = null;
+  let onSessionEnd = () => {};
+  let sessionSignature = '';
+  let loginPending = false;
 
-  async function digest(value) {
-    const bytes = new TextEncoder().encode(value);
-    const hash = await crypto.subtle.digest('SHA-256', bytes);
-    return Array.from(new Uint8Array(hash), byte => byte.toString(16).padStart(2, '0')).join('');
+  function currentUser() { return PortalAccounts.currentUser(); }
+  function signature(user) { return user ? JSON.stringify([user.id, user.role, user.courses, user.expiresOn]) : ''; }
+  function syncHeader(user) {
+    document.querySelector('#logoutBtn').classList.toggle('hidden', !user);
+    document.querySelector('#adminBtn').classList.toggle('hidden', user?.role !== 'admin');
+    const account = document.querySelector('#accountInfo');
+    account.textContent = user ? `${user.username} · ${user.role === 'admin' ? 'Administrador' : 'Usuário'}` : '';
+    account.classList.toggle('hidden', !user);
   }
 
-  async function derivePassword(value) {
-    const key = await crypto.subtle.importKey(
-      'raw',
-      new TextEncoder().encode(value),
-      'PBKDF2',
-      false,
-      ['deriveBits']
-    );
-    const bits = await crypto.subtle.deriveBits({
-      name: 'PBKDF2',
-      hash: 'SHA-256',
-      salt: new TextEncoder().encode(PASSWORD_SALT),
-      iterations: PASSWORD_ITERATIONS
-    }, key, 256);
-    return Array.from(new Uint8Array(bits), byte => byte.toString(16).padStart(2, '0')).join('');
+  function checkSession() {
+    try {
+      const user = currentUser();
+      if (!user && sessionSignature) {
+        logout('Sua sessão foi encerrada. O acesso pode ter expirado ou sido alterado pelo administrador.');
+      } else if (user && signature(user) !== sessionSignature) {
+        onSessionEnd();
+        sessionSignature = signature(user);
+        syncHeader(user);
+        onAuthenticated();
+      }
+      return Boolean(user);
+    } catch (error) {
+      logout(error.message);
+      return false;
+    }
   }
 
   function randomInteger(maxExclusive) {
@@ -107,6 +110,7 @@ const AuthGate = (() => {
 
   async function handleLogin(event) {
     event.preventDefault();
+    if (loginPending) return;
     if (getLockRemaining() > 0) return beginCountdown();
 
     const username = document.querySelector('#username').value.trim();
@@ -118,24 +122,29 @@ const AuthGate = (() => {
       return;
     }
 
-    const [userHash, passwordHash] = await Promise.all([digest(username), derivePassword(password)]);
-    if (userHash !== USER_HASH || passwordHash !== PASSWORD_HASH) {
-      registerFailure('Nome de usuário ou senha inválidos.');
-      return;
+    loginPending = true;
+    document.querySelector('#loginSubmit').disabled = true;
+    try {
+      const user = await PortalAccounts.login(username, password);
+      localStorage.removeItem(ATTEMPTS_KEY);
+      localStorage.removeItem(LOCK_KEY);
+      clearInterval(countdown);
+      sessionSignature = signature(user);
+      syncHeader(user);
+      onAuthenticated();
+    } catch (error) {
+      registerFailure(error.message);
+    } finally {
+      loginPending = false;
+      const submit = document.querySelector('#loginSubmit');
+      if (submit) submit.disabled = getLockRemaining() > 0;
     }
-
-    localStorage.removeItem(ATTEMPTS_KEY);
-    localStorage.removeItem(LOCK_KEY);
-    sessionStorage.setItem(SESSION_KEY, 'true');
-    clearInterval(countdown);
-    document.querySelector('#logoutBtn').classList.remove('hidden');
-    onAuthenticated();
   }
 
   function renderLogin() {
     document.querySelector('#homeBtn').classList.add('hidden');
     document.querySelector('#coursesBtn').classList.add('hidden');
-    document.querySelector('#logoutBtn').classList.add('hidden');
+    syncHeader(null);
     document.querySelector('#app').innerHTML = `<section class="login-page"><div class="login-intro"><span class="eyebrow">Área protegida</span><h1>Entre para acessar seus <em>simulados</em></h1><p>Informe suas credenciais e resolva a soma para acessar ITIL v5, AI-901 e Tenable.</p><div class="security-note"><span>✓</span><p><strong>Acesso temporário</strong>Sua autenticação permanece somente nesta aba.</p></div></div><div class="login-card"><div class="login-card-head"><span class="lock-icon" aria-hidden="true">⌁</span><div><h2>Boas-vindas</h2><p>Acesse sua área de estudos</p></div></div><form id="loginForm" novalidate><label for="username">Nome de usuário</label><input id="username" name="username" type="text" autocomplete="username" required maxlength="64" spellcheck="false"><label for="password">Senha</label><div class="password-wrap"><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128"><button type="button" id="togglePassword" aria-label="Mostrar senha">Exibir</button></div><label for="captcha">Resolva a soma</label><div class="captcha-row"><strong id="captchaChallenge" aria-label="Equação matemática"></strong><input id="captcha" name="captcha" type="number" inputmode="numeric" min="2" max="9" required autocomplete="off" aria-describedby="loginStatus"></div><p id="loginStatus" class="login-status" role="status" aria-live="polite"></p><button id="loginSubmit" class="login-submit" type="submit">Acessar cursos →</button></form></div></section>`;
     document.querySelector('#loginForm').addEventListener('submit', handleLogin);
     document.querySelector('#togglePassword').addEventListener('click', event => {
@@ -150,21 +159,39 @@ const AuthGate = (() => {
     else document.querySelector('#username').focus();
   }
 
-  function logout() {
-    sessionStorage.removeItem(SESSION_KEY);
+  function logout(message = '') {
+    PortalAccounts.logout();
+    sessionSignature = '';
+    onSessionEnd();
     renderLogin();
+    if (message) showMessage(message);
   }
 
-  function initialize(callback) {
+  async function initialize(callback, sessionEnd = () => {}) {
     onAuthenticated = callback;
-    document.querySelector('#logoutBtn').addEventListener('click', logout);
-    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
-      document.querySelector('#logoutBtn').classList.remove('hidden');
-      callback();
-    } else {
+    onSessionEnd = sessionEnd;
+    document.querySelector('#logoutBtn').addEventListener('click', () => logout());
+    try {
+      await PortalAccounts.initialize();
+      const user = currentUser();
+      sessionSignature = signature(user);
+      syncHeader(user);
+      if (user) callback();
+      else renderLogin();
+    } catch (error) {
       renderLogin();
+      showMessage(error.message);
+      document.querySelector('#loginSubmit').disabled = true;
     }
+    setInterval(() => { if (sessionSignature) checkSession(); }, 15000);
+    window.addEventListener('focus', () => { if (sessionSignature) checkSession(); });
+    window.addEventListener('storage', event => {
+      if (event.key === PortalAccounts.storageKey || event.key === null) checkSession();
+    });
   }
 
-  return { initialize, isAuthenticated: () => sessionStorage.getItem(SESSION_KEY) === 'true' };
+  return { initialize, isAuthenticated: checkSession, currentUser,
+    isAdministrator: () => checkSession() && currentUser()?.role === 'admin',
+    canAccessCourse: course => checkSession() && PortalAccounts.canAccessCourse(course),
+    progressKey: key => PortalAccounts.progressKey(key) };
 })();

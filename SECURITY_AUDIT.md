@@ -11,7 +11,7 @@ O projeto não usa gerenciador de pacotes nem dependências JavaScript de tercei
 ## Controles implementados
 
 - A senha não é armazenada em texto puro. A verificação usa PBKDF2-SHA-256, salt público e 210.000 iterações.
-- O nome de usuário também não aparece em texto puro no código publicado; é comparado por resumo SHA-256.
+- Na versão revisada em agosto, o nome de usuário era comparado por resumo SHA-256. A atualização de contas de outubro usa nomes explícitos no cadastro, conforme descrito abaixo.
 - A sessão é mantida em `sessionStorage` e termina ao fechar a aba ou selecionar **Sair**.
 - O CAPTCHA usa valores gerados pela Web Crypto API e sempre resulta em um número de 2 a 9.
 - Depois de três envios inválidos consecutivos, o formulário é bloqueado por 30 segundos. O prazo fica em `localStorage` e resiste a recarregamentos.
@@ -30,9 +30,17 @@ O projeto não usa gerenciador de pacotes nem dependências JavaScript de tercei
 
 ## Limitação conhecida do GitHub Pages
 
-Este é um site estático. Todo HTML, JavaScript e conteúdo dos simulados precisa ser enviado ao navegador antes da autenticação. Um visitante com conhecimento técnico pode inspecionar ou alterar o código, limpar o armazenamento local, reproduzir a derivação da senha ou marcar manualmente a sessão como autenticada.
+Este é um site estático. Todo HTML, JavaScript e conteúdo dos simulados precisa ser enviado ao navegador antes da autenticação. Um visitante com conhecimento técnico pode inspecionar ou alterar o código, limpar o armazenamento local, reproduzir a derivação da senha ou modificar os dados locais de contas e sessão.
 
 Consequentemente, esta tela é adequada como barreira contra acesso casual, mas **não constitui autenticação segura para conteúdo confidencial**. Para controle de acesso real, use um backend ou provedor de identidade que valide credenciais no servidor, emita sessões assinadas e aplique limitação de tentativas no servidor.
+
+## Atualização funcional — contas locais, 15/10/2026
+
+O portal agora possui contas `admin` e `hasleane`, perfis, permissões por curso, validade e auditoria de logins. Os nomes de usuário são dados explícitos do cadastro. As senhas continuam derivadas com PBKDF2-SHA-256 e 210.000 iterações; novos cadastros e trocas de senha recebem salt aleatório individual. A credencial anterior de `hasleane` foi preservada.
+
+A antiga marca booleana de sessão não é mais aceita. A sessão identifica uma conta e é revalidada em relação ao cadastro, à versão da senha e à expiração. A interface e as operações de cadastro verificam o perfil administrador. A auditoria não grava senhas; conserva usuário, perfil, ID e instante de cada login concluído, mesmo após excluir uma conta.
+
+**Esses controles são locais ao navegador.** Não existe API, banco compartilhado, verificação de integridade da auditoria ou autorização no servidor. O visitante que controla o navegador pode alterar seus dados locais. Os materiais continuam públicos nos arquivos estáticos. Para gerenciar usuários de outros dispositivos e obter auditoria central confiável, a integração com um backend continua necessária. Essa atualização funcional não representa uma nova auditoria de segurança completa.
 
 ## Risco residual
 

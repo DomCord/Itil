@@ -21,6 +21,22 @@ Se o usuário sair antes de finalizar e tiver respondido ao menos uma questão, 
 
 O acesso possui autenticação no navegador, CAPTCHA matemático e bloqueio de 30 segundos depois de três tentativas consecutivas inválidas.
 
+## Administração e contas locais
+
+O botão **Administração** aparece no cabeçalho para o perfil administrador. Na primeira abertura desta versão são criadas a conta `admin`, com a senha inicial solicitada pelo responsável pelo projeto, e a conta `hasleane`, com perfil **Usuário**, a mesma senha anterior e os três cursos liberados. As duas começam sem expiração. A senha do administrador pode ser alterada em **Usuários → admin → Editar**.
+
+- **Usuários:** adicionar, editar e remover contas, selecionar ITIL v5, AI-901 e Tenable, definir o perfil e a data de expiração. A remoção exige confirmação e não permite excluir a própria conta em uso.
+- **Validade:** a data informada inclui o dia inteiro, até 23h59 no horário de Brasília. Um campo vazio significa acesso sem expiração. Contas expiradas não entram no portal; sessões abertas são revalidadas durante a navegação, ao voltar à janela, em alterações feitas por outra aba e a cada 15 segundos.
+- **Permissões:** usuários comuns veem somente os cursos liberados e não acessam os controles administrativos. Administradores gerenciam as contas e acessam todos os cursos. Uma conta sem cursos pode entrar, mas recebe a orientação de solicitar liberação.
+- **Auditoria:** registra cada login concluído, com usuário, perfil no momento da entrada e data/hora em Brasília. Reabrir uma sessão existente não duplica o evento. A remoção de uma conta preserva seu histórico.
+- **Progresso:** os simulados e o sorteio aleatório Tenable usam chaves por usuário. O progresso anterior de `hasleane` permanece nas chaves originais. Alterar uma senha encerra as outras sessões dessa conta.
+
+**Esta implementação mantém o GitHub Pages estático: cadastros e auditoria ficam no `localStorage` deste navegador e desta origem, sem sincronização entre computadores.** Os dados criados no endereço local não aparecem automaticamente no domínio publicado. Eles não são enviados ao GitHub e serão perdidos se o armazenamento do site for apagado. O painel informa essa condição. A senha usa PBKDF2-SHA-256 com 210.000 iterações e salt individual para novos cadastros; a sessão fica na aba, em `sessionStorage`.
+
+Para que o administrador cadastre uma conta em seu computador e outra pessoa use essa conta em outro dispositivo, é necessário integrar um backend ou provedor de identidade, com banco e auditoria compartilhados e autorização no servidor. O modo local não fornece esse controle central nem proteção contra alterações feitas pelo próprio visitante no navegador.
+
+Arquivos: `accounts.js` (contas e persistência), `auth.js` (login e sessão), `admin.js` / `admin.css` (painel). Verificação automatizada: `node tests/accounts.test.mjs`.
+
 > **Limitação de segurança:** por ser hospedado apenas como arquivos estáticos no GitHub Pages, o login funciona como controle de acesso casual. Ele não substitui autenticação no servidor e não deve proteger dados sensíveis. A senha não é armazenada em texto puro, mas o navegador precisa receber todo o código e conteúdo da aplicação.
 
 

@@ -13,6 +13,8 @@ const SlidesModule = (() => {
     { id: 'modulo-10', title: 'Módulo 10', count: 8, extension: 'jpg', exercise: 'module-10' }
   ];
   let DECKS = ITIL_DECKS;
+  let currentCourse = 'itil';
+  const canAccess = () => typeof AuthGate === 'undefined' || !AuthGate.canAccessCourse || AuthGate.canAccessCourse(currentCourse);
   let presentationTitle = 'ITIL Foundation';
   const MODULE_ONE_EXERCISE = [
     {
@@ -455,7 +457,8 @@ const SlidesModule = (() => {
 
   function readPreviousExerciseLayout(exerciseId, questions) {
     try {
-      const layout = JSON.parse(localStorage.getItem(`${EXERCISE_LAYOUT_KEY}${exerciseId}`));
+      const key = typeof AuthGate !== 'undefined' ? (AuthGate.progressKey?.(`${EXERCISE_LAYOUT_KEY}${exerciseId}`) ?? `${EXERCISE_LAYOUT_KEY}${exerciseId}`) : `${EXERCISE_LAYOUT_KEY}${exerciseId}`;
+      const layout = JSON.parse(localStorage.getItem(key));
       if (validExerciseLayout(layout, questions)) return layout;
     } catch {
       // A tentativa continua funcionando quando o armazenamento está indisponível.
@@ -467,7 +470,8 @@ const SlidesModule = (() => {
   function saveExerciseLayout(exerciseId, layout) {
     fallbackPreviousExerciseLayouts[exerciseId] = layout.map(order => [...order]);
     try {
-      localStorage.setItem(`${EXERCISE_LAYOUT_KEY}${exerciseId}`, JSON.stringify(layout));
+      const key = typeof AuthGate !== 'undefined' ? (AuthGate.progressKey?.(`${EXERCISE_LAYOUT_KEY}${exerciseId}`) ?? `${EXERCISE_LAYOUT_KEY}${exerciseId}`) : `${EXERCISE_LAYOUT_KEY}${exerciseId}`;
+      localStorage.setItem(key, JSON.stringify(layout));
     } catch {
       // A disposição permanece disponível em memória nesta sessão.
     }
@@ -956,6 +960,8 @@ const SlidesModule = (() => {
   }
 
   function open(configuration) {
+    currentCourse = configuration?.decks ? 'tenable' : 'itil';
+    if (!canAccess()) return;
     DECKS = configuration?.decks || ITIL_DECKS;
     presentationTitle = configuration?.title || 'ITIL Foundation';
     TOTAL_SLIDES=DECKS.reduce((total,deck)=>total+deck.count,0);
@@ -972,7 +978,7 @@ const SlidesModule = (() => {
 
   document.addEventListener('click', event => {
     const control = event.target.closest('[data-slide-action]');
-    if (!control || !document.querySelector('.slides-module')) return;
+    if (!control || !document.querySelector('.slides-module') || !canAccess()) return;
     const actions = {
       previous: () => move(-1),
       next: () => move(1),
@@ -996,10 +1002,12 @@ const SlidesModule = (() => {
   });
 
   document.addEventListener('change', event => {
+    if (!canAccess()) return;
     if (event.target.matches('[data-slide-jump]') && document.querySelector('.slides-module')) goTo(event.target.value);
   });
 
   document.addEventListener('dragstart', event => {
+    if (!canAccess()) return;
     const source = event.target.closest('[data-pbq-drag-item], [data-role-pbq-drag-item]');
     if (!source) return;
     const roleType = source.hasAttribute('data-role-pbq-drag-item');
@@ -1028,6 +1036,7 @@ const SlidesModule = (() => {
   });
 
   document.addEventListener('drop', event => {
+    if (!canAccess()) return;
     const target = event.target.closest('[data-pbq-slot], [data-pbq-bank], [data-role-pbq-slot], [data-role-pbq-bank]');
     if (!target) return;
     const roleType = target.matches('[data-role-pbq-slot], [data-role-pbq-bank]');
@@ -1066,6 +1075,7 @@ const SlidesModule = (() => {
   });
 
   document.addEventListener('keydown', event => {
+    if (!canAccess()) return;
     const isTyping = event.target instanceof Element && event.target.matches('input, textarea, select, [data-pbq-slot], [data-pbq-item], [data-role-pbq-slot], [data-role-pbq-item]');
     if (!document.querySelector('.slides-module') || isTyping) return;
     if (event.key === 'ArrowLeft') move(-1);

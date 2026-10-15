@@ -5406,6 +5406,7 @@ const TenableStudy = (() => {
 ];
   const byId = new Map(questions.map(q => [q.id,q]));
   const randomKey = 'tenable-random-pool-v1';
+  const userRandomKey = () => typeof AuthGate !== 'undefined' ? (AuthGate.progressKey?.(randomKey) ?? randomKey) : randomKey;
   let randomSimulation;
   function sample() {
     const pool = questions.slice();
@@ -5417,7 +5418,7 @@ const TenableStudy = (() => {
   }
   function storedPool() {
     try {
-      const ids=JSON.parse(localStorage.getItem(randomKey));
+      const ids=JSON.parse(localStorage.getItem(userRandomKey()));
       if(Array.isArray(ids)&&ids.length===60&&new Set(ids).size===60&&ids.every(id=>byId.has(id))) return ids.map(id=>byId.get(id));
     } catch {}
     return questions.slice(0,60);
@@ -5428,7 +5429,10 @@ const TenableStudy = (() => {
   function prepareAttempt(i) {
     if(SIMULADOS[i]!==randomSimulation) return;
     randomSimulation.questions=sample();
-    try {localStorage.setItem(randomKey,JSON.stringify(randomSimulation.questions.map(q=>q.id)));} catch {}
+    try {localStorage.setItem(userRandomKey(),JSON.stringify(randomSimulation.questions.map(q=>q.id)));} catch {}
   }
-  return {decks,slideCount:decks.reduce((n,d)=>n+d.count,0),uniqueCount:()=>260-(SIMULADOS.some(s=>s.id==='tenable-complementar100')?0:100),prepareAttempt};
+  function restoreAttempt(i) {
+    if (SIMULADOS[i] === randomSimulation) randomSimulation.questions = storedPool();
+  }
+  return {decks,slideCount:decks.reduce((n,d)=>n+d.count,0),uniqueCount:()=>260-(SIMULADOS.some(s=>s.id==='tenable-complementar100')?0:100),prepareAttempt,restoreAttempt};
 })();
