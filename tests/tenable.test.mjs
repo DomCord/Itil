@@ -56,6 +56,7 @@ for(const exam of bank.exams){
 const a=tenable.find(s=>s.id==='tenable-A'),b=tenable.find(s=>s.id==='tenable-B');
 assert.ok(a.questions.every(q=>!b.questions.some(other=>other.id===q.id)));
 for(let sim=6;sim<all.length;sim++){
+  if(all[sim].course!=='tenable') continue;
   for(let attempt=0;attempt<5;attempt++){
     const session=run(`createQuizSession(${sim})`);
     session.questions.forEach((q,i)=>{
@@ -115,6 +116,9 @@ for(const deck of decks){
   for(let n=1;n<=deck.count;n++) await access(new URL(deck.path+'/slide-'+String(n).padStart(3,'0')+'.png',root));
 }
 const publicRun=await load();
+assert.equal(publicRun('courseSimulations("tenable-sc").length'),1);
+assert.equal(publicRun('SIMULADOS[19].id'),'tenable-sc150');
+assert.equal(publicRun('SIMULADOS[19].questions.length'),150);
 assert.equal(publicRun('courseSimulations("tenable").length'),13);
 assert.equal(publicRun('TenableStudy.uniqueCount()'),260);
 assert.equal(publicRun('VideosModule.total'),32);
@@ -131,6 +135,8 @@ assert.ok(node('#app').innerHTML.includes('Banco complementar — 100 questions 
 assert.ok(!node('#app').innerHTML.includes('cópia pessoal local'));
 for(const match of node('#app').innerHTML.matchAll(/href="(Tenable\/[^"]+)"/g)) await access(new URL(match[1],root));
 const localRun=await load('localhost');
+assert.equal(localRun('courseSimulations("tenable-sc").length'),1);
+assert.equal(localRun('SIMULADOS[19].questions.length'),150);
 assert.equal(localRun('courseSimulations("tenable").length'),13);
 assert.equal(localRun('TenableStudy.uniqueCount()'),260);
 const ignore=await read('.gitignore');

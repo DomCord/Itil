@@ -1,18 +1,16 @@
 import assert from 'node:assert/strict';
-import {readFile,access} from 'node:fs/promises';
+import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 import {webcrypto} from 'node:crypto';
 const root=new URL('../',import.meta.url);
 const read=f=>readFile(new URL(f,root),'utf8');
 const base='Tenable/Simulados/Security_Center/';
-if(!await access(new URL(base+'traducoes_pt_br.json',root)).then(()=>true,()=>false)){
- console.log('Ignorado: banco SC pessoal não incluído nesta cópia.');process.exit(0);
-}
 const storage=new Map(),nodes=new Map(),handlers=new Map();
 const node=s=>{if(!nodes.has(s))nodes.set(s,{innerHTML:'',classList:{add(){},remove(){}},style:{setProperty(){}},addEventListener(t,f){handlers.set(s+':'+t,f);},querySelector(){return null;},focus(){}});return nodes.get(s);};
-const scripts=['questions.js','explanations.js','simulado3.js','ai901.js','ai901-explanations.js','Tenable/tenable.js','Tenable/explicacoes_alternativas.js','Tenable/Simulados/Banco_complementar/integracao.js','Tenable/Simulados/Banco_complementar/explicacoes_alternativas.js','Tenable/Simulados/Banco_complementar/traducoes_pt_br.js','videos.js',base+'integracao_pessoal.js',base+'traducoes_pt_br.js','app.js'];
+const scripts=[...(await read('index.html')).matchAll(/<script src="([^"]+)"/g)].map(match=>match[1].split('?')[0]).filter(file=>!['auth.js','slides.js'].includes(file));
 async function load(){
  const ctx=vm.createContext({document:{querySelector:node,documentElement:{style:{}}},window:{scrollY:0,scrollTo(){},addEventListener(){}},requestAnimationFrame:f=>f(),AuthGate:{initialize(){},isAuthenticated:()=>true},SlidesModule:{total:233},crypto:webcrypto,URL,localStorage:{getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,String(v)),removeItem:k=>storage.delete(k)}});
+ ctx.location=new URL('https://domcord.github.io/Itil/');ctx.window.location=ctx.location;
  for(const f of scripts)vm.runInContext(await read(f),ctx,{filename:f});
  return s=>vm.runInContext(s,ctx);
 }

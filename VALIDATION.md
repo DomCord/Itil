@@ -1,5 +1,11 @@
 # Validação — ITIL v5 e AI-901
 
+## Publicação do Security Center — 15/10/2026
+
+Por solicitação explícita do usuário, o curso Security Center passou a integrar o carregamento padrão do site. O carregador restrito a localhost/file foi removido e `Tenable/Simulados/Security_Center/` foi liberado no Git. O manifesto registra a publicação habilitada; a atribuição e os termos originais da fonte são preservados. O workflow existente já concede `pages: write` e `id-token: write` ao deploy.
+
+As sete suítes (`accounts`, `quiz`, `tenable`, `traducao-tenable`, `william`, `security-center-course` e `traducao-sc`) verificam a versão publicada. A integração usa a ordem real dos scripts do HTML em HTTPS de GitHub Pages e localhost, com 150 questões SC no índice 19, 600 alternativas traduzidas, correção e retomada. O menu público oferece quatro cursos ao administrador e apenas os cursos autorizados a cada usuário. A liberação de SC continua independente de VM.
+
 ## Menus e curso Security Center — 15/10/2026
 
 As sete suítes (`accounts`, `quiz`, `tenable`, `traducao-tenable`, `william`, `security-center-course` e `traducao-sc`) passaram com o banco pessoal presente. Foram conferidos os nomes completos dos cursos, a permissão independente `tenable-sc`, cadastro e edição no painel, bloqueio de acesso cruzado, 150 questões com 600 alternativas traduzidas, correção em inglês, embaralhamento e retomada. O banco VM permanece com 260 questões e 13 simulados, e os índices existentes são preservados.

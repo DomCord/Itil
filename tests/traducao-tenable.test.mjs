@@ -35,7 +35,7 @@ for(const [id,translation] of translations){
   assert.ok(translation.o.every(option=>typeof option==='string'&&option.length>0));
 }
 for(let i=0;i<simulations.length;i++){
-  if(i===examIndex) continue;
+  if(i===examIndex||simulations[i].id==='tenable-sc150') continue;
   assert.ok(simulations[i].questions.every(q=>!q.ptBR));
   run(`beginNewQuiz(${i})`);
   assert.ok(!node('#app').innerHTML.includes('data-action="toggle-translation"'));
