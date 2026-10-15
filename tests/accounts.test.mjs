@@ -26,7 +26,7 @@ const admin = adminClient.accounts;
 await admin.initialize();
 assert.equal(storage.size, 1);
 const initial = JSON.parse(storage.get(admin.storageKey));
-assert.deepEqual(initial.users.map(user => [user.username, user.role]), [['admin', 'admin'], ['hasleane', 'user']]);
+assert.deepEqual(initial.users.map(user => [user.username, user.role]), [['admin', 'admin'], ['hasleane', 'user'], ['william', 'user']]);
 assert.equal(initial.users[1].password.hash, '6e1580212d470eef17740bc5950c8413592a4d5d9e76546776bc53a4e1a7afb9');
 assert.equal(initial.users[1].password.salt, 'itil-study-v1-2026');
 assert.equal(initial.users[1].password.iterations, 210000);

@@ -42,21 +42,37 @@ const PortalAccounts = (() => {
     return operation;
   }
 
+  function initialStore() {
+    const createdAt = new Date().toISOString();
+    const base = { courses: COURSE_IDS, expiresOn: null, createdAt, authVersion: 1 };
+    return { version: 1, users: [
+      { ...base, id: 'admin', username: 'admin', role: 'admin', password: {
+        salt: 'study-admin-v1-2026', iterations: ITERATIONS,
+        hash: '383ccd94104f561200a7af766cb1ab0f98baafae601d2582f7fd85b8be06cec6'
+      } },
+      { ...base, id: 'hasleane', username: 'hasleane', role: 'user', password: {
+        salt: 'itil-study-v1-2026', iterations: ITERATIONS,
+        hash: '6e1580212d470eef17740bc5950c8413592a4d5d9e76546776bc53a4e1a7afb9'
+      } }
+    ], audit: [] };
+  }
+
   async function initialize() {
     await withWrite(() => {
-      if (localStorage.getItem(STORE_KEY) !== null) { readStore(); return; }
-      const createdAt = new Date().toISOString();
-      const base = { courses: COURSE_IDS, expiresOn: null, createdAt, authVersion: 1 };
-      writeStore({ version: 1, users: [
-        { ...base, id: 'admin', username: 'admin', role: 'admin', password: {
-          salt: 'study-admin-v1-2026', iterations: ITERATIONS,
-          hash: '383ccd94104f561200a7af766cb1ab0f98baafae601d2582f7fd85b8be06cec6'
-        } },
-        { ...base, id: 'hasleane', username: 'hasleane', role: 'user', password: {
-          salt: 'itil-study-v1-2026', iterations: ITERATIONS,
-          hash: '6e1580212d470eef17740bc5950c8413592a4d5d9e76546776bc53a4e1a7afb9'
-        } }
-      ], audit: [] });
+      const store = localStorage.getItem(STORE_KEY) === null ? initialStore() : readStore();
+      const migration = 'william-tenable-v1';
+      const migrations = Array.isArray(store.appliedMigrations) ? store.appliedMigrations : [];
+      if (migrations.includes(migration)) return;
+      // Inclui a conta uma vez, sem substituir um cadastro já criado pelo administrador.
+      if (!store.users.some(user => user.username.trim().toLowerCase() === 'william')) {
+        store.users.push({ id: 'william', username: 'william', role: 'user', courses: ['tenable'],
+          expiresOn: null, createdAt: new Date().toISOString(), authVersion: 1, password: {
+            salt: '022dddab59da960bd3cae08b49853c75852858c8bd9e56c1', iterations: ITERATIONS,
+            hash: '69220c61c7e10cd317edf9859cd4d9a32f4db80c110398ef6a70169c20327891'
+          } });
+      }
+      store.appliedMigrations = [...migrations, migration];
+      writeStore(store);
     });
     // A antiga marca booleana não identifica uma conta e não é uma sessão válida.
     sessionStorage.removeItem('itil-authenticated');

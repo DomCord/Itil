@@ -1,5 +1,11 @@
 # Validação — ITIL v5 e AI-901
 
+## Conta inicial William — 15/10/2026
+
+O teste `node tests/william.test.mjs` passou com a senha inicial solicitada, perfil **Usuário**, apenas o curso Tenable, nenhuma expiração, registro de login na auditoria e bloqueio das operações administrativas. A integração com o motor real verifica que o menu mostra somente Tenable, com 13 simulados; ITIL e AI-901 são recusados, enquanto uma questão do banco complementar pode ser respondida com correção comentada e progresso próprio.
+
+A migração foi verificada sobre dados da versão anterior: adiciona William uma vez, preserva contas, senhas, histórico e progresso, e mantém integralmente um cadastro William preexistente. Reabrir o portal não desfaz uma edição ou remoção posterior dessa conta. As quatro suítes de regressão (`accounts`, `quiz`, `tenable` e `traducao-tenable`) também passaram. A versão do script `accounts.js` no HTML foi atualizada para carregar a migração publicada.
+
 ## Contas e administração local — 15/10/2026
 
 O teste `node tests/accounts.test.mjs` valida as contas iniciais (`admin` e `hasleane`), a preservação da credencial anterior, login com PBKDF2 real, perfis, inclusão/edição/remoção, rejeição de duplicatas e dados inválidos, permissões por curso e isolamento do progresso. Também verifica a validade até 23h59 de Brasília e a expiração a partir da meia-noite, sessões revogadas após troca de senha ou remoção, auditoria preservada, ausência de senhas em texto puro no armazenamento e recusa de sobrescrever dados corrompidos.
