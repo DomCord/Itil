@@ -13,7 +13,7 @@ let quizFinished = false;
 const COURSES = {
   itil: { title: 'ITIL v5', target: 65 },
   ai901: { title: 'AI-901', target: 80 },
-  tenable: { title: 'Tenable', target: 90 }
+  tenable: { title: 'Tenable Vulnerability Management', target: 90 }
 };
 
 function escapeHTML(value) {
@@ -317,7 +317,7 @@ function home() {
     <section class="cards course-cards" aria-label="Cursos disponíveis">
       ${allowedCourse('itil') ? `<button class="sim-card course-card" data-action="course" data-course="itil"><span class="course-icon" aria-hidden="true">IT</span><h3>ITIL v5</h3><p>Gerenciamento de produtos e serviços digitais.</p><div class="meta"><span>3 simulados</span><span>${SlidesModule.total} slides</span><span>${VideosModule.total} vídeos</span></div><span class="start">Acessar material →</span></button>` : ''}
       ${allowedCourse('ai901') ? `<button class="sim-card course-card" data-action="course" data-course="ai901"><span class="course-icon" aria-hidden="true">AI</span><h3>AI-901</h3><p>Conceitos de IA e soluções com Microsoft Foundry.</p><div class="meta"><span>${aiSimulations.length} simulados</span><span>${aiQuestionCount} questões</span><span>${aiTopicCount} tópicos</span></div><span class="start">Acessar simulados →</span></button>` : ''}
-      ${allowedCourse('tenable') ? `<button class="sim-card course-card" data-action="course" data-course="tenable"><span class="course-icon" aria-hidden="true">TV</span><h3>Tenable</h3><p>Vulnerability Management Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable').length} simulados</span><span>${TenableStudy.uniqueCount()} questões</span><span>${VideosModule.countFor('tenable')} vídeo</span></div><span class="start">Acessar material →</span></button>` : ''}
+      ${allowedCourse('tenable') ? `<button class="sim-card course-card" data-action="course" data-course="tenable"><span class="course-icon" aria-hidden="true">TV</span><h3>${escapeHTML(COURSES.tenable.title)}</h3><p>Vulnerability Management Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable').length} simulados</span><span>${TenableStudy.uniqueCount()} questões</span><span>${VideosModule.countFor('tenable')} vídeo</span></div><span class="start">Acessar material →</span></button>` : ''}
     </section>
     ${Object.keys(COURSES).some(allowedCourse) ? '' : '<p class="course-access-note">Nenhum curso foi liberado para sua conta. Solicite o acesso ao administrador.</p>'}
     ${AuthGate.currentUser?.()?.expiresOn ? `<p class="course-access-note">Acesso válido até ${escapeHTML(AuthGate.currentUser().expiresOn.split('-').reverse().join('/'))}, às 23h59 de Brasília.</p>` : ''}`;
