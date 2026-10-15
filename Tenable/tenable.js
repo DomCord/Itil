@@ -5434,5 +5434,5 @@ const TenableStudy = (() => {
   function restoreAttempt(i) {
     if (SIMULADOS[i] === randomSimulation) randomSimulation.questions = storedPool();
   }
-  return {decks,slideCount:decks.reduce((n,d)=>n+d.count,0),uniqueCount:()=>260-(SIMULADOS.some(s=>s.id==='tenable-complementar100')?0:100),prepareAttempt,restoreAttempt};
+  return {decks,slideCount:decks.reduce((n,d)=>n+d.count,0),uniqueCount:()=>new Set(SIMULADOS.filter(s=>s.course==='tenable').flatMap(s=>s.questions.map(q=>q.id))).size,prepareAttempt,restoreAttempt};
 })();

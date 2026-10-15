@@ -13,7 +13,8 @@ let quizFinished = false;
 const COURSES = {
   itil: { title: 'ITIL v5', target: 65 },
   ai901: { title: 'AI-901', target: 80 },
-  tenable: { title: 'Tenable Vulnerability Management', target: 90 }
+  tenable: { title: 'Tenable Vulnerability Management Specialist', target: 90 },
+  'tenable-sc': { title: 'Tenable Security Center Specialist', target: 90 }
 };
 
 function escapeHTML(value) {
@@ -25,6 +26,7 @@ function richText(value) {
 }
 
 function questionType(question) { return question.type || 'single'; }
+function isTenableCourse(course) { return course === 'tenable' || course === 'tenable-sc'; }
 function courseFor(simIndex) { return SIMULADOS[simIndex].course || 'itil'; }
 function courseSimulations(course) {
   return SIMULADOS.map((simulado, i) => ({ simulado, i })).filter(({ i }) => courseFor(i) === course);
@@ -279,7 +281,7 @@ function correctExplanation(q, option) {
   const optionIndex = questionType(q) === 'single' ? 'ABCD'.indexOf(q.a) : -1;
   const explicit = q.x?.[optionIndex];
   if (explicit) return explicit;
-  if (q.course === 'tenable') throw new Error('Tenable option explanation missing: '+q.id);
+  if (isTenableCourse(q.course)) throw new Error('Tenable option explanation missing: '+q.id);
   const specific = q.e && !q.e.startsWith('A alternativa ') ? q.e : '';
   return specific || (q.course !== 'ai901' && definitionFor(option)) || `“${option}” corresponde diretamente ao conceito e às condições apresentadas no enunciado.`;
 }
@@ -290,7 +292,7 @@ function optionExplanation(q, option, letter) {
   if (explicit) return explicit;
   const correct = questionType(q) === 'multi' ? q.a.includes(letter) : letter === q.a;
   if (correct) return correctExplanation(q, option);
-  if (q.course === 'tenable') throw new Error('Tenable option explanation missing: '+q.id);
+  if (isTenableCourse(q.course)) throw new Error('Tenable option explanation missing: '+q.id);
   if (q.course === 'ai901') throw new Error(`Comentário AI-901 ausente: ${q.id}, ${letter}`);
   const definition = definitionFor(option);
   const correctOption = q.o['ABCD'.indexOf(q.a)];
@@ -309,6 +311,7 @@ function home() {
   const aiSimulations = courseSimulations('ai901');
   const aiQuestionCount = aiSimulations.reduce((total, { simulado }) => total + simulado.questions.length, 0);
   const aiTopicCount = new Set(aiSimulations.flatMap(({ simulado }) => simulado.questions.map(q => q.topic))).size;
+  const hasAvailableCourse = Object.keys(COURSES).some(course => allowedCourse(course) && (course !== 'tenable-sc' || courseSimulations(course).length > 0));
   app.innerHTML = `
     <section class="hero course-hero">
       <div><span class="eyebrow">Central de estudos</span><h1>Seu próximo passo começa <em>aqui</em></h1><p>Escolha o curso para acessar os simulados e materiais. Estude no seu ritmo e acompanhe seu progresso em cada área.</p></div>
@@ -318,8 +321,9 @@ function home() {
       ${allowedCourse('itil') ? `<button class="sim-card course-card" data-action="course" data-course="itil"><span class="course-icon" aria-hidden="true">IT</span><h3>ITIL v5</h3><p>Gerenciamento de produtos e serviços digitais.</p><div class="meta"><span>3 simulados</span><span>${SlidesModule.total} slides</span><span>${VideosModule.total} vídeos</span></div><span class="start">Acessar material →</span></button>` : ''}
       ${allowedCourse('ai901') ? `<button class="sim-card course-card" data-action="course" data-course="ai901"><span class="course-icon" aria-hidden="true">AI</span><h3>AI-901</h3><p>Conceitos de IA e soluções com Microsoft Foundry.</p><div class="meta"><span>${aiSimulations.length} simulados</span><span>${aiQuestionCount} questões</span><span>${aiTopicCount} tópicos</span></div><span class="start">Acessar simulados →</span></button>` : ''}
       ${allowedCourse('tenable') ? `<button class="sim-card course-card" data-action="course" data-course="tenable"><span class="course-icon" aria-hidden="true">TV</span><h3>${escapeHTML(COURSES.tenable.title)}</h3><p>Vulnerability Management Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable').length} simulados</span><span>${TenableStudy.uniqueCount()} questões</span><span>${VideosModule.countFor('tenable')} vídeo</span></div><span class="start">Acessar material →</span></button>` : ''}
+      ${allowedCourse('tenable-sc') && courseSimulations('tenable-sc').length ? `<button class="sim-card course-card" data-action="course" data-course="tenable-sc"><span class="course-icon" aria-hidden="true">SC</span><h3>${escapeHTML(COURSES['tenable-sc'].title)}</h3><p>Security Center Specialist · Written Exam.</p><div class="meta"><span>${courseSimulations('tenable-sc').length} simulado</span><span>${courseSimulations('tenable-sc').reduce((n,{simulado})=>n+simulado.questions.length,0)} questões</span></div><span class="start">Acessar simulado →</span></button>` : ''}
     </section>
-    ${Object.keys(COURSES).some(allowedCourse) ? '' : '<p class="course-access-note">Nenhum curso foi liberado para sua conta. Solicite o acesso ao administrador.</p>'}
+    ${hasAvailableCourse ? '' : `<p class="course-access-note">${allowedCourse('tenable-sc') ? 'O curso liberado para sua conta está disponível somente no ambiente local de estudo.' : 'Nenhum curso foi liberado para sua conta. Solicite o acesso ao administrador.'}</p>`}
     ${AuthGate.currentUser?.()?.expiresOn ? `<p class="course-access-note">Acesso válido até ${escapeHTML(AuthGate.currentUser().expiresOn.split('-').reverse().join('/'))}, às 23h59 de Brasília.</p>` : ''}`;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -336,6 +340,7 @@ function courseHome(course = activeCourse) {
   coursesBtn.classList.add('hidden');
   const isITIL = course === 'itil';
   const isTenable = course === 'tenable';
+  const isSC = course === 'tenable-sc';
   const simulations = courseSimulations(course);
   const questionCount = simulations.reduce((total, { simulado }) => total + simulado.questions.length, 0);
   const topics = isITIL ? [] : [...new Set(simulations.flatMap(({ simulado }) => simulado.questions.map(q => q.topic)))];
@@ -344,7 +349,7 @@ function courseHome(course = activeCourse) {
       <div>
         <span class="eyebrow">Preparação inteligente</span>
         <h1>Teste seu domínio em <em>${COURSES[course].title}</em></h1>
-        <p>${isTenable ? `${simulations.length} opções de simulado e ${TenableStudy.uniqueCount()} questões únicas. Enunciados em inglês, correção comentada por alternativa e retomada de progresso.` : isITIL ? `Três simulados completos, um módulo com ${SlidesModule.total} slides em alta resolução e uma biblioteca de vídeos. Responda no seu ritmo, revise o gabarito comentado e consulte o material de apoio.` : `${simulations.length} simulados com ${questionCount} questões de alternativa única, múltipla seleção e Sim/Não. Pratique os ${topics.length} tópicos, confira as explicações e retome de onde parou.`}</p>
+        <p>${isSC ? `${simulations.length} simulado com ${questionCount} questões em inglês. Tradução opcional para português do Brasil, correção comentada e retomada de progresso.` : isTenable ? `${simulations.length} opções de simulado e ${TenableStudy.uniqueCount()} questões únicas. Enunciados em inglês, correção comentada por alternativa e retomada de progresso.` : isITIL ? `Três simulados completos, um módulo com ${SlidesModule.total} slides em alta resolução e uma biblioteca de vídeos. Responda no seu ritmo, revise o gabarito comentado e consulte o material de apoio.` : `${simulations.length} simulados com ${questionCount} questões de alternativa única, múltipla seleção e Sim/Não. Pratique os ${topics.length} tópicos, confira as explicações e retome de onde parou.`}</p>
       </div>
       <div class="hero-visual">
         <span class="mini-label">${isITIL ? 'Meta de aprovação' : 'Meta de estudo'}</span>
@@ -358,7 +363,7 @@ function courseHome(course = activeCourse) {
       ${simulations.map(({ simulado, i }, position) => `
         <button class="sim-card" data-action="start" data-index="${i}">
           <h3>${isITIL ? `Simulado ${position + 1}` : escapeHTML(simulado.title.replace(/^(AI-901|Tenable) · /, ''))}</h3>
-          <div class="meta"><span>${simulado.questions.length} questões</span>${isTenable ? `<span>${simulado.minutes} min de referência</span>` : ''}</div>
+          <div class="meta"><span>${simulado.questions.length} questões</span>${isTenable || isSC ? `<span>${simulado.minutes} min de referência</span>` : ''}</div>
           <span class="start">Começar agora</span>
         </button>`).join('')}
       ${isITIL ? `<button class="sim-card slide-card" data-action="slides">
@@ -468,7 +473,7 @@ function alternativeAnalysis(q, chosen) {
   const yesno = questionType(q) === 'yesno';
   const technicalReview = q.reviewNote ? `<aside class="source-note" lang="en"><strong>Technical review</strong><p>${richText(q.reviewNote)}</p><p>The imported answer key is retained for scoring; review the stated qualification before treating the answer as a universal rule.</p></aside>` : '';
   const personalNotice = q.origin === 'complementar' ? '<p class="source-note" lang="en">Independent study material for personal, noncommercial use. The answer key is not an official certification key.</p>' : '';
-  return `${technicalReview}<div class="alternative-analysis"${q.course === 'tenable' ? ' lang="en"' : ''}>${q.o.map((option, i) => {
+  return `${technicalReview}<div class="alternative-analysis"${isTenableCourse(q.course) ? ' lang="en"' : ''}>${q.o.map((option, i) => {
     const letter = 'ABCD'[i];
     const correct = yesno ? chosen[i] === q.a[i] : questionType(q) === 'multi' ? q.a.includes(letter) : letter === q.a;
     return `<article class="analysis-item ${correct ? 'analysis-correct' : 'analysis-wrong'}"><div class="analysis-label"><span>${yesno ? i + 1 : letter}</span><strong>${yesno ? `Gabarito: ${q.a[i] ? 'Sim' : 'Não'}` : correct ? q.reviewNote ? 'Gabarito mantido' : 'Correta' : q.reviewNote ? 'Alternativa não prevista' : 'Incorreta'}</strong></div><p><b>${richText(option)}</b></p>${yesno ? `<p class="statement-answer">Sua resposta: ${chosen[i] ? 'Sim' : 'Não'} — ${correct ? 'Correta' : 'Incorreta'}.</p>` : ''}<p class="option-explanation">${richText(yesno ? q.x[i] : optionExplanation(q, option, letter))}</p></article>`;
@@ -482,7 +487,7 @@ function feedback(q, chosen) {
 }
 
 function translationFor(question) {
-  if (quizFinished || SIMULADOS[active]?.id !== 'tenable-complementar100') return null;
+  if (quizFinished || !['tenable-complementar100', 'tenable-sc150'].includes(SIMULADOS[active]?.id)) return null;
   const translation = question.ptBR;
   return translation && typeof translation.q === 'string'
     && Array.isArray(translation.o) && translation.o.length === question.o.length ? translation : null;
@@ -541,7 +546,7 @@ function renderQuestion(scrollToTop = false) {
   const pct = answeredCount / s.questions.length * 100;
   const hint = questionType(q) === 'multi' ? `Selecione ${q.a.length} alternativas (${selected?.length || 0}/${q.a.length}).`
     : questionType(q) === 'yesno' ? 'Responda Sim ou Não em todas as afirmações.' : 'Selecione uma alternativa e clique em Responder.';
-  app.innerHTML = `<section class="quiz-shell"><div class="quiz-head"><div class="quiz-row"><div><span class="quiz-kicker">Simulado em andamento</span><h1>${escapeHTML(s.title)}</h1></div><span class="counter">${answeredCount} de ${s.questions.length} respondidas${activeCourse === 'tenable' ? ` · ${SIMULADOS[active].minutes} min de referência` : ''}</span></div><div class="track"><span></span></div></div><div class="quiz-layout">${navigator(s)}<div class="question-column"><article class="question-card"><span class="qtag">Questão ${String(index + 1).padStart(2, '0')}${q.topic ? ` · ${escapeHTML(q.topic)}` : ''}${q.course === 'tenable' ? ` · ${escapeHTML(q.id)}` : ''}</span><h2${q.course === 'tenable' ? ' lang="en"' : ''}>${richText(q.q)}</h2>${translationMarkup(q)}${q.code ? `<pre class="question-code"><code>${escapeHTML(q.code)}</code></pre>` : ''}<p class="question-hint">${hint}</p>${optionsMarkup(q, chosen, selected)}${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button>${hasAnswer(chosen) ? '<button class="primary" data-action="next">Próxima →</button>' : `<button class="primary" data-action="answer" ${selectionComplete(q, selected) ? '' : 'disabled'}>Responder</button>`}</div></div></div></section>`;
+  app.innerHTML = `<section class="quiz-shell"><div class="quiz-head"><div class="quiz-row"><div><span class="quiz-kicker">Simulado em andamento</span><h1>${escapeHTML(s.title)}</h1></div><span class="counter">${answeredCount} de ${s.questions.length} respondidas${isTenableCourse(activeCourse) ? ` · ${SIMULADOS[active].minutes} min de referência` : ''}</span></div><div class="track"><span></span></div></div><div class="quiz-layout">${navigator(s)}<div class="question-column"><article class="question-card"><span class="qtag">Questão ${String(index + 1).padStart(2, '0')}${q.topic ? ` · ${escapeHTML(q.topic)}` : ''}${isTenableCourse(q.course) ? ` · ${escapeHTML(q.id)}` : ''}</span><h2${isTenableCourse(q.course) ? ' lang="en"' : ''}>${richText(q.q)}</h2>${translationMarkup(q)}${q.code ? `<pre class="question-code"><code>${escapeHTML(q.code)}</code></pre>` : ''}<p class="question-hint">${hint}</p>${optionsMarkup(q, chosen, selected)}${feedback(q, chosen)}</article><div class="quiz-actions"><button class="ghost" data-action="prev" ${index === 0 ? 'disabled' : ''}>← Anterior</button>${hasAnswer(chosen) ? '<button class="primary" data-action="next">Próxima →</button>' : `<button class="primary" data-action="answer" ${selectionComplete(q, selected) ? '' : 'disabled'}>Responder</button>`}</div></div></div></section>`;
   document.querySelector('.track span').style.width = `${pct}%`;
   saveProgress();
   if (scrollToTop) {

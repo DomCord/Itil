@@ -1,5 +1,5 @@
 const AdminModule = (() => {
-  const labels = { itil: 'ITIL v5', ai901: 'AI-901', tenable: 'Tenable' };
+  const labels = { itil: 'ITIL v5', ai901: 'AI-901', tenable: 'Tenable Vulnerability Management Specialist', 'tenable-sc': 'Tenable Security Center Specialist' };
   const dateTime = new Intl.DateTimeFormat('pt-BR', {
     timeZone: 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'medium'
   });
@@ -39,7 +39,7 @@ const AdminModule = (() => {
         <label>${user ? 'Nova senha (opcional)' : 'Senha inicial'}<input name="password" type="password" autocomplete="new-password" minlength="6" maxlength="128" ${user ? '' : 'required'}><small>${user ? 'Deixe em branco para manter a senha. A troca encerra outras sessões desta conta.' : 'De 6 a 128 caracteres.'}</small></label>
         <div class="admin-form-row"><label>Perfil<select name="role" ${ownAccount ? 'disabled' : ''}><option value="user" ${user?.role !== 'admin' ? 'selected' : ''}>Usuário · materiais</option><option value="admin" ${user?.role === 'admin' ? 'selected' : ''}>Administrador</option></select></label>
         <label>Válido até<input name="expiresOn" type="date" value="${escape(user?.expiresOn)}" ${ownAccount ? 'disabled' : ''}><small>Até 23h59 de Brasília. Em branco: sem expiração.</small></label></div>
-        <fieldset class="admin-courses"><legend>Cursos liberados</legend><div class="admin-checks">${courseFields(user?.courses)}</div><p>Administradores acessam todos os cursos. Usuários sem curso selecionado aguardam liberação.</p></fieldset>
+        <fieldset class="admin-courses"><legend>Cursos liberados</legend><div class="admin-checks">${courseFields(user?.courses)}</div><p>Administradores acessam todos os cursos. Usuários sem curso selecionado aguardam liberação. O Tenable Security Center Specialist está disponível somente no ambiente local de estudo.</p></fieldset>
         ${ownAccount ? '<p class="admin-hint">Seu perfil e validade só podem ser alterados por outro administrador.</p>' : ''}
         <div class="admin-form-actions"><button type="submit" class="primary">${user ? 'Salvar alterações' : 'Adicionar usuário'}</button>${user ? '<button type="button" class="ghost" data-admin-action="new">Cancelar edição</button>' : ''}</div>
       </form></section>`;

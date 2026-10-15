@@ -3,7 +3,7 @@ const PortalAccounts = (() => {
   const STORE_KEY = 'study-accounts-v1';
   const SESSION_KEY = 'study-session-v1';
   const ITERATIONS = 210000;
-  const COURSE_IDS = ['itil', 'ai901', 'tenable'];
+  const COURSE_IDS = ['itil', 'ai901', 'tenable', 'tenable-sc'];
   const formatter = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit'
   });

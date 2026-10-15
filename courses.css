@@ -82,3 +82,9 @@
   .question-translation-panel { padding: 14px; }
   .question-translation-panel p { font-size: 15px; }
 }
+
+/* Quatro cursos: duas colunas quando o menu Security Center está disponível. */
+.course-cards:has([data-course="tenable-sc"]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) {
+  .course-cards:has([data-course="tenable-sc"]) { grid-template-columns: minmax(0, 1fr); }
+}

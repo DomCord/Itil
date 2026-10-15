@@ -1,6 +1,10 @@
 # Study — ITIL v5, AI-901 e Tenable
 
-Após o login, o menu principal permite escolher **ITIL v5**, **AI-901** ou **Tenable**. Cada curso tem seu próprio menu, e os botões do cabeçalho permitem voltar ao curso ou trocar de curso. As credenciais e o progresso ITIL já salvo continuam válidos.
+Após o login, o menu principal permite escolher **ITIL v5**, **AI-901** ou **Tenable Vulnerability Management Specialist**. Cada curso tem seu próprio menu, e os botões do cabeçalho permitem voltar ao curso ou trocar de curso. As credenciais e o progresso ITIL já salvo continuam válidos.
+
+O curso **Tenable Security Center Specialist** aparece também no menu quando o banco pessoal de 150 questões está presente em `Tenable/Simulados/Security_Center/` e o portal é aberto por `file://`, `localhost` ou loopback. Ele tem permissão própria (`tenable-sc`), configurável em **Administração → Cursos liberados**, tradução opcional para português do Brasil, correção em inglês e retomada no índice 19. A área Vulnerability Management mantém seus 13 simulados e 260 questões. As permissões de contas existentes não são ampliadas automaticamente.
+
+**O banco Security Center é de estudo pessoal e fica fora do Git e do GitHub Pages.** Uma cópia clonada sem esses arquivos continua com os três cursos publicados. Contas com acesso somente ao Security Center recebem uma orientação sobre a disponibilidade local. Os testes `security-center-course` verificam permissões e os dois cenários; `traducao-sc` verifica as 150 questões quando o banco pessoal está presente e é ignorado quando ele não está incluído.
 
 A área **ITIL v5** mantém o painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
 

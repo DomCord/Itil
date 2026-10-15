@@ -1,5 +1,11 @@
 # Validação — ITIL v5 e AI-901
 
+## Menus e curso Security Center — 15/10/2026
+
+As sete suítes (`accounts`, `quiz`, `tenable`, `traducao-tenable`, `william`, `security-center-course` e `traducao-sc`) passaram com o banco pessoal presente. Foram conferidos os nomes completos dos cursos, a permissão independente `tenable-sc`, cadastro e edição no painel, bloqueio de acesso cruzado, 150 questões com 600 alternativas traduzidas, correção em inglês, embaralhamento e retomada. O banco VM permanece com 260 questões e 13 simulados, e os índices existentes são preservados.
+
+O teste de integração também verifica o carregador em `file://`, localhost, loopback IPv4/IPv6 e endereços públicos. O banco SC não é carregado em hospedagem pública. Sem ele, o menu oferece os três cursos publicados e orienta uma conta com acesso exclusivo ao SC sobre a disponibilidade local; contas sem permissão de curso continuam recebendo a mensagem de solicitação de acesso. O painel administrativo informa essa limitação. Os arquivos pessoais de `Tenable/Simulados/Security_Center/` permanecem ignorados pelo Git.
+
 ## Conta inicial William — 15/10/2026
 
 O teste `node tests/william.test.mjs` passou com a senha inicial solicitada, perfil **Usuário**, apenas o curso Tenable, nenhuma expiração, registro de login na auditoria e bloqueio das operações administrativas. A integração com o motor real verifica que o menu mostra somente Tenable, com 13 simulados; ITIL e AI-901 são recusados, enquanto uma questão do banco complementar pode ser respondida com correção comentada e progresso próprio.

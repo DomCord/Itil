@@ -100,7 +100,7 @@ await admin.initialize();
 assert.equal(admin.auditLog().length, 3);
 await admin.updateUser('admin', { role: 'admin', courses: [], expiresOn: null, password: 'adminNova123' });
 assert.equal(admin.currentUser().role, 'admin');
-assert.equal(admin.currentUser().courses.length, 3);
+assert.equal(admin.currentUser().courses.length, 4);
 admin.logout();
 assert.equal(admin.currentUser(), null);
 await admin.login('admin', 'adminNova123');
