@@ -57,7 +57,60 @@ function answerLabel(question, value) {
 
 const LAST_LAYOUT_KEY = 'itil-last-quiz-layout-v1-';
 const PROGRESS_KEY = 'itil-quiz-progress-v1-';
+const HISTORY_KEY = 'study-quiz-history-v1-';
 const userStorageKey = key => AuthGate.progressKey?.(key) ?? key;
+const historyDateTime = new Intl.DateTimeFormat('pt-BR', {
+  timeZone: 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'short'
+});
+
+function readQuizHistory(course) {
+  try {
+    const stored = localStorage.getItem(userStorageKey(`${HISTORY_KEY}${course}`));
+    if (stored === null) return [];
+    const history = JSON.parse(stored);
+    if (!Array.isArray(history)) return null;
+    return history.filter(attempt => attempt && typeof attempt.title === 'string'
+      && typeof attempt.simulationId === 'string'
+      && Number.isInteger(attempt.total) && attempt.total > 0
+      && Number.isInteger(attempt.correct) && attempt.correct >= 0 && attempt.correct <= attempt.total
+      && typeof attempt.completedAt === 'string' && Number.isFinite(Date.parse(attempt.completedAt)));
+  } catch {
+    return null;
+  }
+}
+
+function saveQuizResult(correct, total) {
+  const history = readQuizHistory(activeCourse);
+  if (history === null) return false;
+  const attempt = {
+    simulationId: SIMULADOS[active].id || `${activeCourse}-${active}`,
+    title: activeQuiz.title,
+    correct,
+    total,
+    completedAt: new Date().toISOString()
+  };
+  try {
+    localStorage.setItem(userStorageKey(`${HISTORY_KEY}${activeCourse}`), JSON.stringify([attempt, ...history]));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function courseHistoryMarkup(course) {
+  const history = readQuizHistory(course);
+  const heading = '<h2 id="courseHistoryTitle">Estatísticas dos simulados</h2>';
+  if (history === null) return `<section class="course-history" aria-labelledby="courseHistoryTitle">${heading}<p class="history-empty" role="status">Não foi possível carregar seu histórico neste navegador.</p></section>`;
+  const percentages = history.map(attempt => Math.round(attempt.correct / attempt.total * 100));
+  const average = history.length ? `${Math.round(percentages.reduce((sum, percentage) => sum + percentage, 0) / history.length)}%` : '—';
+  const best = history.length ? `${percentages.reduce((highest, percentage) => Math.max(highest, percentage), 0)}%` : '—';
+  return `<section class="course-history" aria-labelledby="courseHistoryTitle">
+    ${heading}<p class="history-description">Acompanhe o resultado de cada conclusão neste curso, da mais recente para a mais antiga.</p>
+    <dl class="history-summary"><div><dt>Conclusões</dt><dd>${history.length}</dd></div><div><dt>Média das tentativas</dt><dd>${average}</dd></div><div><dt>Melhor resultado</dt><dd>${best}</dd></div></dl>
+    ${history.length ? `<ol class="attempt-history-list" aria-label="Resultados dos simulados concluídos" tabindex="0">${history.map((attempt, i) => `<li class="attempt-history-item"><div class="attempt-history-details"><h3>${escapeHTML(attempt.title)}</h3><time datetime="${escapeHTML(attempt.completedAt)}">${historyDateTime.format(new Date(attempt.completedAt))} · Brasília</time></div><div class="attempt-history-score${percentages[i] >= COURSES[course].target ? ' target-met' : ''}"><strong>${percentages[i]}%</strong><span>${attempt.correct} de ${attempt.total} acertos</span></div></li>`).join('')}</ol>` : '<p class="history-empty">Conclua um simulado para registrar seu primeiro resultado. As próximas conclusões aparecerão aqui.</p>'}
+    <p class="history-note">Histórico salvo neste navegador para sua conta.</p>
+  </section>`;
+}
 
 function allowedCourse(course) {
   return AuthGate.canAccessCourse?.(course) ?? AuthGate.isAuthenticated();
@@ -377,6 +430,7 @@ function courseHome(course = activeCourse) {
         <span class="start">Assistir agora</span>
       </button>` : ''}
     </section>
+    ${courseHistoryMarkup(course)}
     ${isITIL ? '' : `<section class="course-topics" aria-label="Tópicos do simulado"><h2>Conteúdo para praticar</h2><div class="topic-list">${topics.map(topic => `<span>${escapeHTML(topic)}</span>`).join('')}</div></section>`}`;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -616,6 +670,7 @@ function result() {
   const correct = qs.reduce((total, q, i) => total + isCorrectAnswer(q, answers[i]), 0);
   const pct = Math.round(correct / qs.length * 100);
   const pass = pct >= COURSES[activeCourse].target;
+  if (!quizFinished) activeQuiz.historySaved = saveQuizResult(correct, qs.length);
   quizFinished = true;
   clearProgress(active);
   const topics = [...new Set(qs.map(q => q.topic).filter(Boolean))];
@@ -624,7 +679,7 @@ function result() {
     const topicCorrect = topicQuestions.filter(({ q, i }) => isCorrectAnswer(q, answers[i])).length;
     return `<tr><th scope="row">${escapeHTML(topic)}</th><td>${topicCorrect}/${topicQuestions.length}</td><td>${Math.round(topicCorrect / topicQuestions.length * 100)}%</td></tr>`;
   }).join('')}</tbody></table></div></section>` : '';
-  app.innerHTML = `<section class="result"><div class="result-top"><div class="score-ring"><strong>${pct}%</strong></div><span class="eyebrow">Resultado final · ${escapeHTML(activeQuiz.title)}</span><h1>${pass ? 'Parabéns, você atingiu a meta!' : 'Continue praticando — você está avançando.'}</h1><p>${correct} acertos de ${qs.length} questões • ${qs.length - correct} para revisar</p>${activeCourse === 'ai901' ? '<p class="target-note">Meta de estudo: 80%. Este percentual é uma referência de treino, não a pontuação oficial do exame.</p>' : ''}<div class="result-actions"><button class="primary" data-action="restart">Refazer simulado</button><button class="ghost" data-action="course-home">Escolher outro</button></div></div>${topicSummary}<div class="review"><h2>Revisão comentada</h2>${qs.map((q, i) => {
+  app.innerHTML = `<section class="result"><div class="result-top"><div class="score-ring"><strong>${pct}%</strong></div><span class="eyebrow">Resultado final · ${escapeHTML(activeQuiz.title)}</span><h1>${pass ? 'Parabéns, você atingiu a meta!' : 'Continue praticando — você está avançando.'}</h1><p>${correct} acertos de ${qs.length} questões • ${qs.length - correct} para revisar</p>${activeCourse === 'ai901' ? '<p class="target-note">Meta de estudo: 80%. Este percentual é uma referência de treino, não a pontuação oficial do exame.</p>' : ''}${activeQuiz.historySaved ? '' : '<p class="history-save-warning" role="status">Não foi possível salvar este resultado no histórico deste navegador.</p>'}<div class="result-actions"><button class="primary" data-action="restart">Refazer simulado</button><button class="ghost" data-action="course-home">Escolher outro</button></div></div>${topicSummary}<div class="review"><h2>Revisão comentada</h2>${qs.map((q, i) => {
     const correct = isCorrectAnswer(q, answers[i]);
     return `<article class="review-item ${correct ? 'ok' : ''}"><strong>${i + 1}. ${correct ? 'Correta' : 'Incorreta'} — gabarito ${escapeHTML(answerLabel(q, q.a))}</strong><p>${richText(q.q)}</p>${q.code ? `<pre class="question-code"><code>${escapeHTML(q.code)}</code></pre>` : ''}${alternativeAnalysis(q, answers[i])}${sourcesMarkup(q)}${correct ? '' : `<small>Sua resposta: ${escapeHTML(answerLabel(q, answers[i]))}</small>`}</article>`;
   }).join('')}</div></section>`;

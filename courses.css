@@ -41,6 +41,27 @@
 .answer-sources a { color: var(--ink); overflow-wrap: anywhere; text-underline-offset: 3px; }
 .answer-sources a:hover { color: var(--teal); }
 .review-item .alternative-analysis { margin-top: 18px; }
+.course-history { margin-top: 36px; min-width: 0; }
+.course-history h2 { margin: 0 0 10px; font-size: 24px; }
+.history-description, .history-note { color: var(--muted); line-height: 1.6; }
+.history-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 22px 0; }
+.history-summary > div { padding: 18px 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.history-summary dt { font-size: 13px; color: var(--muted); }
+.history-summary dd { margin: 8px 0 0; color: var(--teal); font-size: 28px; font-weight: 800; }
+.attempt-history-list { list-style: none; padding: 0; margin: 0; max-height: 460px; overflow-y: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.attempt-history-list:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
+.attempt-history-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: center; padding: 18px 22px; }
+.attempt-history-item + .attempt-history-item { border-top: 1px solid var(--line); }
+.attempt-history-details { min-width: 0; }
+.attempt-history-details h3 { margin: 0 0 8px; font-size: 16px; line-height: 1.5; overflow-wrap: anywhere; }
+.attempt-history-details time { font-size: 13px; color: var(--muted); }
+.attempt-history-score { display: grid; gap: 4px; text-align: right; }
+.attempt-history-score strong { font-size: 28px; }
+.attempt-history-score.target-met strong { color: var(--teal); }
+.attempt-history-score span { font-size: 12px; color: var(--muted); }
+.history-empty { padding: 22px; border: 1px dashed var(--line); border-radius: 16px; color: var(--muted); line-height: 1.7; }
+.history-note { font-size: 13px; margin: 14px 0 0; }
+.result-top .history-save-warning { color: var(--lime); }
 @media (max-width: 520px) {
   .topbar { height: auto; min-height: 82px; flex-wrap: wrap; gap: 12px; padding: 18px; }
   .header-actions { flex-wrap: wrap; }
@@ -49,6 +70,12 @@
   .yesno-row { padding: 14px; }
   .question-code { padding: 12px; font-size: 12px; }
   .topic-results th, .topic-results td { padding: 12px; }
+  .history-summary { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .history-summary > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; }
+  .history-summary dd { margin: 0; font-size: 24px; }
+  .attempt-history-item { padding: 16px; gap: 12px; align-items: start; }
+  .attempt-history-score strong { font-size: 24px; }
+  .attempt-history-score span { max-width: 96px; }
 }
 
 /* Biblioteca Tenable: os mesmos componentes e cores dos demais cursos. */

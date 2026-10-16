@@ -1,5 +1,11 @@
 # Validação — ITIL v5 e AI-901
 
+## Histórico de conclusões dos quatro cursos — 16/10/2026
+
+As oito suítes (`accounts`, `quiz`, `tenable`, `traducao-tenable`, `william`, `security-center-course`, `traducao-sc` e `history`) passaram. O novo teste cobre o registro das conclusões de ITIL, AI-901, VM e SC; notas 0%, 50% e 100%; média e melhor resultado; datas de Brasília; tentativas repetidas; ausência de duplicatas ao reabrir o resultado; retomada e recarga; e isolamento entre usuários e cursos. Históricos ilegíveis não são sobrescritos. Falhas de gravação são informadas sem impedir a exibição da nota e da correção.
+
+No Edge headless, passaram **27/27 verificações em desktop (1365 px)** e **27/27 em celular (390 px)**, com dados fictícios e prefixo exclusivo de QA. Foram conferidos os quatro menus, navegação pelos botões reais, estados vazio e preenchido, percentuais, resumo, ordenação, isolamento de contas, ausência de erros JavaScript e de transbordamento horizontal. As capturas dos dois tamanhos foram inspecionadas visualmente; relatórios e imagens permanecem em `.qa`, fora do Git. O histórico registra novas conclusões e é salvo por conta neste navegador.
+
 ## Security Center para William — 16/10/2026
 
 O teste `tests/william.test.mjs` verifica VM e Security Center no cadastro inicial e a atualização única de um cadastro publicado com a migração antiga já aplicada. A nova liberação preserva senha, perfil, validade, ID, cursos anteriores, sessão ativa, auditoria e progresso; não duplica uma permissão existente nem recria William removido. Reabrir a aplicação respeita edições posteriores do administrador. Outros usuários não recebem a nova permissão.

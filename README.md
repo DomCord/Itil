@@ -23,6 +23,8 @@ Ao abrir ou refazer qualquer simulado, a sequência das questões e a posição 
 
 Se o usuário sair antes de finalizar e tiver respondido ao menos uma questão, o navegador salva a questão atual, as respostas, as correções e a ordem sorteada. Na próxima abertura desse simulado, é possível continuar exatamente de onde parou ou descartar o progresso e recomeçar com um novo embaralhamento. Progresso em 0% é descartado sem exibir a tela de retomada.
 
+Na tela de cada um dos quatro cursos, abaixo dos botões **Começar agora**, a seção **Estatísticas dos simulados** lista cada conclusão com nome do simulado, data e hora de Brasília, quantidade de acertos e porcentagem, em ordem da mais recente para a mais antiga. O resumo mostra o total de conclusões, a média dos percentuais das tentativas e o melhor resultado. Refazer um simulado acrescenta uma nova linha; tentativas incompletas não entram no histórico. Os resultados são separados por usuário e curso e ficam salvos neste navegador. O registro começa com as conclusões feitas a partir desta atualização; resultados anteriores não eram armazenados. Teste: `node tests/history.test.mjs`.
+
 O acesso possui autenticação no navegador, CAPTCHA matemático e bloqueio de 30 segundos depois de três tentativas consecutivas inválidas.
 
 ## Administração e contas locais
