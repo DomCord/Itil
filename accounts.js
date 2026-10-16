@@ -62,16 +62,27 @@ const PortalAccounts = (() => {
       const store = localStorage.getItem(STORE_KEY) === null ? initialStore() : readStore();
       const migration = 'william-tenable-v1';
       const migrations = Array.isArray(store.appliedMigrations) ? store.appliedMigrations : [];
-      if (migrations.includes(migration)) return;
-      // Inclui a conta uma vez, sem substituir um cadastro já criado pelo administrador.
-      if (!store.users.some(user => user.username.trim().toLowerCase() === 'william')) {
-        store.users.push({ id: 'william', username: 'william', role: 'user', courses: ['tenable'],
-          expiresOn: null, createdAt: new Date().toISOString(), authVersion: 1, password: {
-            salt: '022dddab59da960bd3cae08b49853c75852858c8bd9e56c1', iterations: ITERATIONS,
-            hash: '69220c61c7e10cd317edf9859cd4d9a32f4db80c110398ef6a70169c20327891'
-          } });
+      const pendingMigrations = [];
+      if (!migrations.includes(migration)) {
+        // Inclui a conta uma vez, sem substituir um cadastro já criado pelo administrador.
+        if (!store.users.some(user => user.username.trim().toLowerCase() === 'william')) {
+          store.users.push({ id: 'william', username: 'william', role: 'user', courses: ['tenable'],
+            expiresOn: null, createdAt: new Date().toISOString(), authVersion: 1, password: {
+              salt: '022dddab59da960bd3cae08b49853c75852858c8bd9e56c1', iterations: ITERATIONS,
+              hash: '69220c61c7e10cd317edf9859cd4d9a32f4db80c110398ef6a70169c20327891'
+            } });
+        }
+        pendingMigrations.push(migration);
       }
-      store.appliedMigrations = [...migrations, migration];
+      const securityCenterMigration = 'william-security-center-v1';
+      if (!migrations.includes(securityCenterMigration)) {
+        // Acrescenta a liberação uma vez e respeita edições ou remoções posteriores.
+        const william = store.users.find(user => user.username.trim().toLowerCase() === 'william');
+        if (william && !william.courses.includes('tenable-sc')) william.courses.push('tenable-sc');
+        pendingMigrations.push(securityCenterMigration);
+      }
+      if (!pendingMigrations.length) return;
+      store.appliedMigrations = [...migrations, ...pendingMigrations];
       writeStore(store);
     });
     // A antiga marca booleana não identifica uma conta e não é uma sessão válida.

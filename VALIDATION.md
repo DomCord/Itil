@@ -1,5 +1,11 @@
 # Validação — ITIL v5 e AI-901
 
+## Security Center para William — 16/10/2026
+
+O teste `tests/william.test.mjs` verifica VM e Security Center no cadastro inicial e a atualização única de um cadastro publicado com a migração antiga já aplicada. A nova liberação preserva senha, perfil, validade, ID, cursos anteriores, sessão ativa, auditoria e progresso; não duplica uma permissão existente nem recria William removido. Reabrir a aplicação respeita edições posteriores do administrador. Outros usuários não recebem a nova permissão.
+
+Na integração com o motor real, William vê os dois cursos, mantém os 13 simulados VM e acessa o simulado SC de 150 questões no índice 19, com tradução, correção e retomada próprias. ITIL, AI-901 e administração continuam bloqueados. A versão de `accounts.js` no HTML foi atualizada para carregar a nova migração. As sete suítes (`accounts`, `quiz`, `tenable`, `traducao-tenable`, `william`, `security-center-course` e `traducao-sc`) passaram.
+
 ## Publicação do Security Center — 15/10/2026
 
 Por solicitação explícita do usuário, o curso Security Center passou a integrar o carregamento padrão do site. O carregador restrito a localhost/file foi removido e `Tenable/Simulados/Security_Center/` foi liberado no Git. O manifesto registra a publicação habilitada; a atribuição e os termos originais da fonte são preservados. O workflow existente já concede `pages: write` e `id-token: write` ao deploy.
