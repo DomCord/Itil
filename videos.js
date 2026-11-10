@@ -176,6 +176,32 @@ const VideosModule = (() => {
           provider: 'google-drive'
         }
       ]
+    },
+    {
+      id: 'videos-oficiais',
+      name: 'Vídeos Oficiais',
+      videos: [
+        {
+          title: 'Parte 1',
+          file: 'videos/Parte 1.mp4',
+          provider: 'local'
+        },
+        {
+          title: 'Parte 2',
+          file: 'videos/Parte 2.mp4',
+          provider: 'local'
+        },
+        {
+          title: 'Parte 3',
+          file: 'videos/Parte 3.mp4',
+          provider: 'local'
+        },
+        {
+          title: 'Parte 4',
+          file: 'videos/Parte 4.mp4',
+          provider: 'local'
+        }
+      ]
     }
   ];
 
@@ -211,7 +237,7 @@ const VideosModule = (() => {
   let activeIndex = 0;
 
   function playerUrl(video) {
-    if (!/^https?:$/.test(window.location.protocol)) return '';
+    if (!video.embedUrl || !/^https?:$/.test(window.location.protocol)) return '';
     const url = new URL(video.embedUrl);
     if (url.hostname === 'www.youtube.com' || url.hostname === 'www.youtube-nocookie.com') {
       url.searchParams.set('origin', window.location.origin);
@@ -221,6 +247,29 @@ const VideosModule = (() => {
   }
 
   function videoMarkup(video, index) {
+    if (video.file || video.provider === 'local') {
+      const videoSrc = encodeURI(video.file);
+      return `
+      <article class="study-video-card" aria-labelledby="activeVideoTitle">
+        <header class="study-video-title">
+          <span>${video.folderName} • Vídeo ${String(video.folderVideoIndex + 1).padStart(2, '0')} de ${String(video.folderVideoCount).padStart(2, '0')}</span>
+          <h2 id="activeVideoTitle">${video.title}</h2>
+        </header>
+        <div class="study-video-frame">
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            src="${videoSrc}">
+            Seu navegador não suporta a reprodução deste vídeo.
+          </video>
+        </div>
+        <footer class="study-video-source">
+          <span>Vídeo oficial em alta definição.</span>
+          <a href="${videoSrc}" target="_blank" rel="noopener noreferrer">Abrir vídeo diretamente ↗</a>
+        </footer>
+      </article>`;
+    }
     const embedUrl = playerUrl(video);
     const isGoogleDrive = video.provider === 'google-drive';
     const sourceUrl = video.sourceUrl || video.youtubeUrl;

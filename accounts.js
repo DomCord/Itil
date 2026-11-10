@@ -44,13 +44,13 @@ const PortalAccounts = (() => {
 
   function initialStore() {
     const createdAt = new Date().toISOString();
-    const base = { courses: COURSE_IDS, expiresOn: null, createdAt, authVersion: 1 };
+    const base = { expiresOn: null, createdAt, authVersion: 1 };
     return { version: 1, users: [
-      { ...base, id: 'admin', username: 'admin', role: 'admin', password: {
+      { ...base, courses: COURSE_IDS, id: 'admin', username: 'admin', role: 'admin', password: {
         salt: 'study-admin-v1-2026', iterations: ITERATIONS,
         hash: '383ccd94104f561200a7af766cb1ab0f98baafae601d2582f7fd85b8be06cec6'
       } },
-      { ...base, id: 'hasleane', username: 'hasleane', role: 'user', password: {
+      { ...base, courses: ['itil'], id: 'hasleane', username: 'hasleane', role: 'user', password: {
         salt: 'itil-study-v1-2026', iterations: ITERATIONS,
         hash: '6e1580212d470eef17740bc5950c8413592a4d5d9e76546776bc53a4e1a7afb9'
       } }
@@ -80,6 +80,19 @@ const PortalAccounts = (() => {
         const william = store.users.find(user => user.username.trim().toLowerCase() === 'william');
         if (william && !william.courses.includes('tenable-sc')) william.courses.push('tenable-sc');
         pendingMigrations.push(securityCenterMigration);
+      }
+      const lucianoMigration = 'luciano-itil-v1';
+      if (!migrations.includes(lucianoMigration)) {
+        if (!store.users.some(user => user.username.trim().toLowerCase() === 'luciano')) {
+          store.users.push({ id: 'luciano', username: 'luciano', role: 'user', courses: ['itil'],
+            expiresOn: null, createdAt: new Date().toISOString(), authVersion: 1, password: {
+              salt: '815f23b896584a6dd378d7a6283b3626ec705c971b1f3dfe', iterations: ITERATIONS,
+              hash: '84664e4682d39f7997755c306b4ed7994f0da209d3e9d87656755aa4d7d214b4'
+            } });
+        }
+        const hasleane = store.users.find(user => user.username.trim().toLowerCase() === 'hasleane');
+        if (hasleane) hasleane.courses = ['itil'];
+        pendingMigrations.push(lucianoMigration);
       }
       if (!pendingMigrations.length) return;
       store.appliedMigrations = [...migrations, ...pendingMigrations];

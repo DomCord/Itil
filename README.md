@@ -8,10 +8,11 @@ O Security Center tem permissão própria (`tenable-sc`), configurável em **Adm
 
 A área **ITIL v5** mantém o painel estático com três simulados, progresso, correção comentada e percentual final. Os dois primeiros possuem 40 questões cada; o terceiro reúne 114 termos e definições do Guia de Referência Rápida ITIL Foundation v5.0 em português.
 
-O menu **Vídeos** do ITIL reúne 32 conteúdos em uma biblioteca com pastas expansíveis, navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
+O menu **Vídeos** do ITIL reúne 36 conteúdos em uma biblioteca com pastas expansíveis, navegação lateral e rolagem própria. Selecione um item da lista para reproduzi-lo no player responsivo sem sair do painel.
 
 - **Canal Value Insights:** 31 vídeos do YouTube sobre termos essenciais, dimensões, ciclo de vida, sistema de valor, princípios, governança, práticas, melhoria contínua, atividades da cadeia de valor, fluxos de valor, IA e outras estruturas.
 - **Conferência AKSolution:** um vídeo compartilhado pelo Google Drive e reproduzido pelo visualizador incorporado.
+- **Vídeos Oficiais:** 4 vídeos locais em alta definição (Parte 1 a Parte 4) com reprodução nativa por player HTML5.
 
 Os players devem ser abertos por HTTP ou HTTPS, como no GitHub Pages ou em um servidor local. A abertura direta do `index.html` por `file://` não fornece a origem necessária para os players incorporados e, por isso, é substituída por uma orientação de acesso.
 
@@ -29,9 +30,11 @@ O acesso possui autenticação no navegador, CAPTCHA matemático e bloqueio de 3
 
 ## Administração e contas locais
 
-O botão **Administração** aparece no cabeçalho para o perfil administrador. Na primeira abertura desta versão são criadas a conta `admin`, com a senha inicial solicitada pelo responsável pelo projeto, e a conta `hasleane`, com perfil **Usuário**, a mesma senha anterior e os três cursos liberados. As duas começam sem expiração. A senha do administrador pode ser alterada em **Usuários → admin → Editar**.
+O botão **Administração** aparece no cabeçalho para o perfil administrador. Na primeira abertura desta versão são criadas a conta `admin`, com a senha inicial solicitada pelo responsável pelo projeto, a conta `hasleane`, com perfil **Usuário**, a mesma senha anterior e permissão exclusiva ao **ITIL v5**, e a conta `luciano`, com perfil **Usuário**, senha inicial `luciano` e permissão exclusiva ao **ITIL v5**. As contas começam sem expiração. A senha do administrador pode ser alterada em **Usuários → admin → Editar**.
 
 A conta inicial `william` tem perfil **Usuário**, acesso ao **Tenable Vulnerability Management Specialist** e ao **Tenable Security Center Specialist**, sem expiração. A inclusão ocorre uma única vez, também em navegadores que já possuíam cadastros. Cadastros William existentes recebem `tenable-sc` uma única vez ao abrir a versão atualizada, mantendo seus cursos anteriores, senha, perfil, validade, ID, sessão, auditoria e progresso. Uma conta removida não é recriada por essa liberação; alterações posteriores do administrador, inclusive a remoção da permissão SC, continuam valendo. A senha inicial solicitada é armazenada apenas como hash PBKDF2 no cadastro.
+
+A migração `luciano-itil-v1` provisiona a conta `luciano` caso ainda não exista e atualiza a conta `hasleane` para manter exclusivamente a permissão ao **ITIL v5** (`itil`), preservando suas credenciais, sessões e histórico de progresso.
 
 - **Usuários:** adicionar, editar e remover contas, selecionar ITIL v5, AI-901 e Tenable, definir o perfil e a data de expiração. A remoção exige confirmação e não permite excluir a própria conta em uso.
 - **Validade:** a data informada inclui o dia inteiro, até 23h59 no horário de Brasília. Um campo vazio significa acesso sem expiração. Contas expiradas não entram no portal; sessões abertas são revalidadas durante a navegação, ao voltar à janela, em alterações feitas por outra aba e a cada 15 segundos.

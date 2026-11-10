@@ -332,11 +332,14 @@
   background: #000;
 }
 
-.study-video-frame iframe {
+.study-video-frame iframe,
+.study-video-frame video {
   display: block;
   width: 100%;
   height: 100%;
   border: 0;
+  background: #000;
+  object-fit: contain;
 }
 
 .study-video-http-notice {

@@ -1,6 +1,14 @@
 # Validação — ITIL v5 e AI-901
 
-## Histórico de conclusões dos quatro cursos — 16/10/2026
+## Integração dos Vídeos Oficiais ITIL — 10/11/2026
+
+O teste `tests/videos-oficiais.test.mjs` valida a nova aba/pasta **Vídeos Oficiais** no módulo de vídeos do ITIL v5, totalizando 36 vídeos disponíveis. Foram integradas as 4 partes (`Parte 1` a `Parte 4`), com renderização responsiva em player HTML5 (`<video controls playsinline>`), links diretos e verificação de integridade dos arquivos MP4. As 10 suítes de teste automatizadas passaram.
+
+## Usuário Luciano e restrição de Hasleane ao ITIL — 10/11/2026
+
+O teste `tests/luciano.test.mjs` valida a criação da conta inicial `luciano` com a senha inicial `luciano`, perfil **Usuário**, acesso restrito ao treinamento **ITIL v5** (`itil`), sem expiração e sem acesso a áreas ou recursos administrativos. Também valida que a conta `hasleane` mantém exclusivamente a permissão ao **ITIL v5**, bloqueando acessos a AI-901, Tenable VM e Tenable SC, enquanto preserva sua chave histórica de progresso.
+
+A migração `luciano-itil-v1` foi verificada sobre instalações existentes: provisiona a conta `luciano` sem sobrescrever cadastros existentes e restringe `hasleane` apenas ao curso ITIL v5. Todas as nove suítes (`accounts`, `history`, `luciano`, `quiz`, `security-center-course`, `tenable`, `traducao-sc`, `traducao-tenable` e `william`) passaram.
 
 As oito suítes (`accounts`, `quiz`, `tenable`, `traducao-tenable`, `william`, `security-center-course`, `traducao-sc` e `history`) passaram. O novo teste cobre o registro das conclusões de ITIL, AI-901, VM e SC; notas 0%, 50% e 100%; média e melhor resultado; datas de Brasília; tentativas repetidas; ausência de duplicatas ao reabrir o resultado; retomada e recarga; e isolamento entre usuários e cursos. Históricos ilegíveis não são sobrescritos. Falhas de gravação são informadas sem impedir a exibição da nota e da correção.
 

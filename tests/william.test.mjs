@@ -87,7 +87,7 @@ const expectedUpgrade = plain(beforeUpgrade.users);
 expectedUpgrade.find(user => user.id === 'william').courses.push('tenable-sc');
 assert.deepEqual(afterUpgrade.users, expectedUpgrade);
 assert.deepEqual(afterUpgrade.audit, beforeUpgrade.audit);
-assert.deepEqual(afterUpgrade.appliedMigrations, ['william-tenable-v1', 'william-security-center-v1']);
+assert.deepEqual(afterUpgrade.appliedMigrations, ['william-tenable-v1', 'william-security-center-v1', 'luciano-itil-v1']);
 assert.equal(previousClient.session.get('study-session-v1'), activeSession);
 assert.equal(previousClient.accounts.canAccessCourse('tenable-sc'), true);
 assert.equal(previousStorage.get('study-user-william:itil-quiz-progress-v1-18'), 'progresso VM anterior');
