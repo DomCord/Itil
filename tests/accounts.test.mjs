@@ -26,7 +26,7 @@ const admin = adminClient.accounts;
 await admin.initialize();
 assert.equal(storage.size, 1);
 const initial = JSON.parse(storage.get(admin.storageKey));
-assert.deepEqual(initial.users.map(user => [user.username, user.role]), [['admin', 'admin'], ['hasleane', 'user'], ['william', 'user'], ['luciano', 'user']]);
+assert.deepEqual(initial.users.map(user => [user.username, user.role]), [['admin', 'admin'], ['hasleane', 'user'], ['william', 'user'], ['luciano', 'user'], ['hugo', 'user']]);
 assert.deepEqual(initial.users.find(u => u.username === 'hasleane').courses, ['itil']);
 assert.deepEqual(initial.users.find(u => u.username === 'luciano').courses, ['itil']);
 assert.equal(initial.users[1].password.hash, '6e1580212d470eef17740bc5950c8413592a4d5d9e76546776bc53a4e1a7afb9');

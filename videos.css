@@ -332,8 +332,7 @@
   background: #000;
 }
 
-.study-video-frame iframe,
-.study-video-frame video {
+.study-video-frame iframe {
   display: block;
   width: 100%;
   height: 100%;

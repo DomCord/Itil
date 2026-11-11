@@ -1,8 +1,12 @@
 # Validação — ITIL v5 e AI-901
 
-## Integração dos Vídeos Oficiais ITIL — 10/11/2026
+## Usuário Hugo e limpeza dos vídeos locais — 11/11/2026
 
-O teste `tests/videos-oficiais.test.mjs` valida a nova aba/pasta **Vídeos Oficiais** no módulo de vídeos do ITIL v5, totalizando 36 vídeos disponíveis. Foram integradas as 4 partes (`Parte 1` a `Parte 4`), com renderização responsiva em player HTML5 (`<video controls playsinline>`), links diretos e verificação de integridade dos arquivos MP4. As 10 suítes de teste automatizadas passaram.
+As 11 suítes de teste passaram. `tests/hugo.test.mjs` verifica o login solicitado, perfil Usuário, acesso a Tenable VM e Security Center, ausência de administração, separação do progresso e inclusão única em navegadores existentes. Também cobre preservação de cadastros preexistentes, sessões e auditoria, além de respeito a alterações e remoções posteriores. Os originais dos vídeos no OneDrive foram preservados; os trechos e o vínculo local foram removidos, mantendo os quatro players incorporados.
+
+## Integração dos Vídeos Oficiais ITIL — 11/11/2026
+
+O teste `tests/videos-oficiais.test.mjs` valida a pasta **Vídeos Oficiais** no módulo de vídeos do ITIL v5, totalizando 36 vídeos disponíveis. As quatro partes (`Parte 1` a `Parte 4`) são incorporadas do OneDrive/SharePoint por iframe responsivo, com tela cheia e links externos. O teste verifica os IDs e parâmetros dos links, a permissão do domínio na CSP e a integração existente com Google Drive e YouTube. A reprodução real depende das permissões do SharePoint. Os vídeos divididos, o vínculo para a pasta local e os scripts de divisão foram removidos; os originais do OneDrive foram preservados.
 
 ## Usuário Luciano e restrição de Hasleane ao ITIL — 10/11/2026
 

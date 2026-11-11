@@ -68,7 +68,7 @@ for (const [index, id] of ids.entries()) {
   assert.ok(markup.includes('OneDrive / SharePoint'));
   assert.ok(markup.includes(`Parte ${index + 1}`));
   assert.ok(markup.includes('allowfullscreen'));
-  assert.ok(!markup.includes('<video') && !markup.includes('videos-split/'));
+  assert.ok(!markup.includes('<video'));
 }
 
 // 5. Google Drive/YouTube continuam funcionando, e file:// exibe orientação.

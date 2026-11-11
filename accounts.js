@@ -94,6 +94,18 @@ const PortalAccounts = (() => {
         if (hasleane) hasleane.courses = ['itil'];
         pendingMigrations.push(lucianoMigration);
       }
+      const hugoMigration = 'hugo-tenable-v1';
+      if (!migrations.includes(hugoMigration)) {
+        // Provisiona uma vez, sem substituir contas existentes ou recriar removidas.
+        if (!store.users.some(user => user.username.trim().toLowerCase() === 'hugo')) {
+          store.users.push({ id: 'hugo', username: 'hugo', role: 'user', courses: ['tenable', 'tenable-sc'],
+            expiresOn: null, createdAt: new Date().toISOString(), authVersion: 1, password: {
+              salt: 'db79cf6973c9cf8ff925d8c51ee0022ab028acdc4f9a5677', iterations: ITERATIONS,
+              hash: 'aedb5af69ac2062badad70acac279243afd00125765c4d92e71fb36e577af36d'
+            } });
+        }
+        pendingMigrations.push(hugoMigration);
+      }
       if (!pendingMigrations.length) return;
       store.appliedMigrations = [...migrations, ...pendingMigrations];
       writeStore(store);

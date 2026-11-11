@@ -234,29 +234,6 @@ const VideosModule = (() => {
   }
 
   function videoMarkup(video, index) {
-    if (video.file || video.provider === 'local') {
-      const videoSrc = encodeURI(video.file);
-      return `
-      <article class="study-video-card" aria-labelledby="activeVideoTitle">
-        <header class="study-video-title">
-          <span>${video.folderName} • Vídeo ${String(video.folderVideoIndex + 1).padStart(2, '0')} de ${String(video.folderVideoCount).padStart(2, '0')}</span>
-          <h2 id="activeVideoTitle">${video.title}</h2>
-        </header>
-        <div class="study-video-frame">
-          <video
-            controls
-            playsinline
-            preload="metadata"
-            src="${videoSrc}">
-            Seu navegador não suporta a reprodução deste vídeo.
-          </video>
-        </div>
-        <footer class="study-video-source">
-          <span>Vídeo oficial em alta definição.</span>
-          <a href="${videoSrc}" target="_blank" rel="noopener noreferrer">Abrir vídeo diretamente ↗</a>
-        </footer>
-      </article>`;
-    }
     const embedUrl = playerUrl(video);
     const isGoogleDrive = video.provider === 'google-drive';
     const sourceUrl = video.sourceUrl || video.youtubeUrl;
