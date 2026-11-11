@@ -181,27 +181,14 @@ const VideosModule = (() => {
       id: 'videos-oficiais',
       name: 'Vídeos Oficiais',
       videos: [
-        {
-          title: 'Parte 1',
-          file: 'videos/Parte 1.mp4',
-          provider: 'local'
-        },
-        {
-          title: 'Parte 2',
-          file: 'videos/Parte 2.mp4',
-          provider: 'local'
-        },
-        {
-          title: 'Parte 3',
-          file: 'videos/Parte 3.mp4',
-          provider: 'local'
-        },
-        {
-          title: 'Parte 4',
-          file: 'videos/Parte 4.mp4',
-          provider: 'local'
-        }
-      ]
+        'e581a076-0c24-43a5-8955-f69c3330e1f3',
+        '25c65a04-8659-4e47-b911-03554232410f',
+        '6dc354b3-a954-42d3-aab9-af2050342935',
+        '2f2f2ecd-a5a8-4514-ae18-0fbeca11cc1e'
+      ].map((id, index) => {
+        const embedUrl = `https://goiasgovbr-my.sharepoint.com/personal/rafael_cordeiro_goias_gov_br/_layouts/15/embed.aspx?UniqueId=${id}&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create`;
+        return { title: `Parte ${index + 1}`, embedUrl, sourceUrl: embedUrl, provider: 'sharepoint' };
+      })
     }
   ];
 
@@ -273,7 +260,7 @@ const VideosModule = (() => {
     const embedUrl = playerUrl(video);
     const isGoogleDrive = video.provider === 'google-drive';
     const sourceUrl = video.sourceUrl || video.youtubeUrl;
-    const sourceName = isGoogleDrive ? 'Google Drive' : 'YouTube';
+    const sourceName = isGoogleDrive ? 'Google Drive' : video.provider === 'sharepoint' ? 'OneDrive / SharePoint' : 'YouTube';
     return `
       <article class="study-video-card" aria-labelledby="activeVideoTitle">
         <header class="study-video-title">

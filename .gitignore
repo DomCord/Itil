@@ -1,5 +1,6 @@
 /.qa/
 /videos/
+/videos-split/*.mp4
 
 # Arquivos combinados e anotações locais fora da integração padrão.
 /Tenable/Simulados/banco_combinado_260.json

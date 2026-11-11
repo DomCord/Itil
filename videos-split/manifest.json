@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "maximumBytes": 100000000,
+  "videos": [
+    {
+      "source": "Parte 1.mp4",
+      "sourceBytes": 369752898,
+      "durationSeconds": 13735.908,
+      "count": 4,
+      "segments": [
+        {
+          "file": "parte-1-trecho-01.mp4",
+          "bytes": 95610983,
+          "durationSeconds": 3764.404,
+          "sourceStartSeconds": 0
+        },
+        {
+          "file": "parte-1-trecho-02.mp4",
+          "bytes": 95504507,
+          "durationSeconds": 3889.6,
+          "sourceStartSeconds": 3754.44
+        },
+        {
+          "file": "parte-1-trecho-03.mp4",
+          "bytes": 94523080,
+          "durationSeconds": 2795.64,
+          "sourceStartSeconds": 7644.04
+        },
+        {
+          "file": "parte-1-trecho-04.mp4",
+          "bytes": 84116101,
+          "durationSeconds": 3286.228,
+          "sourceStartSeconds": 10439.68
+        }
+      ]
+    },
+    {
+      "source": "Parte 2.mp4",
+      "sourceBytes": 376316376,
+      "durationSeconds": 13611.748,
+      "count": 4,
+      "segments": [
+        {
+          "file": "parte-2-trecho-01.mp4",
+          "bytes": 97169327,
+          "durationSeconds": 3882.684,
+          "sourceStartSeconds": 0
+        },
+        {
+          "file": "parte-2-trecho-02.mp4",
+          "bytes": 96859980,
+          "durationSeconds": 3629.12,
+          "sourceStartSeconds": 3872.72
+        },
+        {
+          "file": "parte-2-trecho-03.mp4",
+          "bytes": 97667114,
+          "durationSeconds": 4210.32,
+          "sourceStartSeconds": 7501.84
+        },
+        {
+          "file": "parte-2-trecho-04.mp4",
+          "bytes": 84622744,
+          "durationSeconds": 1889.588,
+          "sourceStartSeconds": 11712.16
+        }
+      ]
+    },
+    {
+      "source": "Parte 3.mp4",
+      "sourceBytes": 573674989,
+      "durationSeconds": 11280.88,
+      "count": 6,
+      "segments": [
+        {
+          "file": "parte-3-trecho-01.mp4",
+          "bytes": 97514680,
+          "durationSeconds": 3227.008,
+          "sourceStartSeconds": 0
+        },
+        {
+          "file": "parte-3-trecho-02.mp4",
+          "bytes": 97736516,
+          "durationSeconds": 2040.52,
+          "sourceStartSeconds": 3227
+        },
+        {
+          "file": "parte-3-trecho-03.mp4",
+          "bytes": 95452252,
+          "durationSeconds": 2252.096,
+          "sourceStartSeconds": 5267.52
+        },
+        {
+          "file": "parte-3-trecho-04.mp4",
+          "bytes": 96523378,
+          "durationSeconds": 822.288,
+          "sourceStartSeconds": 7519.6
+        },
+        {
+          "file": "parte-3-trecho-05.mp4",
+          "bytes": 93614006,
+          "durationSeconds": 1058.44,
+          "sourceStartSeconds": 8341.88
+        },
+        {
+          "file": "parte-3-trecho-06.mp4",
+          "bytes": 92838682,
+          "durationSeconds": 1880.56,
+          "sourceStartSeconds": 9400.32
+        }
+      ]
+    },
+    {
+      "source": "Parte 4.mp4",
+      "sourceBytes": 384146341,
+      "durationSeconds": 13998.458,
+      "count": 4,
+      "segments": [
+        {
+          "file": "parte-4-trecho-01.mp4",
+          "bytes": 99027236,
+          "durationSeconds": 3555.044,
+          "sourceStartSeconds": 0
+        },
+        {
+          "file": "parte-4-trecho-02.mp4",
+          "bytes": 99011769,
+          "durationSeconds": 4120.36,
+          "sourceStartSeconds": 3545.08
+        },
+        {
+          "file": "parte-4-trecho-03.mp4",
+          "bytes": 99405757,
+          "durationSeconds": 4155.96,
+          "sourceStartSeconds": 7665.44
+        },
+        {
+          "file": "parte-4-trecho-04.mp4",
+          "bytes": 86703600,
+          "durationSeconds": 2167.058,
+          "sourceStartSeconds": 11821.4
+        }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,11 @@ O menu **Vídeos** do ITIL reúne 36 conteúdos em uma biblioteca com pastas exp
 
 - **Canal Value Insights:** 31 vídeos do YouTube sobre termos essenciais, dimensões, ciclo de vida, sistema de valor, princípios, governança, práticas, melhoria contínua, atividades da cadeia de valor, fluxos de valor, IA e outras estruturas.
 - **Conferência AKSolution:** um vídeo compartilhado pelo Google Drive e reproduzido pelo visualizador incorporado.
-- **Vídeos Oficiais:** 4 vídeos locais em alta definição (Parte 1 a Parte 4) com reprodução nativa por player HTML5.
+- **Vídeos Oficiais:** quatro vídeos completos (Parte 1 a Parte 4), incorporados pelos links OneDrive/SharePoint fornecidos pelo responsável. O player é responsivo e oferece tela cheia e link para abrir diretamente no OneDrive/SharePoint. A CSP permite o domínio exato `https://goiasgovbr-my.sharepoint.com`.
+
+Os vídeos oficiais são carregados diretamente do OneDrive/SharePoint; os MP4 não são necessários no servidor do site. O acesso depende das permissões de compartilhamento e da sessão Microsoft do visitante. Valide com uma conta que represente o público esperado. O vínculo local `videos/` e os MP4 de `videos-split/` estão ignorados pelo Git; os trechos gerados anteriormente permanecem no disco, sem uso pelo player atual.
+
+Para validar localmente, execute `node serve.mjs` e acesse `http://localhost:8080/`. Após o login, abra **ITIL v5 → Vídeos → Vídeos Oficiais**. Verificação automatizada da integração: `node tests/videos-oficiais.test.mjs`. O teste verifica links e marcação; a reprodução real depende da autorização do SharePoint.
 
 Os players devem ser abertos por HTTP ou HTTPS, como no GitHub Pages ou em um servidor local. A abertura direta do `index.html` por `file://` não fornece a origem necessária para os players incorporados e, por isso, é substituída por uma orientação de acesso.
 
